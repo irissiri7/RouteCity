@@ -19,6 +19,7 @@ namespace ClassLibrary
             Paths = new Dictionary<Node, Path>();
         }
 
+        //METHODS
         public void FindShortestPath()
         {
 
