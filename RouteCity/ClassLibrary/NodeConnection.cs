@@ -1,0 +1,7 @@
+﻿namespace ClassLibrary
+{
+    class NoceConnection
+    {
+
+    }
+}
