@@ -48,7 +48,6 @@ namespace TestChamber
         public void Connect_TryingToAddConnectionToItself_ThrowsRightException()
         {
             Node sut = new Node("Test");
-
             Assert.Throws<ArgumentException>(() => sut.Connect(sut, 1), "Can not add connection to itself");
         }
 
@@ -57,7 +56,6 @@ namespace TestChamber
         public void Connect_TryingToAddConnectionToItselfAndTimeCostIsNegative_ThrowsRightException()
         {
             Node sut = new Node("Test");
-
             Assert.Throws<ArgumentException>(() => sut.Connect(sut, -1), "Can not add connection to itself");
         }
 
@@ -67,7 +65,6 @@ namespace TestChamber
         {
             Node sut1 = new Node("Test1");
             Node sut2 = new Node("Test2");
-
             Assert.Throws<ArgumentException>(() => sut1.Connect(sut2, -1), "Time cost must be a positive number");
         }
 
