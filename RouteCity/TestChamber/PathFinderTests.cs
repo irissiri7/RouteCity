@@ -10,7 +10,7 @@ namespace TestChamber
     class PathFinderTests
     {
         [Test]
-        public void CreatePathfinder_Happydays()
+        public void CreatePathFinder_Happydays()
         {
             Network dummyNetwork = CreateDummyNetwork();
             PathFinder sut = new PathFinder(dummyNetwork);
@@ -18,13 +18,13 @@ namespace TestChamber
         }
 
         [Test]
-        public void CreatePathfinder_NetworkIsNull_ThrowsRightException()
+        public void CreatePathFinder_NetworkIsNull_ThrowsRightException()
         {
             Assert.Throws<InvalidOperationException>(() => new PathFinder(null), "Can not create a Pathfinder if Network is null");
         }
 
         [Test]
-        public void CreatePathfinder_NetworkHasZeroNodes_ThrowsRightException()
+        public void CreatePathFinder_NetworkHasZeroNodes_ThrowsRightException()
         {
             Network dummyNetwork = new Network();
             Assert.Throws<InvalidOperationException>(() => new PathFinder(dummyNetwork), "Can not create a Pathfinder if Network has 0 nodes");
@@ -70,33 +70,27 @@ namespace TestChamber
             //Arrange
             Network dummyNetwork = CreateDummyNetwork(); //Has nodes "A", "B", "C"
             PathFinder sut = new PathFinder(dummyNetwork);
+            string startNode = "A";
 
             //Act
-            sut.InitializePaths("A");
+            sut.InitializePaths(startNode);
 
             //Assert
-            //This if statement should be removed later, when other parts of the program has been implemented
-            if(sut.Paths.Count == 0)
+            foreach (KeyValuePair<string, Path> path in sut.Paths)
             {
-                Assert.Fail();
-            }
-            else
-            {
-                foreach (KeyValuePair<string, Path> path in sut.Paths)
+                Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node));
+                Assert.IsTrue(path.Value.NodesVisited.Count == 1);
+                if(path.Key == startNode)
                 {
-                    Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node));
-                    Assert.IsTrue(path.Value.NodesVisited.Count == 1);
-                    if(path.Key == "A")
-                    {
-                        Assert.AreEqual(path.Value.ShortestTimeFromStart, 0);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(path.Value.ShortestTimeFromStart, double.PositiveInfinity);
+                    Assert.AreEqual(path.Value.ShortestTimeFromStart, 0);
+                }
+                else
+                {
+                    Assert.AreEqual(path.Value.ShortestTimeFromStart, double.PositiveInfinity);
 
-                    }
                 }
             }
+            
 
         }
 
