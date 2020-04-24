@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
+
+[assembly: InternalsVisibleTo("TestChamber")]
 
 namespace ClassLibrary
 {
-    class Node
+    public class Node
     {
         //PROPERTIES
         public string Name { get; private set; }
@@ -25,7 +28,7 @@ namespace ClassLibrary
             if (targetNode == this)
                 throw new ArgumentException("Can not add connection to itself");
             if (timeCost < 0)
-                throw new ArgumentException("Distance must be a positive number");
+                throw new ArgumentException("Time cost must be a positive number");
 
             Connections.Add(new NodeConnection(targetNode, timeCost));
             targetNode.Connections.Add(new NodeConnection(this, timeCost));
