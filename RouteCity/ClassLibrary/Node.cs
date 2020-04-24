@@ -20,7 +20,15 @@ namespace ClassLibrary
         //METHODS
         public void Connect(Node targetNode, double timeCost)
         {
+            if (targetNode == null)
+                throw new ArgumentException("Target node is null");
+            if (targetNode == this)
+                throw new ArgumentException("Can not add connection to itself");
+            if (timeCost < 0)
+                throw new ArgumentException("Distance must be a positive number");
 
+            Connections.Add(new NodeConnection(targetNode, timeCost));
+            targetNode.Connections.Add(new NodeConnection(this, timeCost));
         }
 
 
