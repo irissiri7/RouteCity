@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+
+[assembly: InternalsVisibleTo("TestChamber")]
 
 namespace ClassLibrary
 {
@@ -6,23 +11,34 @@ namespace ClassLibrary
     {
         //PROPERTIES
         private Network Network { get; set; }
-        private string StartNode { get; set; }
-        private string EndNode { get; set; }
-        private Dictionary<Node, Path> Paths { get; set; }
+        internal Dictionary<string, Path> Paths { get; set; }
 
         //CONSTRUCTOR
-        public PathFinder(Network network, string startNode, string endNode)
+        public PathFinder(Network network)
         {
+            if (network == null)
+                throw new InvalidOperationException("Can not create a Pathfinder if Network is null");
+            if (network.Nodes.Count <= 0)
+                throw new InvalidOperationException("Can not create a Pathfinder if Network has 0 nodes");
+            
             Network = network;
-            StartNode = startNode;
-            EndNode = endNode;
-            Paths = new Dictionary<Node, Path>();
+            Paths = new Dictionary<string, Path>();
         }
 
         //METHODS
-        public void FindShortestPath()
+        public void FindQuickestPath(string startNode, string endNode, bool stopAtEndNode = true)
         {
+            //Main method, this one will give the 
+        }
 
+        internal void InitializePaths(string startNode)
+        {
+            foreach (var node in Network.Nodes)
+            {
+                Paths.Add(node.Key, new Path(node.Key));
+            }
+
+            Paths[startNode].ShortestTimeFromStart = 0;
         }
 
         public string ShowShortestPath()
