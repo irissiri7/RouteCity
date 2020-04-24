@@ -26,7 +26,7 @@ namespace ClassLibrary
         }
 
         //METHODS
-        public void FindShortestPath(string startNode, string endNode, bool stopAtEndNode = true)
+        public void FindQuickestPath(string startNode, string endNode, bool stopAtEndNode = true)
         {
             //Main method, this one will give the 
         }
