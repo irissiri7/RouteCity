@@ -15,6 +15,7 @@ namespace ClassLibrary
             Node = node;
             ShortestTimeFromStart = shortestTimeFromStart;
             NodesVisited = new List<string>();
+            NodesVisited.Add(node);
         }
 
     }
