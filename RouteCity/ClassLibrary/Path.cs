@@ -1,18 +1,20 @@
-﻿namespace ClassLibrary
+﻿using System.Collections.Generic;
+
+namespace ClassLibrary
 {
     class Path
     {
         //PROPERTIES
-        internal Node Node { get; set; }
-        internal double ShortestTimeFromStartNode { get; set; }
-        internal Node PreviousNode { get; set; }
+        internal string Node { get; set; }
+        internal double ShortestTimeFromStart { get; set; }
+        internal List<string> NodesVisited { get; set; }
 
         //CONSTRUCTOR
-        public Path(Node node, double shortestTimeFromStartNode = double.PositiveInfinity, Node previousNode = null)
+        public Path(string node, double shortestTimeFromStart = double.PositiveInfinity)
         {
             Node = node;
-            ShortestTimeFromStartNode = shortestTimeFromStartNode;
-            PreviousNode = previousNode;
+            ShortestTimeFromStart = shortestTimeFromStart;
+            NodesVisited = new List<string>();
         }
 
     }
