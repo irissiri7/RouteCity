@@ -126,12 +126,12 @@ namespace TestChamber
             Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 12d;
-            List<string> expectedNodesVisited = new List<string> { "D", "I", "J", "H" };
+            List<string> expectedNodesVisited = new List<string> { "D", "J", "I", "H" };
 
             //ACT
             sut.FindQuickestPath("D", "H");
-            double actualQuickestPath = sut.Paths["E"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["E"].NodesVisited;
+            double actualQuickestPath = sut.Paths["H"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Paths["H"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -152,8 +152,8 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("B", "C");
-            double actualQuickestPath = sut.Paths["E"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["E"].NodesVisited;
+            double actualQuickestPath = sut.Paths["C"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Paths["C"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -204,10 +204,10 @@ namespace TestChamber
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
             PathFinder sut = new PathFinder(dummy);
-            double expectedQuickestTimeFromStart = 21d;
+            double expectedQuickestTimeFromStart = 18d;
 
             //ACT
-            sut.FindQuickestPath("A", "E");
+            sut.FindQuickestPath("A", "E", false);
             double actualQuickestTimeFromStart = sut.Paths["J"].QuickestTimeFromStart;
 
             //ASSERT
@@ -220,11 +220,11 @@ namespace TestChamber
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
             PathFinder sut = new PathFinder(dummy);
-            List<string> expectedNodesVisited = new List<string> { "A", "C", "F", "E", "G", "H", "I", "J" };
+            List<string> expectedNodesVisited = new List<string> { "A", "C", "F", "E", "D", "J" };
 
 
             //ACT
-            sut.FindQuickestPath("A", "E");
+            sut.FindQuickestPath("A", "E", false);
             List<string> actualNodesVisited = sut.Paths["J"].NodesVisited;
 
             //ASSERT
@@ -234,6 +234,7 @@ namespace TestChamber
             }
         }
 
+        //Integration??
         [Test]
         public void FindQuickestPath_ChangingConnectionValues_UpdatesQuickestPathCorrectly()
         {
@@ -243,7 +244,7 @@ namespace TestChamber
             
             //Original quickest path
             sut.FindQuickestPath("A", "J");
-            Assert.AreEqual(21d, sut.Paths["J"].QuickestTimeFromStart);
+            Assert.AreEqual(18d, sut.Paths["J"].QuickestTimeFromStart);
             
             //ACT, Changing quickest path by adding direct connection
             dummy.AddConnection("A", "J", 1);
@@ -251,6 +252,63 @@ namespace TestChamber
             
             //ASSERT that new quickest path has changed
             Assert.AreEqual(1d, sut.Paths["J"].QuickestTimeFromStart);
+        }
+
+        [Test]
+        public void FindQuickestPath_StartNodeAndEndNodeAreSame_ThrowsRightException()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+
+            //ACT/ASSERT
+            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A","A"), "Start node and end node must be different");
+
+
+        }
+
+        [Test]
+        public void FindQuickestPath_StartNodeDoesNotExist_ThrowsRightException()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+
+            //ACT/ASSERT
+            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("X", "A"), "Both start and end node must be in network");
+        }
+
+        [Test]
+        public void FindQuickestPath_EndNodeDoesNotExist_ThrowsRightException()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+
+            //ACT/ASSERT
+            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A", "X"), "Both start and end node must be in network");
+        }
+
+        [Test]
+        public void FindQuickestPath_StartNodeIsNull_ThrowsRightException()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+
+            //ACT/ASSERT
+            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath(null, "A"), "Can not preform operation if nodes are null");
+        }
+
+        [Test]
+        public void FindQuickestPath_EndNodeIsNull_ThrowsRightException()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+
+            //ACT/ASSERT
+            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A", null), "Can not preform operation if nodes are null");
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
