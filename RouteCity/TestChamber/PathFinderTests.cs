@@ -94,6 +94,45 @@ namespace TestChamber
 
         }
 
+        /// <summary>
+        /// Tests for FindQuickestPath()
+        /// </summary>
+        /// 
+        [Test]
+        public void FindQuickestPath_OnlyOneNode_GivesRightResult()
+        {
+
+        }
+
+        [Test]
+        public void FindQuickestPath_TenNodesAndStoppingAtEndNode_GivesRightResult()
+        {
+
+        }
+
+        [Test]
+        public void FindQuickestPath_TenNodesAndNOTStoppingAtEndNode_GivesRightResult()
+        {
+
+        }
+
+        [Test]
+        public void FindQuickestPath_FifteenNodesAndStoppingAtEndNode_GivesRightResult()
+        {
+
+        }
+
+        [Test]
+        public void FindQuickestPath_FifteenNodesAndNOTStoppingAtEndNode_GivesRightResult()
+        {
+
+        }
+
+        [Test]
+        public void FindQuickestPath_AddingAQuickerPath_UpdatesQuickestPathCorrectly()
+        {
+
+        }
 
         //Helper methods, will be modified when AddNode is implemented
         public Network CreateDummyNetwork()

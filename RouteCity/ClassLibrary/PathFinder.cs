@@ -31,6 +31,7 @@ namespace ClassLibrary
             //Main method, this one will give the 
         }
 
+        // Setting ShortestTimeFromStart to infinite
         internal void InitializePaths(string startNode)
         {
             foreach (var node in Network.Nodes)
@@ -39,6 +40,18 @@ namespace ClassLibrary
             }
 
             Paths[startNode].ShortestTimeFromStart = 0;
+        }
+
+        // Going through all Paths to process the connections to each Node
+        internal void ProcessPaths(string startNode)
+        {
+            
+        }
+
+        // Processing the connections to each node
+        internal void ProcessConnections(string startNode)
+        {
+
         }
 
         public string ShowShortestPath()
