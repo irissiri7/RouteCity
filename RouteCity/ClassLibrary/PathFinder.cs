@@ -88,13 +88,13 @@ namespace ClassLibrary
         // Processing the connections to each node
         internal void ProcessConnections(Path path, List<Path> paths)
         {
-            var connections = Network.Nodes[path.Node].Connections.Where(c => paths.Any(p => p.Node == c.TargetNode.Name));
+            var connections = Network.Nodes[path.Node].Connections.Where(c => paths.Any(p => p.Node == c.Key));
 
             foreach (var connection in connections)
             {
-                string connectingNode = connection.TargetNode.Name;
+                string connectingNode = connection.Key;
 
-                double distance = path.QuickestTimeFromStart + connection.TimeCost;
+                double distance = path.QuickestTimeFromStart + connection.Value.TimeCost;
 
                 if (distance < Paths[connectingNode].QuickestTimeFromStart)
                 {
