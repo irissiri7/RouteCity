@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ClassLibrary
 {
-    class Path
+    class Path : IComparable<Path>
     {
         //PROPERTIES
         internal string Node { get; set; }
@@ -18,5 +20,9 @@ namespace ClassLibrary
             NodesVisited.Add(node);
         }
 
+        public int CompareTo(Path path)
+        {
+            return path.ShortestTimeFromStart.CompareTo(this.ShortestTimeFromStart);
+        }
     }
 }
