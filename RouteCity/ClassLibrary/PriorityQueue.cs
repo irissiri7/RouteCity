@@ -1,5 +1,5 @@
 ﻿using System;
-using PriorityQueue;
+using ClassLibrary;
 
 namespace Inl2_PriorityQueue
 {
