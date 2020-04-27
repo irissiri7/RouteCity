@@ -20,11 +20,11 @@ namespace TestChamber
             Assert.IsTrue(sut1.Connections.Count == 1);
             Assert.IsTrue(sut2.Connections.Count == 1);
             
-            Assert.AreSame(sut1.Connections[0].TargetNode, sut2);
-            Assert.AreEqual(sut1.Connections[0].TimeCost, 2);
+            Assert.AreSame(sut1.Connections[sut2.Name].TargetNode, sut2);
+            Assert.AreEqual(sut1.Connections[sut2.Name].TimeCost, 2);
 
-            Assert.AreSame(sut2.Connections[0].TargetNode, sut1);
-            Assert.AreEqual(sut2.Connections[0].TimeCost, 2);
+            Assert.AreSame(sut2.Connections[sut1.Name].TargetNode, sut1);
+            Assert.AreEqual(sut2.Connections[sut1.Name].TimeCost, 2);
 
 
         }
