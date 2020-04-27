@@ -12,7 +12,7 @@ namespace TestChamber
         [Test]
         public void CreatePathFinder_Happydays()
         {
-            Network dummyNetwork = CreateDummyNetwork();
+            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections();
             PathFinder sut = new PathFinder(dummyNetwork);
             Assert.IsNotNull(sut);
         }
@@ -24,19 +24,21 @@ namespace TestChamber
         }
 
         [Test]
-        public void CreatePathFinder_NetworkHasZeroNodes_ThrowsRightException()
+        public void CreatePathFinder_NetworkHasLessThanThreeNodes_ThrowsRightException()
         {
             Network dummyNetwork = new Network();
-            Assert.Throws<InvalidOperationException>(() => new PathFinder(dummyNetwork), "Can not create a Pathfinder if Network has 0 nodes");
+            dummyNetwork.AddNode("A");
+            dummyNetwork.AddNode("B");
+            Assert.Throws<InvalidOperationException>(() => new PathFinder(dummyNetwork), "Can not create a Pathfinder if Network has less than three nodes");
         }
 
-        // These test needs to be rewritten when AddNode() has been implemented, in the mean time
-        // using CreateDummyNetwork() to "hard code" nodes in the network
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         [Test]
         public void InitializePaths_HappyDays_HasAddedThreeEntriesToPathDictionary()
         {
             //Arrange
-            Network dummyNetwork = CreateDummyNetwork(); //Has nodes "A", "B", "C"
+            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
             PathFinder sut = new PathFinder(dummyNetwork);
 
             //Act
@@ -50,7 +52,7 @@ namespace TestChamber
         public void InitializePaths_HappyDays_HasAddedRightKeysToPathDictionary()
         {
             //Arrange
-            Network dummyNetwork = CreateDummyNetwork(); //Has nodes "A", "B", "C"
+            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
             PathFinder sut = new PathFinder(dummyNetwork);
 
             //Act
@@ -68,7 +70,7 @@ namespace TestChamber
         public void InitializePaths_HappyDays_HasAddedRightPathObjectsToPathDictionary()
         {
             //Arrange
-            Network dummyNetwork = CreateDummyNetwork(); //Has nodes "A", "B", "C"
+            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
             PathFinder sut = new PathFinder(dummyNetwork);
             string startNode = "A";
 
@@ -82,11 +84,11 @@ namespace TestChamber
                 Assert.IsTrue(path.Value.NodesVisited.Count == 1);
                 if(path.Key == startNode)
                 {
-                    Assert.AreEqual(path.Value.ShortestTimeFromStart, 0);
+                    Assert.AreEqual(path.Value.QuickestTimeFromStart, 0);
                 }
                 else
                 {
-                    Assert.AreEqual(path.Value.ShortestTimeFromStart, double.PositiveInfinity);
+                    Assert.AreEqual(path.Value.QuickestTimeFromStart, double.PositiveInfinity);
 
                 }
             }
@@ -94,57 +96,205 @@ namespace TestChamber
 
         }
 
-        /// <summary>
-        /// Tests for FindQuickestPath()
-        /// </summary>
-        /// 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
-        public void FindQuickestPath_OnlyOneNode_GivesRightResult()
+        public void FindQuickestPath_HappyDaysExOne_GivesRightResult()
         {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            double expectedQuickestPath = 6d;
+            List<string> expectedNodesVisited = new List<string> { "A", "C", "F", "E" };
+            
+            //ACT
+            sut.FindQuickestPath("A", "E");
+            double actualQuickestPath = sut.Paths["E"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Paths["E"].NodesVisited;
 
-        }
-
-        [Test]
-        public void FindQuickestPath_TenNodesAndStoppingAtEndNode_GivesRightResult()
-        {
-
-        }
-
-        [Test]
-        public void FindQuickestPath_TenNodesAndNOTStoppingAtEndNode_GivesRightResult()
-        {
-
-        }
-
-        [Test]
-        public void FindQuickestPath_FifteenNodesAndStoppingAtEndNode_GivesRightResult()
-        {
-
-        }
-
-        [Test]
-        public void FindQuickestPath_FifteenNodesAndNOTStoppingAtEndNode_GivesRightResult()
-        {
-
-        }
-
-        [Test]
-        public void FindQuickestPath_AddingAQuickerPath_UpdatesQuickestPathCorrectly()
-        {
-
-        }
-
-        //Helper methods, will be modified when AddNode is implemented
-        public Network CreateDummyNetwork()
-        {
-            Network dummyNetwork = new Network();
-            List<string> nodes = new List<string> { "A", "B", "C" };
-            foreach (var node in nodes)
+            //ASSERT
+            Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
+            for(int i = 0; i < expectedNodesVisited.Count; i++)
             {
-                dummyNetwork.Nodes.Add(node, new Node(node));
+                Assert.AreEqual(expectedNodesVisited[i], actualNodesVisited[i]);
             }
+        }
 
-            return dummyNetwork;
+        [Test]
+        public void FindQuickestPath_HappyDaysExTwo_GivesRightResult()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            double expectedQuickestPath = 12d;
+            List<string> expectedNodesVisited = new List<string> { "D", "I", "J", "H" };
+
+            //ACT
+            sut.FindQuickestPath("D", "H");
+            double actualQuickestPath = sut.Paths["E"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Paths["E"].NodesVisited;
+
+            //ASSERT
+            Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
+            for (int i = 0; i < expectedNodesVisited.Count; i++)
+            {
+                Assert.AreEqual(expectedNodesVisited[i], actualNodesVisited[i]);
+            }
+        }
+
+        [Test]
+        public void FindQuickestPath_HappyDaysExThree_GivesRightResult()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            double expectedQuickestPath = 12d;
+            List<string> expectedNodesVisited = new List<string> { "B", "A", "C" };
+
+            //ACT
+            sut.FindQuickestPath("B", "C");
+            double actualQuickestPath = sut.Paths["E"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Paths["E"].NodesVisited;
+
+            //ASSERT
+            Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
+            for (int i = 0; i < expectedNodesVisited.Count; i++)
+            {
+                Assert.AreEqual(expectedNodesVisited[i], actualNodesVisited[i]);
+            }
+        }
+
+        [Test]
+        public void FindQuickestPath_StoppingAtEndNode_ShortestTimeFromStartForNodeJShouldStillBeInfinite()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            double expectedQuickestTimeFromStart = double.PositiveInfinity;
+
+            //ACT
+            sut.FindQuickestPath("A", "E");
+            double actualQuickestTimeFromStart = sut.Paths["J"].QuickestTimeFromStart;
+
+            //ASSERT
+            Assert.AreEqual(expectedQuickestTimeFromStart, actualQuickestTimeFromStart);
+        }
+
+        [Test]
+        public void FindQuickestPath_StoppingAtEndNode_NodesVisitedForNodeJAreCorrect()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            List<string> expectedNodesVisited = new List<string> {"J" };
+
+            //ACT
+            sut.FindQuickestPath("A", "E");
+            List<string> actualNodesVisited = sut.Paths["J"].NodesVisited;
+
+            //ASSERT
+            for (int i = 0; i < expectedNodesVisited.Count; i++)
+            {
+                Assert.AreEqual(expectedNodesVisited[i], actualNodesVisited[i]);
+            }
+        }
+
+        [Test]
+        public void FindQuickestPath_NOTStoppingAtEndNode_ShortestTimeFromStartForNodeJShouldBeEvaluated()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            double expectedQuickestTimeFromStart = 21d;
+
+            //ACT
+            sut.FindQuickestPath("A", "E");
+            double actualQuickestTimeFromStart = sut.Paths["J"].QuickestTimeFromStart;
+
+            //ASSERT
+            Assert.AreEqual(expectedQuickestTimeFromStart, actualQuickestTimeFromStart);
+        }
+
+        [Test]
+        public void FindQuickestPath_NOTStoppingAtEndNode_NodesVisitedForNodeJAreCorrect()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            List<string> expectedNodesVisited = new List<string> { "A", "C", "F", "E", "G", "H", "I", "J" };
+
+
+            //ACT
+            sut.FindQuickestPath("A", "E");
+            List<string> actualNodesVisited = sut.Paths["J"].NodesVisited;
+
+            //ASSERT
+            for (int i = 0; i < expectedNodesVisited.Count; i++)
+            {
+                Assert.AreEqual(expectedNodesVisited[i], actualNodesVisited[i]);
+            }
+        }
+
+        [Test]
+        public void FindQuickestPath_ChangingConnectionValues_UpdatesQuickestPathCorrectly()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+            
+            //Original quickest path
+            sut.FindQuickestPath("A", "J");
+            Assert.AreEqual(21d, sut.Paths["J"].QuickestTimeFromStart);
+            
+            //ACT, Changing quickest path by adding direct connection
+            dummy.AddConnection("A", "J", 1);
+            sut.FindQuickestPath("A", "J");
+            
+            //ASSERT that new quickest path has changed
+            Assert.AreEqual(1d, sut.Paths["J"].QuickestTimeFromStart);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public Network CreateDummyNetworkOfThreeNodesWithNoConnections()
+        {
+            Network mellerud = new Network();
+            
+            mellerud.AddNode("A");
+            mellerud.AddNode("B");
+            mellerud.AddNode("C");
+
+            return mellerud;
+        }
+
+        public Network CreateDummyNetworkOfTenNodesWithConnections()
+        {
+            Network karlstad = new Network();
+
+            karlstad.AddNode("A");
+            karlstad.AddNode("B");
+            karlstad.AddNode("C");
+            karlstad.AddNode("D");
+            karlstad.AddNode("E");
+            karlstad.AddNode("F");
+            karlstad.AddNode("G");
+            karlstad.AddNode("H");
+            karlstad.AddNode("I");
+            karlstad.AddNode("J");
+
+            karlstad.AddConnection("A", "B", 10);
+            karlstad.AddConnection("A", "C", 2);
+            karlstad.AddConnection("B", "C", 22);
+            karlstad.AddConnection("B", "D", 22);
+            karlstad.AddConnection("D", "E", 4);
+            karlstad.AddConnection("E", "F", 3);
+            karlstad.AddConnection("F", "C", 1);
+            karlstad.AddConnection("D", "J", 8);
+            karlstad.AddConnection("I", "J", 1);
+            karlstad.AddConnection("I", "H", 3);
+            karlstad.AddConnection("G", "H", 10);
+            karlstad.AddConnection("G", "E", 1);
+
+            return karlstad;
         }
     }
 }
