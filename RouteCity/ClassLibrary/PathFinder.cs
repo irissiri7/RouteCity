@@ -85,6 +85,18 @@ namespace ClassLibrary
             }
         }
 
+        //internal PriorityQueue<Path> ConstructPriorityQueueOfPaths()
+        //{
+        //    PriorityQueue<Path> queue = new PriorityQueue<Path>();
+        //    return queue;
+        //}
+
+        //internal Path GetPathWithCurrentLowestQuickestTimeFromStart()
+        //{
+        //    Path path = new Path("BLÄ");
+        //    return path;
+        //}
+
         // Processing the connections to each node
         internal void ProcessConnections(Path path, List<Path> paths)
         {

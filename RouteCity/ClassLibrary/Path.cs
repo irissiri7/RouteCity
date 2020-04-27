@@ -24,5 +24,6 @@ namespace ClassLibrary
         {
             return path.QuickestTimeFromStart.CompareTo(this.QuickestTimeFromStart);
         }
+
     }
 }
