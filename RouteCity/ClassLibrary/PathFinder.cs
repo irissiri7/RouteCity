@@ -35,6 +35,7 @@ namespace ClassLibrary
                 throw new InvalidOperationException("Start node and end node must be different");
             if (!Network.Nodes.Any(n => n.Key == startNode) || !Network.Nodes.Any(n => n.Key == endNode))
                 throw new InvalidOperationException("Both start and end node must be in network");
+            
             InitializePaths(startNode);
             ProcessPaths(endNode, stopAtEndNode);
             return ExtractResult(startNode);
