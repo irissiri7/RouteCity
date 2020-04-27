@@ -120,6 +120,14 @@ namespace TestChamber
             Assert.Throws<ArgumentException>(() => network.AddNode(","));
         }
 
+        [Test]
+        public void AddNode_ActuallyAdds()
+        {
+            Network network = new Network();
+            network.AddNode("Test");
+            Assert.IsTrue(network.Nodes.ContainsKey("Test") && network.Nodes.Count == 1);
+        }
+
         //RandomizeConnections()
         [Test]
         public void RandomizeConnections_ThereAreAlreadyConnectionsEstablished_ReturnsArgumentException()
@@ -141,6 +149,16 @@ namespace TestChamber
             Network network = new Network();
             network.Nodes.Add("Exists", new Node("Exists"));
             Assert.Throws<ArgumentException>(() => network.AddConnection("Exists", "DoesNotExist", 6));
+        }
+
+        [Test]
+        public void AddConnection_ActuallyAddsConnection()
+        {
+            Network network = new Network();
+            network.Nodes.Add("First", new Node("First"));
+            network.Nodes.Add("Second", new Node("Second"));
+            network.AddConnection(network.Nodes["First"], network.Nodes["Second"], 5);
+            Assert.IsTrue(network.Nodes["Exists"].Connections.Count == 1);
         }
     }
 }

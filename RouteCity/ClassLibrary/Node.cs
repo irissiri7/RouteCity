@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -7,33 +8,29 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public class Node
+    public class Node : IComparable<Node>
     {
         //PROPERTIES
         public string Name { get; private set; }
-        internal List<NodeConnection> Connections { get; set; }
+        internal Dictionary<string, NodeConnection> Connections { get; set; }
 
         //CONSTRUCTOR
         public Node(string name)
         {
             Name = name;
-            Connections = new List<NodeConnection>();
+            Connections = new Dictionary<string, NodeConnection>();
         }
 
         //METHODS
-        public void Connect(Node targetNode, double timeCost)
+        internal void Connect(Node targetNode, double timeCost)
         {
-            if (targetNode == null)
-                throw new ArgumentException("Target node is null");
-            if (targetNode == this)
-                throw new ArgumentException("Can not add connection to itself");
-            if (timeCost < 0)
-                throw new ArgumentException("Time cost must be a positive number");
-
-            Connections.Add(new NodeConnection(targetNode, timeCost));
-            targetNode.Connections.Add(new NodeConnection(this, timeCost));
+            Connections.Add(targetNode.Name, new NodeConnection(targetNode, timeCost));
+            targetNode.Connections.Add(this.Name, new NodeConnection(this, timeCost));
         }
 
-
+        public int CompareTo(Node obj) 
+        { 
+            return obj.Connections.Count.CompareTo(this.Connections.Count);
+        }
     }
 }
