@@ -22,7 +22,7 @@ namespace ClassLibrary
 
         public int CompareTo(Path path)
         {
-            return path.ShortestTimeFromStart.CompareTo(this.ShortestTimeFromStart);
+            return path.QuickestTimeFromStart.CompareTo(this.QuickestTimeFromStart);
         }
     }
 }
