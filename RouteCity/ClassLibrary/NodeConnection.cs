@@ -1,4 +1,7 @@
-﻿namespace ClassLibrary
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace ClassLibrary
 {
     class NodeConnection
     {
@@ -12,6 +15,5 @@
             TargetNode = targetNode;
             TimeCost = timeCost;
         }
-
     }
 }
