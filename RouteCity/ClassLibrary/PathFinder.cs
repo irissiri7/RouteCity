@@ -18,8 +18,8 @@ namespace ClassLibrary
         {
             if (network == null)
                 throw new InvalidOperationException("Can not create a Pathfinder if Network is null");
-            if (network.Nodes.Count <= 0)
-                throw new InvalidOperationException("Can not create a Pathfinder if Network has 0 nodes");
+            if (network.Nodes.Count < 3)
+                throw new InvalidOperationException("Can not create a Pathfinder if Network has less than 3 nodes");
             
             Network = network;
             Paths = new Dictionary<string, Path>();
@@ -39,7 +39,7 @@ namespace ClassLibrary
                 Paths.Add(node.Key, new Path(node.Key));
             }
 
-            Paths[startNode].ShortestTimeFromStart = 0;
+            Paths[startNode].QuickestTimeFromStart = 0;
         }
 
         // Going through all Paths to process the connections to each Node
