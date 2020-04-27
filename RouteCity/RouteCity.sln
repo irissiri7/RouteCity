@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestChamber", "TestChamber\TestChamber.csproj", "{1F91A061-3C0E-4FEE-B382-BC5E87060594}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriorityQueue_ClassLib", "..\..\..\..\Objettorienterad programmering i C#\School assignments\Inl2_PriorityQueue\PriorityQueue_ClassLib\PriorityQueue_ClassLib.csproj", "{3CC6933A-71FE-440E-A9EE-DB28BA58CB90}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{1F91A061-3C0E-4FEE-B382-BC5E87060594}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F91A061-3C0E-4FEE-B382-BC5E87060594}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F91A061-3C0E-4FEE-B382-BC5E87060594}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CC6933A-71FE-440E-A9EE-DB28BA58CB90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CC6933A-71FE-440E-A9EE-DB28BA58CB90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CC6933A-71FE-440E-A9EE-DB28BA58CB90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CC6933A-71FE-440E-A9EE-DB28BA58CB90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
