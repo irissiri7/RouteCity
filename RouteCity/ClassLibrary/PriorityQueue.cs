@@ -1,7 +1,6 @@
 ﻿using System;
-using ClassLibrary;
 
-namespace Inl2_PriorityQueue
+namespace ClassLibrary
 {
     internal class Node<T>
     {
@@ -11,7 +10,7 @@ namespace Inl2_PriorityQueue
         internal Node<T> Parent { get; set; }
     }
 
-    public class PriorityQueue<T> where T : IComparable, IComparable<T>
+    public class PriorityQueue<T> where T : IComparable<T>
     {
         private Node<T> root = null;
         private int count = 0;

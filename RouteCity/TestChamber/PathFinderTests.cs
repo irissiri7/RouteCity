@@ -164,7 +164,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_StoppingAtEndNode_ShortestTimeFromStartForNodeJShouldStillBeInfinite()
+        public void FindQuickestPath_StoppingAtEndNode_QuickestTimeFromStartForNodeJShouldStillBeInfinite()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
@@ -236,7 +236,7 @@ namespace TestChamber
 
         //Integration??
         [Test]
-        public void FindQuickestPath_ChangingConnectionValues_UpdatesQuickestPathCorrectly()
+        public void FindQuickestPath_ChangingConnectionValuesExOne_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
@@ -252,6 +252,26 @@ namespace TestChamber
             
             //ASSERT that new quickest path has changed
             Assert.AreEqual(1d, sut.Paths["J"].QuickestTimeFromStart);
+        }
+
+        //Integration??
+        [Test]
+        public void FindQuickestPath_ChangingConnectionValuesExTwo_UpdatesQuickestPathCorrectly()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnections();
+            PathFinder sut = new PathFinder(dummy);
+
+            //Original quickest path
+            sut.FindQuickestPath("F", "I");
+            Assert.AreEqual(16d, sut.Paths["I"].QuickestTimeFromStart);
+
+            //ACT, Changing quickest path by adding direct connection
+            dummy.AddConnection("F", "I", 1);
+            sut.FindQuickestPath("F", "I");
+
+            //ASSERT that new quickest path has changed
+            Assert.AreEqual(1d, sut.Paths["I"].QuickestTimeFromStart);
         }
 
         [Test]
