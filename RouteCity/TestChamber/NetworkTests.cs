@@ -137,7 +137,10 @@ namespace TestChamber
             network.Nodes.Add("B", new Node("B"));
             network.Nodes.Add("C", new Node("C"));
             network.Nodes.Add("D", new Node("D"));
-            network.Nodes["A"].Connect(network.Nodes["B"], 3);
+            network.Nodes.Add("E", new Node("E"));
+            network.Nodes.Add("F", new Node("F"));
+            network.Nodes.Add("G", new Node("G"));
+            //network.Nodes["A"].Connect(network.Nodes["B"], 3);
             
             Assert.Throws<ArgumentException>(() => network.RandomizeConnections());
         }
@@ -157,7 +160,7 @@ namespace TestChamber
             Network network = new Network();
             network.Nodes.Add("First", new Node("First"));
             network.Nodes.Add("Second", new Node("Second"));
-            network.AddConnection(network.Nodes["First"], network.Nodes["Second"], 5);
+            //network.AddConnection(network.Nodes["First"], network.Nodes["Second"], 5);
             Assert.IsTrue(network.Nodes["Exists"].Connections.Count == 1);
         }
     }
