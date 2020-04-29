@@ -18,6 +18,11 @@ namespace ClassLibrary
         //METHODS
         public void CreateNetwork(List<string> nodeNames)
         {
+            foreach (var element in nodeNames)
+            {
+                AddNode(element);
+            }
+
 
         }
 
@@ -74,9 +79,82 @@ namespace ClassLibrary
 
         public void RandomizeConnections()
         {
-            // Assumes there are no connections already?
-            // Should is handle if there are some connections already made? Maybe if time. 
-            // Refuses if element in list already contains connections
+            Random r = new Random();
+            List<Node> emptyNodes = new List<Node>(Nodes.Count);
+            List<Node> incompleteNodes = new List<Node>();
+            List<Node> completeNodes = new List<Node>();
+            PriorityQueue<Node> queueForCompletion = new PriorityQueue<Node>();
+
+            // Only if there are over 2 nodes ***FIX***
+            foreach (var element in Nodes)
+            {
+                if (element.Value.Connections.Count > 0)
+                {
+                    throw new InvalidOperationException("Cannot Randomize connections in a network where connections are alrady made.");
+                }
+                else
+                {
+                    emptyNodes.Add(element.Value);
+                }
+            }
+
+            int currentIndex = r.Next(0, emptyNodes.Count);
+            Node currentNode = emptyNodes[currentIndex];
+            incompleteNodes.Add(currentNode);
+            emptyNodes.RemoveAt(currentIndex);
+
+            while (emptyNodes.Count > 0)
+            {
+                while (currentNode.Connections.Count < 3 && emptyNodes.Count > 0)
+                {
+                    int connectToIndex = r.Next(0, emptyNodes.Count);
+                    AddConnection(currentNode.Name, emptyNodes[connectToIndex].Name, (double)r.Next(1, 11));
+                    incompleteNodes.Add(emptyNodes[connectToIndex]);
+                    emptyNodes.RemoveAt(connectToIndex);
+
+                }
+
+                if (currentNode.Connections.Count > 2)
+                {
+                    incompleteNodes.Remove(currentNode);
+
+                    // Behöver jag detta om noderna redan är addade? kopplingarna uppdateras väl?
+                    completeNodes.Add(currentNode);
+                }
+
+                currentIndex = r.Next(0, incompleteNodes.Count);
+                currentNode = incompleteNodes[currentIndex];
+
+            }
+
+            foreach (var element in incompleteNodes)
+            {
+                queueForCompletion.Add(element);
+            }
+
+            while (queueForCompletion.Count() > 0)
+            {
+                while (queueForCompletion.Peek().Connections.Count < 2 && queueForCompletion.Count() > 0)
+                {
+                    currentNode = queueForCompletion.Pop();
+                }
+
+                // Risk for loop if already full
+                // Remove at... ändra värdet på index till max och sedan sortera neråt. Sedan ta bort. 
+                // Precis som om jag tagit upp processen att ta bort top?... fast vad händer om det är på en sida i trädet där slutet
+                // inte finns? Kanske skicka upp till toppen och sedan sortera ner?
+                while (currentNode.Connections.Count < 3 && queueForCompletion.Count() > 0)
+                {
+                    int connectToIndex = r.Next(0, queueForCompletion.Count());
+
+                    if (!currentNode.Name.Equals(queueForCompletion.GetValueByIndex(connectToIndex, false).Name))
+                    {
+                        AddConnection(currentNode.Name, queueForCompletion.GetValueByIndex(connectToIndex, false).Name, (double)r.Next(1, 11));
+                    }
+
+                }
+
+            }
         }
 
         public void DisplayNetwork()

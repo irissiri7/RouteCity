@@ -1,6 +1,7 @@
 ﻿using System;
+using PriorityQueue;
 
-namespace ClassLibrary
+namespace Inl2_PriorityQueue
 {
     internal class Node<T>
     {
@@ -10,7 +11,7 @@ namespace ClassLibrary
         internal Node<T> Parent { get; set; }
     }
 
-    public class PriorityQueue<T> where T : IComparable<T>
+    public class PriorityQueue<T> : IPriorityQueue<T> where T : IComparable, IComparable<T>
     {
         private Node<T> root = null;
         private int count = 0;
@@ -44,13 +45,6 @@ namespace ClassLibrary
             }
 
             return current;
-        }
-
-        public T GetValueByIndex(int index, bool getParent)
-        {
-            Node<T> node = GetNode(index, getParent);
-
-            return node.Value;
         }
 
         /// <summary>
@@ -165,6 +159,50 @@ namespace ClassLibrary
 
             count--;
             
+        }
+
+        /// <summary>
+        /// Gets element at a zero based index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="getParent"></param>
+        /// <returns></returns>
+        public T GetValueByIndex(int index)
+        {
+            Node<T> node = GetNode(index + 1, false);
+
+            return node.Value;
+        }
+
+        /// <summary>
+        /// Removes element at a zero based index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="minimumValue"></param>
+        public void RemoveAt(int index)
+        {
+            Node<T> current = GetNode(index + 1, false);
+            MoveToTop(current);
+            RemoveTop();
+        }
+
+        /// <summary>
+        /// Moves a specific element through the list to the top
+        /// </summary>
+        /// <param name="current"></param>
+        private void MoveToTop(Node<T> current)
+        {
+            if (current.Parent == null)
+            {
+                return;
+            }
+            else
+            {
+                var tmp = current.Value;
+                current.Value = current.Parent.Value;
+                current.Parent.Value = tmp;
+                MoveToTop(current.Parent);
+            }
         }
 
         /// <summary>
