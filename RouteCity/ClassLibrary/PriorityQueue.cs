@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClassLibrary
 {
@@ -15,21 +16,40 @@ namespace ClassLibrary
         internal Node<T> root = null;
         private int count = 0;
 
-        internal bool Contains(string search)
+        public bool Contains(string search)
         {
-            return Contains(search, root);
+            return Contains(root, search);
         }
 
-        private bool Contains(string search, Node<T> parent)
+        private bool Contains(Node<T> parent, string search)
         {
-            if (parent != null)
-            {
-                if (parent.Value.Equals(search)) return true;
-                Contains(search, parent.LeftChild);
-                Contains(search, parent.RightChild);
-            }
+            if (parent == null)
+                return false;
 
-            return false;
+            if (parent.Value.Equals(search))
+                return true;
+
+            // then recur on left sutree / 
+            bool res1 = Contains(parent.LeftChild, search);
+            if (res1) return true; // node found, no need to look further 
+
+            // node is not found in left, so recur on right subtree / 
+            bool res2 = Contains(parent.RightChild, search);
+
+            return res2;
+        }
+
+        internal void Sort()
+        {
+            List<T> holder = new List<T>();
+            while(root != null)
+            {
+                holder.Add(this.Pop());
+            }
+            foreach(T item in holder)
+            {
+                this.Add(item);
+            }
         }
 
         private Node<T> GetNode(int index, bool getParent)

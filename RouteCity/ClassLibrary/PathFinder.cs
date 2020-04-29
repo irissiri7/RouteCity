@@ -141,6 +141,8 @@ namespace ClassLibrary
 
                 }
             }
+
+            paths.Sort();
         }
 
         private List<string> UsePath(Path visiting, Path gettingVisited)
