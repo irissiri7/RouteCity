@@ -147,9 +147,9 @@ namespace ClassLibrary
                 {
                     int connectToIndex = r.Next(0, queueForCompletion.Count());
 
-                    if (!currentNode.Name.Equals(queueForCompletion.GetValueByIndex(connectToIndex, false).Name))
+                    if (!currentNode.Name.Equals(queueForCompletion.GetValueByIndex(connectToIndex).Name))
                     {
-                        AddConnection(currentNode.Name, queueForCompletion.GetValueByIndex(connectToIndex, false).Name, (double)r.Next(1, 11));
+                        AddConnection(currentNode.Name, queueForCompletion.GetValueByIndex(connectToIndex).Name, (double)r.Next(1, 11));
                     }
 
                 }
