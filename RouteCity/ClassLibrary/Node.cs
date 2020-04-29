@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public class Node : IComparable<Node>
+    public class Node : IComparable<Node>, IEquatable<string>
     {
         //PROPERTIES
         public string Name { get; private set; }
@@ -31,6 +31,13 @@ namespace ClassLibrary
         public int CompareTo(Node obj) 
         { 
             return obj.Connections.Count.CompareTo(this.Connections.Count);
+        }
+
+        public bool Equals(string name)
+        {
+            if (name == Name)
+                return true;
+            return false;
         }
     }
 }

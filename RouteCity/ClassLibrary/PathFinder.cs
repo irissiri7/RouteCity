@@ -59,12 +59,11 @@ namespace ClassLibrary
             bool finished = false;
 
             // A list of all the Nodes
-            var pathQueue = Paths.Values.ToList();
+            var pathQueue = ConstructPriorityQueueOfPaths(); ;
 
             while (!finished)
             {
-                Path nextPath = pathQueue.OrderBy(n => n.QuickestTimeFromStart).FirstOrDefault(
-                    n => !double.IsPositiveInfinity(n.QuickestTimeFromStart));
+                Path nextPath = GetPathWithCurrentLowestQuickestTimeFromStart(pathQueue);
 
                 if (nextPath != null)
                 {
@@ -76,7 +75,6 @@ namespace ClassLibrary
                             finished = true;
                         }
                     }
-                    pathQueue.Remove(nextPath);
                 }
                 else
                 {
@@ -85,28 +83,56 @@ namespace ClassLibrary
             }
         }
 
-        //internal PriorityQueue<Path> ConstructPriorityQueueOfPaths()
-        //{
-        //    PriorityQueue<Path> queue = new PriorityQueue<Path>();
-        //    return queue;
-        //}
+        internal PriorityQueue<Path> ConstructPriorityQueueOfPaths()
+        {
+            PriorityQueue<Path> queue = new PriorityQueue<Path>();
+            foreach(var element in Paths)
+            {
+                queue.Add(element.Value);
+            }
+            return queue;
+        }
 
-        //internal Path GetPathWithCurrentLowestQuickestTimeFromStart()
-        //{
-        //    Path path = new Path("BLÄ");
-        //    return path;
-        //}
+        internal Path GetPathWithCurrentLowestQuickestTimeFromStart(PriorityQueue<Path> queue)
+        {
+            Path path = null;
+            try
+            {
+                path = queue.Pop();
+            }
+            catch (InvalidOperationException)
+            {
+                return path;
+            }
+            
+            if (path.QuickestTimeFromStart == double.PositiveInfinity)
+                path = null;
+            
+            return path;
+        }
+
+        internal List<NodeConnection> GetRelevantConnections(Path path, PriorityQueue<Path> queue)
+        {
+            var allConnections = Network.Nodes[path.Node].Connections.ToList();
+            List<NodeConnection> relevantConnections = new List<NodeConnection>();
+            foreach(var c in allConnections)
+            {
+                if (queue.Contains(c.Key))
+                    relevantConnections.Add(c.Value);
+            }
+            return relevantConnections;
+        }
 
         // Processing the connections to each node
-        internal void ProcessConnections(Path path, List<Path> paths)
+        internal void ProcessConnections(Path path, PriorityQueue<Path> paths)
         {
-            var connections = Network.Nodes[path.Node].Connections.Where(c => paths.Any(p => p.Node == c.Key));
+            var connections = GetRelevantConnections(path, paths);
 
             foreach (var connection in connections)
             {
-                string connectingNode = connection.Key;
+                string connectingNode = connection.TargetNode.Name;
 
-                double distance = path.QuickestTimeFromStart + connection.Value.TimeCost;
+                double distance = path.QuickestTimeFromStart + connection.TimeCost;
 
                 if (distance < Paths[connectingNode].QuickestTimeFromStart)
                 {

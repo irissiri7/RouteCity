@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ClassLibrary
 {
-    class Path : IComparable<Path>
+    class Path : IComparable<Path>, IEquatable<string>
     {
         //PROPERTIES
         internal string Node { get; set; }
@@ -22,8 +22,14 @@ namespace ClassLibrary
 
         public int CompareTo(Path path)
         {
-            return path.QuickestTimeFromStart.CompareTo(this.QuickestTimeFromStart);
+            return this.QuickestTimeFromStart.CompareTo(path.QuickestTimeFromStart);
         }
 
+        public bool Equals(string name)
+        {
+            if (name == Node)
+                return true;
+            return false;
+        }
     }
 }

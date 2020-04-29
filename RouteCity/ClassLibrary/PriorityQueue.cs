@@ -1,7 +1,7 @@
 ﻿using System;
-using PriorityQueue;
 
-namespace Inl2_PriorityQueue
+
+namespace ClassLibrary
 {
     internal class Node<T>
     {
@@ -11,10 +11,27 @@ namespace Inl2_PriorityQueue
         internal Node<T> Parent { get; set; }
     }
 
-    public class PriorityQueue<T> : IPriorityQueue<T> where T : IComparable, IComparable<T>
+    public class PriorityQueue<T> where T : IComparable<T>, IEquatable<string>
     {
-        private Node<T> root = null;
+        internal Node<T> root = null;
         private int count = 0;
+
+        internal bool Contains(string search)
+        {
+            return Contains(search, root);
+        }
+
+        private bool Contains(string search, Node<T> parent)
+        {
+            if (parent != null)
+            {
+                if (parent.Value.Equals(search)) return true;
+                Contains(search, parent.LeftChild);
+                Contains(search, parent.RightChild);
+            }
+
+            return false;
+        }
 
         private Node<T> GetNode(int index, bool getParent)
         {
