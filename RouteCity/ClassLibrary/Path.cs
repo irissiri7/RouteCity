@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ClassLibrary
 {
-    class Path : IComparable<Path>, IEquatable<string>
+    class Path : IComparable<Path>, IEquatable<string>, ICloneable<Path>
     {
         //PROPERTIES
         internal string Node { get; set; }
@@ -30,6 +30,17 @@ namespace ClassLibrary
             if (name == Node)
                 return true;
             return false;
+        }
+
+        public Path Clone()
+        {
+            Path copy = new Path(this.Node);
+            foreach (var element in this.NodesVisited)
+            {
+                copy.NodesVisited.Add(element);
+            }
+
+            return copy;
         }
     }
 }
