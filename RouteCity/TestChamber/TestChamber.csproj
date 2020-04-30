@@ -20,8 +20,4 @@
     <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DummyNetworkImages\" />
-  </ItemGroup>
-
 </Project>
