@@ -35,11 +35,11 @@ namespace ConsoleApp
             stockholm.AddConnection("E", "G", 8);
 
             PathFinder p = new PathFinder(stockholm);
-            //Stopwatch watch = new Stopwatch();
-            //watch.Start();
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             p.FindQuickestPath("J", "D");
-            //watch.Stop();
-            //Console.WriteLine(watch.ElapsedMilliseconds);
+            watch.Stop();
+            Console.WriteLine(watch.ElapsedMilliseconds);
         }
     }
 }
