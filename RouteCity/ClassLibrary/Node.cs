@@ -28,9 +28,9 @@ namespace ClassLibrary
             targetNode.Connections.Add(this.Name, new NodeConnection(this, timeCost));
         }
 
-        public int CompareTo(Node obj) 
+        public int CompareTo(Node node) 
         { 
-            return obj.Connections.Count.CompareTo(this.Connections.Count);
+            return node.Connections.Count.CompareTo(this.Connections.Count);
         }
 
         public bool Equals(string name)

@@ -16,26 +16,26 @@ namespace ClassLibrary
         internal Node<T> root = null;
         private int count = 0;
 
-        public bool Contains(string search)
+        public bool Contains(string name)
         {
-            return Contains(root, search);
+            return Contains(root, name);
         }
 
-        private bool Contains(Node<T> parent, string search)
+        private bool Contains(Node<T> parent, string name)
         {
             if (parent == null)
                 return false;
 
-            if (parent.Value.Equals(search))
+            if (parent.Value.Equals(name))
                 return true;
 
             //Search left sub tree
-            bool foundInLeftSubtree = Contains(parent.LeftChild, search);
+            bool foundInLeftSubtree = Contains(parent.LeftChild, name);
             if (foundInLeftSubtree) 
                 return true;
 
             //Search right sub tree
-            bool foundInRightSubtree = Contains(parent.RightChild, search);
+            bool foundInRightSubtree = Contains(parent.RightChild, name);
 
             return foundInRightSubtree;
         }

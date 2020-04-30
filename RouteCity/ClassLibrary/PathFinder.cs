@@ -44,7 +44,9 @@ namespace ClassLibrary
         // Setting QuickestTimeFromStart to infinite
         internal void InitializePaths(string startNode)
         {
-            Paths.Clear();
+            if(Paths.Count > 0)
+                Paths.Clear();
+            
             foreach (var node in Network.Nodes)
             {
                 Paths.Add(node.Key, new Path(node.Key));
@@ -68,12 +70,9 @@ namespace ClassLibrary
                 if (nextPath != null)
                 {
                     ProcessConnections(nextPath, pathQueue);
-                    if (stopAtEndNode)
+                    if (stopAtEndNode && nextPath.Node == endNode)
                     {
-                        if (nextPath.Node == endNode)
-                        {
-                            finished = true;
-                        }
+                        finished = true;
                     }
                 }
                 else
