@@ -73,6 +73,7 @@ namespace TestChamber
         {
 
             Network network = new Network();
+            
             network.Nodes.Add("A", new Node("A"));
             network.Nodes.Add("B", new Node("B"));
 
@@ -140,9 +141,36 @@ namespace TestChamber
             network.Nodes.Add("E", new Node("E"));
             network.Nodes.Add("F", new Node("F"));
             network.Nodes.Add("G", new Node("G"));
-            //network.Nodes["A"].Connect(network.Nodes["B"], 3);
+            network.Nodes["A"].Connect(network.Nodes["B"], 3);
+
+            Assert.Throws<InvalidOperationException>(() => network.RandomizeConnections());
+        }
+
+        [Test]
+        public void RandomizeConnections_ThereAreBetween2And3Connections()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                Network network = new Network();
+                network.Nodes.Add("A", new Node("A"));
+                network.Nodes.Add("B", new Node("B"));
+                network.Nodes.Add("C", new Node("C"));
+                network.Nodes.Add("D", new Node("D"));
+                network.Nodes.Add("E", new Node("E"));
+                network.Nodes.Add("F", new Node("F"));
+                network.Nodes.Add("G", new Node("G"));
+
+                network.RandomizeConnections();
+
+                foreach (var element in network.Nodes)
+                {
+                    if (element.Value.Connections.Count > 3 || element.Value.Connections.Count < 2)
+                    {
+                        Assert.Fail();
+                    }
+                }
+            }
             
-            Assert.Throws<ArgumentException>(() => network.RandomizeConnections());
         }
 
         //AddConnection()
@@ -162,6 +190,18 @@ namespace TestChamber
             network.Nodes.Add("Second", new Node("Second"));
             //network.AddConnection(network.Nodes["First"], network.Nodes["Second"], 5);
             Assert.IsTrue(network.Nodes["Exists"].Connections.Count == 1);
+        }
+
+        [Test]
+        public void GetValueByIndex_CloneWorks()
+        {
+            PriorityQueue<Node> network = new PriorityQueue<Node>();
+            network.Add(new Node("First"));
+            network.Add(new Node("Second"));
+
+            Node clone = network.Peek().Clone();
+            Node test = network.GetValueByIndex(1);
+            Assert.Pass();
         }
     }
 }

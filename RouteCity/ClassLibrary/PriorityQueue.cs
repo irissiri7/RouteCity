@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace ClassLibrary
 {
+
+    public interface ICloneable<T>
+    {
+        public T Clone();
+    }
+
     internal class Node<T>
     {
         internal T Value { get; set; }
@@ -11,7 +17,7 @@ namespace ClassLibrary
         internal Node<T> Parent { get; set; }
     }
 
-    public class PriorityQueue<T> where T : IComparable<T>, IEquatable<string>
+    public class PriorityQueue<T> where T : IComparable<T>, IEquatable<string>, ICloneable<T>
     {
         internal Node<T> root = null;
         private int count = 0;
@@ -230,9 +236,29 @@ namespace ClassLibrary
         public T GetValueByIndex(int index)
         {
             Node<T> node = GetNode(index + 1, false);
+            T copy = node.Value;
+            return copy;
 
-            return node.Value;
+            // Men du får inte noden, du får dess värde...
+            // Och det är väl den som behöver vara kopierad då
         }
+
+
+        public void UpdateValueByIndex(int index, T value)
+        {
+            Node<T> current = GetNode(index + 1, false);
+            current.Value = value;
+            MoveToTop(current);
+            SortDown(root);
+        }
+
+        //public void UpdatedAt(int index, T Value)
+        //{
+        //    Node<T> current = GetNode(index + 1, false);
+        //    current.Value = Value;
+        //    MoveToTop(current);
+        //    SortDown(root);
+        //}
 
         /// <summary>
         /// Removes element at a zero based index

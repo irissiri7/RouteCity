@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace ClassLibrary
@@ -81,9 +82,7 @@ namespace ClassLibrary
         {
             Random r = new Random();
             List<Node> emptyNodes = new List<Node>(Nodes.Count);
-            List<Node> incompleteNodes = new List<Node>();
-            List<Node> completeNodes = new List<Node>();
-            PriorityQueue<Node> queueForCompletion = new PriorityQueue<Node>();
+            PriorityQueue<Node> incompleteNodes = new PriorityQueue<Node>();
 
             // Only if there are over 2 nodes ***FIX***
             foreach (var element in Nodes)
@@ -103,57 +102,68 @@ namespace ClassLibrary
             incompleteNodes.Add(currentNode);
             emptyNodes.RemoveAt(currentIndex);
 
+            Debug.WriteLine("Creating a closed system...");
             while (emptyNodes.Count > 0)
             {
                 while (currentNode.Connections.Count < 3 && emptyNodes.Count > 0)
                 {
                     int connectToIndex = r.Next(0, emptyNodes.Count);
+                    // Måste kolla att connection inte redan finns. 
+                    // Men om jag tar bort current innan kopplingar och alla andra ska vara tomma... hur kan det hända? 
                     AddConnection(currentNode.Name, emptyNodes[connectToIndex].Name, (double)r.Next(1, 11));
+                    Debug.WriteLine($"{currentNode.Name} connected to {emptyNodes[connectToIndex].Name}"); 
                     incompleteNodes.Add(emptyNodes[connectToIndex]);
                     emptyNodes.RemoveAt(connectToIndex);
 
                 }
 
-                if (currentNode.Connections.Count > 2)
+                // Maybe I can't do this since it's not sorted, it just pops the one with the least value
+                // First current node still surived because of this, it needs to be removed
+                // 
+                for (int i = 0; i < incompleteNodes.Count(); i++)
                 {
-                    incompleteNodes.Remove(currentNode);
-
-                    // Behöver jag detta om noderna redan är addade? kopplingarna uppdateras väl?
-                    completeNodes.Add(currentNode);
-                }
-
-                currentIndex = r.Next(0, incompleteNodes.Count);
-                currentNode = incompleteNodes[currentIndex];
-
-            }
-
-            foreach (var element in incompleteNodes)
-            {
-                queueForCompletion.Add(element);
-            }
-
-            while (queueForCompletion.Count() > 0)
-            {
-                while (queueForCompletion.Peek().Connections.Count < 2 && queueForCompletion.Count() > 0)
-                {
-                    currentNode = queueForCompletion.Pop();
-                }
-
-                // Risk for loop if already full
-                // Remove at... ändra värdet på index till max och sedan sortera neråt. Sedan ta bort. 
-                // Precis som om jag tagit upp processen att ta bort top?... fast vad händer om det är på en sida i trädet där slutet
-                // inte finns? Kanske skicka upp till toppen och sedan sortera ner?
-                while (currentNode.Connections.Count < 3 && queueForCompletion.Count() > 0)
-                {
-                    int connectToIndex = r.Next(0, queueForCompletion.Count());
-
-                    if (!currentNode.Name.Equals(queueForCompletion.GetValueByIndex(connectToIndex).Name))
+                    if (incompleteNodes.GetValueByIndex(i).Connections.Count > 2)
                     {
-                        AddConnection(currentNode.Name, queueForCompletion.GetValueByIndex(connectToIndex).Name, (double)r.Next(1, 11));
+                        incompleteNodes.RemoveAt(i);
                     }
-
                 }
 
+
+                currentIndex = r.Next(0, incompleteNodes.Count());
+                currentNode = incompleteNodes.GetValueByIndex(currentIndex);
+
+            }
+
+            Debug.WriteLine("Completing nodes...");
+            while (incompleteNodes.Count() > 1)
+            {
+                Debug.Write("IncompleteNodes are: ");
+                for (int i = 0; i < incompleteNodes.Count(); i++)
+                {
+                    Debug.Write($"{incompleteNodes.GetValueByIndex(i).Name}, ");
+                }
+                
+                currentNode = incompleteNodes.Pop();
+                Debug.WriteLine($"\nPopped {currentNode.Name}");
+
+                do
+                {
+                    int connectToIndex = r.Next(0, incompleteNodes.Count());
+
+                    if (!currentNode.Connections.ContainsKey(incompleteNodes.GetValueByIndex(connectToIndex).Name))
+                    {
+                        AddConnection(currentNode.Name, incompleteNodes.GetValueByIndex(connectToIndex).Name, (double)r.Next(1, 11));
+                        Debug.WriteLine($"{currentNode.Name} connected to {incompleteNodes.GetValueByIndex(connectToIndex).Name}" +
+                            $"(now has {incompleteNodes.GetValueByIndex(connectToIndex).Connections.Count} connections)");
+                    }
+                    if (incompleteNodes.GetValueByIndex(connectToIndex).Connections.Count > 2)
+                    {
+                        Debug.WriteLine($"Removing {incompleteNodes.GetValueByIndex(connectToIndex).Name}, it has " +
+                            $"{incompleteNodes.GetValueByIndex(connectToIndex).Connections.Count} connections");
+                        incompleteNodes.RemoveAt(connectToIndex);
+                        Debug.WriteLine($"{incompleteNodes.Count()} incomplete elements left");
+                    }
+                } while (currentNode.Connections.Count < 3 && incompleteNodes.Count() > 0);
             }
         }
 
