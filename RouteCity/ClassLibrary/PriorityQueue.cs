@@ -39,6 +39,41 @@ namespace ClassLibrary
             return res2;
         }
 
+        private Node<T> Find(string search)
+        {
+            return Find(root, search);
+        }
+
+        private Node<T> Find(Node<T> parent, string search)
+        {
+            if (parent == null)
+                return null;
+
+            if (parent.Value.Equals(search))
+                return parent;
+
+            // then recur on left sutree / 
+            Node<T> res1 = Find(parent.LeftChild, search);
+            if (res1 != null) return res1; // node found, no need to look further 
+
+            // node is not found in left, so recur on right subtree / 
+            Node<T> res2 = Find(parent.RightChild, search);
+
+            return res2;
+        }
+
+        public void Update(string nodeName)
+        {
+            Node<T> changedNode = Find(nodeName);
+            if(changedNode != null && this.count > 1)
+            {
+                if (changedNode.Value.CompareTo(changedNode.Parent.Value) < 0)
+                    SortUp(changedNode);
+                else if (changedNode.Value.CompareTo(changedNode.Parent.Value) > 0)
+                    SortDown(changedNode);
+            }
+        }
+
         internal void Sort()
         {
             List<T> holder = new List<T>();

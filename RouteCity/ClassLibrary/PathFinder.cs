@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    class PathFinder
+    public class PathFinder
     {
         //PROPERTIES
         private Network Network { get; set; }
@@ -138,11 +138,10 @@ namespace ClassLibrary
                 {
                     Paths[connectingNode].QuickestTimeFromStart = distance;
                     Paths[connectingNode].NodesVisited = UsePath(path, Paths[connectingNode]);
+                    paths.Update(connectingNode);
 
                 }
             }
-
-            paths.Sort();
         }
 
         private List<string> UsePath(Path visiting, Path gettingVisited)
