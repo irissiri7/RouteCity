@@ -29,14 +29,15 @@ namespace ClassLibrary
             if (parent.Value.Equals(search))
                 return true;
 
-            // then recur on left sutree / 
-            bool res1 = Contains(parent.LeftChild, search);
-            if (res1) return true; // node found, no need to look further 
+            //Search left sub tree
+            bool foundInLeftSubtree = Contains(parent.LeftChild, search);
+            if (foundInLeftSubtree) 
+                return true;
 
-            // node is not found in left, so recur on right subtree / 
-            bool res2 = Contains(parent.RightChild, search);
+            //Search right sub tree
+            bool foundInRightSubtree = Contains(parent.RightChild, search);
 
-            return res2;
+            return foundInRightSubtree;
         }
 
         private Node<T> Find(string search)
@@ -52,14 +53,15 @@ namespace ClassLibrary
             if (parent.Value.Equals(search))
                 return parent;
 
-            // then recur on left sutree / 
-            Node<T> res1 = Find(parent.LeftChild, search);
-            if (res1 != null) return res1; // node found, no need to look further 
+            // Look in left sub tree 
+            Node<T> nodeFromLeftSubTree = Find(parent.LeftChild, search);
+            if (nodeFromLeftSubTree != null) 
+                return nodeFromLeftSubTree;
 
-            // node is not found in left, so recur on right subtree / 
-            Node<T> res2 = Find(parent.RightChild, search);
+           // Look in right sub tree
+            Node<T> nodeFromRightSubTree = Find(parent.RightChild, search);
 
-            return res2;
+            return nodeFromRightSubTree;
         }
 
         public void Update(string nodeName)
@@ -71,19 +73,6 @@ namespace ClassLibrary
                     SortUp(changedNode);
                 else if (changedNode.Value.CompareTo(changedNode.Parent.Value) > 0)
                     SortDown(changedNode);
-            }
-        }
-
-        internal void Sort()
-        {
-            List<T> holder = new List<T>();
-            while(root != null)
-            {
-                holder.Add(this.Pop());
-            }
-            foreach(T item in holder)
-            {
-                this.Add(item);
             }
         }
 
