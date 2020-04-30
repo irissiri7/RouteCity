@@ -2,6 +2,12 @@
 
 namespace ClassLibrary
 {
+
+    public interface ICloneable<T>
+    {
+        public T Clone();
+    }
+
     internal class Node<T>
     {
         internal T Value { get; set; }
@@ -10,7 +16,7 @@ namespace ClassLibrary
         internal Node<T> Parent { get; set; }
     }
 
-    public class PriorityQueue<T> where T : IComparable<T>
+    public class PriorityQueue<T> where T : IComparable<T>, ICloneable<T>
     {
         private Node<T> root = null;
         private int count = 0;
@@ -44,13 +50,6 @@ namespace ClassLibrary
             }
 
             return current;
-        }
-
-        public T GetValueByIndex(int index, bool getParent)
-        {
-            Node<T> node = GetNode(index, getParent);
-
-            return node.Value;
         }
 
         /// <summary>
@@ -165,6 +164,70 @@ namespace ClassLibrary
 
             count--;
             
+        }
+
+        /// <summary>
+        /// Gets element at a zero based index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="getParent"></param>
+        /// <returns></returns>
+        public T GetValueByIndex(int index)
+        {
+            Node<T> node = GetNode(index + 1, false);
+            T copy = node.Value;
+            return copy;
+
+            // Men du får inte noden, du får dess värde...
+            // Och det är väl den som behöver vara kopierad då
+        }
+
+
+        public void UpdateValueByIndex(int index, T value)
+        {
+            Node<T> current = GetNode(index + 1, false);
+            current.Value = value;
+            MoveToTop(current);
+            SortDown(root);
+        }
+
+        //public void UpdatedAt(int index, T Value)
+        //{
+        //    Node<T> current = GetNode(index + 1, false);
+        //    current.Value = Value;
+        //    MoveToTop(current);
+        //    SortDown(root);
+        //}
+
+        /// <summary>
+        /// Removes element at a zero based index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="minimumValue"></param>
+        public void RemoveAt(int index)
+        {
+            Node<T> current = GetNode(index + 1, false);
+            MoveToTop(current);
+            RemoveTop();
+        }
+
+        /// <summary>
+        /// Moves a specific element through the list to the top
+        /// </summary>
+        /// <param name="current"></param>
+        private void MoveToTop(Node<T> current)
+        {
+            if (current.Parent == null)
+            {
+                return;
+            }
+            else
+            {
+                var tmp = current.Value;
+                current.Value = current.Parent.Value;
+                current.Parent.Value = tmp;
+                MoveToTop(current.Parent);
+            }
         }
 
         /// <summary>
