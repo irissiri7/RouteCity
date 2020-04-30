@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    class PathFinder
+    public class PathFinder
     {
         //PROPERTIES
         private Network Network { get; set; }
