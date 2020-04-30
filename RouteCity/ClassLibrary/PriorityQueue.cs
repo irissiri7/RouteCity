@@ -67,7 +67,7 @@ namespace ClassLibrary
         public void Update(string nodeName)
         {
             Node<T> changedNode = Find(nodeName);
-            if(changedNode != null && this.count > 1)
+            if(changedNode != null && changedNode != root)
             {
                 if (changedNode.Value.CompareTo(changedNode.Parent.Value) < 0)
                     SortUp(changedNode);
