@@ -191,13 +191,12 @@ namespace ClassLibrary
             SortDown(root);
         }
 
-        //public void UpdatedAt(int index, T Value)
-        //{
-        //    Node<T> current = GetNode(index + 1, false);
-        //    current.Value = Value;
-        //    MoveToTop(current);
-        //    SortDown(root);
-        //}
+        public void SortAt(int index)
+        {
+            Node<T> current = GetNode(index + 1, false);
+            MoveToTop(current);
+            SortDown(root);
+        }
 
         /// <summary>
         /// Removes element at a zero based index

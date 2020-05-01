@@ -30,7 +30,7 @@ namespace ClassLibrary
 
         public int CompareTo(Node obj) 
         { 
-            return obj.Connections.Count.CompareTo(this.Connections.Count);
+            return this.Connections.Count.CompareTo(obj.Connections.Count);
         }
 
         public Node Clone()

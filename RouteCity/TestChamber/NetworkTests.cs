@@ -2,34 +2,59 @@ using NUnit.Framework;
 using ClassLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TestChamber
 {
     public class NetworkTests
     {
         // CreateNetwork()
-        [Test]
-        public void CreateNetwork_RandomConnections_RespectsMinAndMaxConnections()
-        {
-            Network network = new Network();
-            List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
-            network.CreateNetwork(fiveElements);
+        //[Test]
+        //public void CreateNetwork_RandomConnections_RespectsMinAndMaxConnections()
+        //{
+        //    Network network = new Network();
+        //    List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
+        //    network.CreateNetwork(fiveElements);
 
-            foreach (var element in network.Nodes)
+        //    foreach (var element in network.Nodes)
+        //    {
+        //        if (element.Value.Connections.Count < 2 || element.Value.Connections.Count > 3)
+        //        {
+        //            Assert.Fail();
+        //        }
+        //    }
+
+        //    Assert.IsTrue(network.Nodes.Count > 0);
+        //}
+
+        [Test]
+        public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
+        {
+            for (int i = 0; i < 10000; i++)
             {
-                if (element.Value.Connections.Count < 2 || element.Value.Connections.Count > 3)
+                List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                Network network = new Network();
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                network.CreateNetwork(names);
+                stopwatch.Stop();
+                Debug.WriteLine($"Creating the network took {stopwatch.Elapsed.TotalSeconds}");
+                stopwatch.Restart();
+                PathFinder finder = new PathFinder(network);
+                stopwatch.Stop();
+                Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
+
+                string result = finder.FindQuickestPath("G", "D", false);
+
+                foreach (var element in finder.Paths)
                 {
-                    Assert.Fail();
+                    if (double.IsPositiveInfinity(element.Value.QuickestTimeFromStart))
+                    {
+                        Assert.Fail($"{element.Value.Node} was {element.Value.QuickestTimeFromStart}");
+                    }
                 }
             }
 
-            Assert.IsTrue(network.Nodes.Count > 0);
-        }
-
-        [Test]
-        public void CreateNetwork_RandomConnections_AllNodesAreIndirectlyReachableFromEveryNode()
-        {
-            // Implement when djikstras is done
         }
 
         [Test]
@@ -73,7 +98,7 @@ namespace TestChamber
         {
 
             Network network = new Network();
-            
+
             network.Nodes.Add("A", new Node("A"));
             network.Nodes.Add("B", new Node("B"));
 
@@ -86,7 +111,7 @@ namespace TestChamber
             Network network = new Network();
             network.Nodes.Add("A", new Node("A"));
             network.Nodes.Add("B", new Node("B"));
- 
+
             Assert.Throws<ArgumentException>(() => network.AddNode("b"));
         }
 
@@ -131,7 +156,7 @@ namespace TestChamber
 
         //RandomizeConnections()
         [Test]
-        public void RandomizeConnections_ThereAreAlreadyConnectionsEstablished_ReturnsArgumentException()
+        public void RandomizeConnections_ThereAreAlreadyConnectionsEstablished_ReturnsInvalidOperationException()
         {
             Network network = new Network();
             network.Nodes.Add("A", new Node("A"));
@@ -147,9 +172,19 @@ namespace TestChamber
         }
 
         [Test]
-        public void RandomizeConnections_ThereAreBetween2And3Connections()
+        public void RandomizeConnections_LessThanThreeNodes_ReturnsInvalidOperationException()
         {
-            for (int i = 0; i < 100000; i++)
+            Network network = new Network();
+            network.Nodes.Add("A", new Node("A"));
+            network.Nodes.Add("B", new Node("B"));
+
+            Assert.Throws<InvalidOperationException>(() => network.RandomizeConnections());
+        }
+
+        [Test]
+        public void RandomizeConnections_ThereAre7Nodes_ReturnsNodesWith2Or3Connections()
+        {
+            for (int i = 0; i < 5000; i++)
             {
                 Network network = new Network();
                 network.Nodes.Add("A", new Node("A"));
@@ -170,7 +205,37 @@ namespace TestChamber
                     }
                 }
             }
-            
+
+        }
+
+        [Test]
+        public void RandomizeConnections_ThereAre10Nodes_ReturnsNodesWith2Or3Connections()
+        {
+            for (int i = 0; i < 5000; i++)
+            {
+                Network network = new Network();
+                network.Nodes.Add("A", new Node("A"));
+                network.Nodes.Add("B", new Node("B"));
+                network.Nodes.Add("C", new Node("C"));
+                network.Nodes.Add("D", new Node("D"));
+                network.Nodes.Add("E", new Node("E"));
+                network.Nodes.Add("F", new Node("F"));
+                network.Nodes.Add("G", new Node("G"));
+                network.Nodes.Add("H", new Node("H"));
+                network.Nodes.Add("I", new Node("I"));
+                network.Nodes.Add("J", new Node("J"));
+
+                network.RandomizeConnections();
+
+                foreach (var element in network.Nodes)
+                {
+                    if (element.Value.Connections.Count > 3 || element.Value.Connections.Count < 2)
+                    {
+                        Assert.Fail();
+                    }
+                }
+            }
+
         }
 
         //AddConnection()
@@ -188,20 +253,60 @@ namespace TestChamber
             Network network = new Network();
             network.Nodes.Add("First", new Node("First"));
             network.Nodes.Add("Second", new Node("Second"));
-            //network.AddConnection(network.Nodes["First"], network.Nodes["Second"], 5);
-            Assert.IsTrue(network.Nodes["Exists"].Connections.Count == 1);
+            network.Nodes.Add("Third", new Node("Third"));
+            network.AddConnection(network.Nodes["First"].Name, network.Nodes["Second"].Name, 5);
+            Assert.IsTrue(network.Nodes["First"].Connections.Count == 1 && network.Nodes["First"].Connections.Count == 1 &&
+                network.Nodes["Third"].Connections.Count == 0);
         }
 
+        // Comes in what order?
         [Test]
-        public void GetValueByIndex_CloneWorks()
+        public void CompareTo_ReturnsCorrectOrder()
         {
-            PriorityQueue<Node> network = new PriorityQueue<Node>();
-            network.Add(new Node("First"));
-            network.Add(new Node("Second"));
+            Network network = new Network();
+            network.Nodes.Add("A", new Node("A"));
+            network.Nodes.Add("B", new Node("B"));
+            network.Nodes.Add("C", new Node("C"));
+            network.Nodes.Add("D", new Node("D"));
+            network.Nodes.Add("E", new Node("E"));
+            network.Nodes.Add("F", new Node("F"));
+            network.Nodes.Add("G", new Node("G"));
+            network.Nodes.Add("H", new Node("H"));
+            network.Nodes.Add("I", new Node("I"));
+            network.Nodes.Add("J", new Node("J"));
 
-            Node clone = network.Peek().Clone();
-            Node test = network.GetValueByIndex(1);
-            Assert.Pass();
+       
+            network.AddConnection("A", "B", 3);
+            network.AddConnection("A", "C", 3);
+            network.AddConnection("A", "D", 3);
+            network.AddConnection("B", "D", 3);
+            network.AddConnection("C", "D", 3);
+            network.AddConnection("E", "F", 3);
+            network.AddConnection("F", "G", 3);
+
+            PriorityQueue<Node> list = new PriorityQueue<Node>();
+            foreach (var element in network.Nodes)
+            {
+                list.Add(element.Value);
+            }
+
+            int listCount = list.Count();
+            int lowersNumber = -1;
+            for (int j = 0; j < listCount; j++)
+            {
+                int currentValue = list.Pop().Connections.Count;
+                if (currentValue < lowersNumber)
+                {
+                    Assert.Fail($"Failed at iteration {j}. Value was {currentValue} and the lowest was {lowersNumber}");
+                }
+                else
+                {
+                    lowersNumber = currentValue;
+                }
+                
+            }
+
+
         }
     }
 }
