@@ -68,5 +68,19 @@ namespace TestChamber
             Assert.Throws<ArgumentException>(() => sut1.Connect(sut2, -1), "Time cost must be a positive number");
         }
 
+        //[Test]
+        //public void CompareTo_SortsWithTheLeastValueFirst()
+        //{
+        //    Node sut1 = new Node("1");
+        //    Node sut2 = new Node("2");
+        //    Node sut3 = new Node("3");
+        //    Node sut4 = new Node("4");
+
+        //    sut2.Connections.Add("2", new NodeConnection(sut1, 3));
+        //    sut2.Connections.Add("3", new NodeConnection(sut3, 3));
+            
+        //    Assert.AreEqual(-1, sut1.CompareTo(sut2));
+        //}
+
     }
 }
