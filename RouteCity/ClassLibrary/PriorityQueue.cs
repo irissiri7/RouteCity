@@ -4,11 +4,6 @@ using System.Collections.Generic;
 namespace ClassLibrary
 {
 
-    public interface ICloneable<T>
-    {
-        public T Clone();
-    }
-
     internal class Node<T>
     {
         internal T Value { get; set; }
@@ -17,70 +12,10 @@ namespace ClassLibrary
         internal Node<T> Parent { get; set; }
     }
 
-    public class PriorityQueue<T> where T : IComparable<T>, IEquatable<string>, ICloneable<T>
+    public class PriorityQueue<T> where T : IComparable<T>
     {
         internal Node<T> root = null;
         private int count = 0;
-
-        //public bool Contains(string name)
-        //{
-        //    return Contains(root, name);
-        //}
-
-        //private bool Contains(Node<T> parent, string name)
-        //{
-        //    if (parent == null)
-        //        return false;
-
-        //    if (parent.Value.Equals(name))
-        //        return true;
-
-        //    //Search left sub tree
-        //    bool foundInLeftSubtree = Contains(parent.LeftChild, name);
-        //    if (foundInLeftSubtree) 
-        //        return true;
-
-        //    //Search right sub tree
-        //    bool foundInRightSubtree = Contains(parent.RightChild, name);
-
-        //    return foundInRightSubtree;
-        //}
-
-        //private Node<T> Find(string search)
-        //{
-        //    return Find(root, search);
-        //}
-
-        //private Node<T> Find(Node<T> parent, string search)
-        //{
-        //    if (parent == null)
-        //        return null;
-
-        //    if (parent.Value.Equals(search))
-        //        return parent;
-
-        //    // Look in left sub tree 
-        //    Node<T> nodeFromLeftSubTree = Find(parent.LeftChild, search);
-        //    if (nodeFromLeftSubTree != null) 
-        //        return nodeFromLeftSubTree;
-
-        //   // Look in right sub tree
-        //    Node<T> nodeFromRightSubTree = Find(parent.RightChild, search);
-
-        //    return nodeFromRightSubTree;
-        //}
-
-        //public void Update(string nodeName)
-        //{
-        //    Node<T> changedNode = Find(nodeName);
-        //    if(changedNode != null && changedNode != root)
-        //    {
-        //        if (changedNode.Value.CompareTo(changedNode.Parent.Value) < 0)
-        //            SortUp(changedNode);
-        //        else if (changedNode.Value.CompareTo(changedNode.Parent.Value) > 0)
-        //            SortDown(changedNode);
-        //    }
-        //}
 
         private Node<T> GetNode(int index, bool getParent)
         {
@@ -236,29 +171,8 @@ namespace ClassLibrary
         public T GetValueByIndex(int index)
         {
             Node<T> node = GetNode(index + 1, false);
-            T copy = node.Value;
-            return copy;
-
-            // Men du får inte noden, du får dess värde...
-            // Och det är väl den som behöver vara kopierad då
+            return node.Value;
         }
-
-
-        public void UpdateValueByIndex(int index, T value)
-        {
-            Node<T> current = GetNode(index + 1, false);
-            current.Value = value;
-            MoveToTop(current);
-            SortDown(root);
-        }
-
-        //public void UpdatedAt(int index, T Value)
-        //{
-        //    Node<T> current = GetNode(index + 1, false);
-        //    current.Value = Value;
-        //    MoveToTop(current);
-        //    SortDown(root);
-        //}
 
         /// <summary>
         /// Removes element at a zero based index
