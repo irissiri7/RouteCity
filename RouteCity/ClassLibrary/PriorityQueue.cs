@@ -174,6 +174,13 @@ namespace ClassLibrary
             return node.Value;
         }
 
+        public void SortAt(int index)
+        {
+            Node<T> current = GetNode(index + 1, false);
+            MoveToTop(current);
+            SortDown(root);
+        }
+
         /// <summary>
         /// Removes element at a zero based index
         /// </summary>

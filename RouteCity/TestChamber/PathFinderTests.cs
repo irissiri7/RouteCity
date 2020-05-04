@@ -82,7 +82,7 @@ namespace TestChamber
             {
                 Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node.Name));
                 Assert.IsTrue(path.Value.NodesVisited.Count == 1);
-                if(path.Key == startNode)
+                if (path.Key == startNode)
                 {
                     Assert.AreEqual(path.Value.QuickestTimeFromStart, 0);
                 }
@@ -92,7 +92,7 @@ namespace TestChamber
 
                 }
             }
-            
+
 
         }
 
@@ -105,7 +105,7 @@ namespace TestChamber
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 6d;
             List<string> expectedNodesVisited = new List<string> { "A", "C", "F", "E" };
-            
+
             //ACT
             sut.FindQuickestPath("A", "E");
             double actualQuickestPath = sut.Paths["E"].QuickestTimeFromStart;
@@ -113,7 +113,7 @@ namespace TestChamber
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
-            for(int i = 0; i < expectedNodesVisited.Count; i++)
+            for (int i = 0; i < expectedNodesVisited.Count; i++)
             {
                 Assert.AreEqual(expectedNodesVisited[i], actualNodesVisited[i]);
             }
@@ -300,7 +300,7 @@ namespace TestChamber
             PathFinder sut = new PathFinder(dummy);
 
             //ACT/ASSERT
-            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A","A"), "Start node and end node must be different");
+            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A", "A"), "Start node and end node must be different");
 
 
         }
@@ -394,7 +394,7 @@ namespace TestChamber
         public Network CreateDummyNetworkOfThreeNodesWithNoConnections()
         {
             Network mellerud = new Network();
-            
+
             mellerud.AddNode("A");
             mellerud.AddNode("B");
             mellerud.AddNode("C");

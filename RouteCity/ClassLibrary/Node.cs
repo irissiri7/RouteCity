@@ -32,7 +32,8 @@ namespace ClassLibrary
 
         public int CompareTo(Node node) 
         { 
-            return node.Connections.Count.CompareTo(this.Connections.Count);
+            return this.Connections.Count.CompareTo(obj.Connections.Count);
         }
+
     }
 }
