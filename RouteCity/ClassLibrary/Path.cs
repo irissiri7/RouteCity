@@ -12,12 +12,16 @@ namespace ClassLibrary
         internal List<string> NodesVisited { get; set; }
 
         //CONSTRUCTOR
-        public Path(Node node, double shortestTimeFromStart = double.PositiveInfinity)
+        public Path(Node node, double shortestTimeFromStart = double.PositiveInfinity, List<string> nodesVisited = null)
         {
             Node = node;
             QuickestTimeFromStart = shortestTimeFromStart;
             NodesVisited = new List<string>();
             NodesVisited.Add(node.Name);
+            if(nodesVisited != null)
+            {
+                NodesVisited = nodesVisited;
+            }
         }
 
         public int CompareTo(Path path)
