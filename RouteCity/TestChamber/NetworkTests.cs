@@ -192,16 +192,5 @@ namespace TestChamber
             Assert.IsTrue(network.Nodes["Exists"].Connections.Count == 1);
         }
 
-        [Test]
-        public void GetValueByIndex_CloneWorks()
-        {
-            PriorityQueue<Node> network = new PriorityQueue<Node>();
-            network.Add(new Node("First"));
-            network.Add(new Node("Second"));
-
-            Node clone = network.Peek().Clone();
-            Node test = network.GetValueByIndex(1);
-            Assert.Pass();
-        }
     }
 }
