@@ -7,22 +7,22 @@ namespace ClassLibrary
     class Path : IComparable<Path>
     {
         //PROPERTIES
-        internal string Node { get; set; }
+        internal Node Node { get; set; }
         internal double QuickestTimeFromStart { get; set; }
         internal List<string> NodesVisited { get; set; }
 
         //CONSTRUCTOR
-        public Path(string node, double shortestTimeFromStart = double.PositiveInfinity)
+        public Path(Node node, double shortestTimeFromStart = double.PositiveInfinity)
         {
             Node = node;
             QuickestTimeFromStart = shortestTimeFromStart;
             NodesVisited = new List<string>();
-            NodesVisited.Add(node);
+            NodesVisited.Add(node.Name);
         }
 
         public int CompareTo(Path path)
         {
-            return path.QuickestTimeFromStart.CompareTo(this.QuickestTimeFromStart);
+            return this.QuickestTimeFromStart.CompareTo(path.QuickestTimeFromStart);
         }
 
     }

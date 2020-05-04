@@ -8,17 +8,19 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public class Node : IComparable<Node>, ICloneable<Node>
+    public class Node : IComparable<Node>
     {
         //PROPERTIES
         public string Name { get; private set; }
         internal Dictionary<string, NodeConnection> Connections { get; set; }
+        internal bool Visited;
 
         //CONSTRUCTOR
         public Node(string name)
         {
             Name = name;
             Connections = new Dictionary<string, NodeConnection>();
+            Visited = false;
         }
 
         //METHODS
@@ -33,15 +35,5 @@ namespace ClassLibrary
             return this.Connections.Count.CompareTo(obj.Connections.Count);
         }
 
-        public Node Clone()
-        {
-            Node copy = new Node(this.Name);
-            foreach (var element in this.Connections)
-            {
-                copy.Connections.Add(element.Key, element.Value);
-            }
-
-            return copy;
-        }
     }
 }

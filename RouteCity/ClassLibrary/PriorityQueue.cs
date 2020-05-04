@@ -1,12 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClassLibrary
 {
-
-    public interface ICloneable<T>
-    {
-        public T Clone();
-    }
 
     internal class Node<T>
     {
@@ -16,9 +12,9 @@ namespace ClassLibrary
         internal Node<T> Parent { get; set; }
     }
 
-    public class PriorityQueue<T> where T : IComparable<T>, ICloneable<T>
+    public class PriorityQueue<T> where T : IComparable<T>
     {
-        private Node<T> root = null;
+        internal Node<T> root = null;
         private int count = 0;
 
         private Node<T> GetNode(int index, bool getParent)
@@ -175,20 +171,7 @@ namespace ClassLibrary
         public T GetValueByIndex(int index)
         {
             Node<T> node = GetNode(index + 1, false);
-            T copy = node.Value;
-            return copy;
-
-            // Men du får inte noden, du får dess värde...
-            // Och det är väl den som behöver vara kopierad då
-        }
-
-
-        public void UpdateValueByIndex(int index, T value)
-        {
-            Node<T> current = GetNode(index + 1, false);
-            current.Value = value;
-            MoveToTop(current);
-            SortDown(root);
+            return node.Value;
         }
 
         public void SortAt(int index)
