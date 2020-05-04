@@ -34,6 +34,5 @@ namespace ClassLibrary
         { 
             return this.Connections.Count.CompareTo(obj.Connections.Count);
         }
-
     }
 }
