@@ -22,65 +22,65 @@ namespace ClassLibrary
         internal Node<T> root = null;
         private int count = 0;
 
-        public bool Contains(string name)
-        {
-            return Contains(root, name);
-        }
+        //public bool Contains(string name)
+        //{
+        //    return Contains(root, name);
+        //}
 
-        private bool Contains(Node<T> parent, string name)
-        {
-            if (parent == null)
-                return false;
+        //private bool Contains(Node<T> parent, string name)
+        //{
+        //    if (parent == null)
+        //        return false;
 
-            if (parent.Value.Equals(name))
-                return true;
+        //    if (parent.Value.Equals(name))
+        //        return true;
 
-            //Search left sub tree
-            bool foundInLeftSubtree = Contains(parent.LeftChild, name);
-            if (foundInLeftSubtree) 
-                return true;
+        //    //Search left sub tree
+        //    bool foundInLeftSubtree = Contains(parent.LeftChild, name);
+        //    if (foundInLeftSubtree) 
+        //        return true;
 
-            //Search right sub tree
-            bool foundInRightSubtree = Contains(parent.RightChild, name);
+        //    //Search right sub tree
+        //    bool foundInRightSubtree = Contains(parent.RightChild, name);
 
-            return foundInRightSubtree;
-        }
+        //    return foundInRightSubtree;
+        //}
 
-        private Node<T> Find(string search)
-        {
-            return Find(root, search);
-        }
+        //private Node<T> Find(string search)
+        //{
+        //    return Find(root, search);
+        //}
 
-        private Node<T> Find(Node<T> parent, string search)
-        {
-            if (parent == null)
-                return null;
+        //private Node<T> Find(Node<T> parent, string search)
+        //{
+        //    if (parent == null)
+        //        return null;
 
-            if (parent.Value.Equals(search))
-                return parent;
+        //    if (parent.Value.Equals(search))
+        //        return parent;
 
-            // Look in left sub tree 
-            Node<T> nodeFromLeftSubTree = Find(parent.LeftChild, search);
-            if (nodeFromLeftSubTree != null) 
-                return nodeFromLeftSubTree;
+        //    // Look in left sub tree 
+        //    Node<T> nodeFromLeftSubTree = Find(parent.LeftChild, search);
+        //    if (nodeFromLeftSubTree != null) 
+        //        return nodeFromLeftSubTree;
 
-           // Look in right sub tree
-            Node<T> nodeFromRightSubTree = Find(parent.RightChild, search);
+        //   // Look in right sub tree
+        //    Node<T> nodeFromRightSubTree = Find(parent.RightChild, search);
 
-            return nodeFromRightSubTree;
-        }
+        //    return nodeFromRightSubTree;
+        //}
 
-        public void Update(string nodeName)
-        {
-            Node<T> changedNode = Find(nodeName);
-            if(changedNode != null && changedNode != root)
-            {
-                if (changedNode.Value.CompareTo(changedNode.Parent.Value) < 0)
-                    SortUp(changedNode);
-                else if (changedNode.Value.CompareTo(changedNode.Parent.Value) > 0)
-                    SortDown(changedNode);
-            }
-        }
+        //public void Update(string nodeName)
+        //{
+        //    Node<T> changedNode = Find(nodeName);
+        //    if(changedNode != null && changedNode != root)
+        //    {
+        //        if (changedNode.Value.CompareTo(changedNode.Parent.Value) < 0)
+        //            SortUp(changedNode);
+        //        else if (changedNode.Value.CompareTo(changedNode.Parent.Value) > 0)
+        //            SortDown(changedNode);
+        //    }
+        //}
 
         private Node<T> GetNode(int index, bool getParent)
         {

@@ -116,8 +116,7 @@ namespace ClassLibrary
             List<NodeConnection> relevantConnections = new List<NodeConnection>();
             foreach(var c in allConnections)
             {
-                if (queue.Contains(c.Key))
-                    relevantConnections.Add(c.Value);
+                relevantConnections.Add(c.Value);
             }
             return relevantConnections;
         }
@@ -137,7 +136,8 @@ namespace ClassLibrary
                 {
                     Paths[connectingNode].QuickestTimeFromStart = distance;
                     Paths[connectingNode].NodesVisited = UsePath(path, Paths[connectingNode]);
-                    paths.Update(connectingNode);
+                    paths.Add(Paths[connectingNode]);
+                    //paths.Update(connectingNode);
 
                 }
             }
