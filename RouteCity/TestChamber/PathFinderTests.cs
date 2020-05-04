@@ -80,7 +80,7 @@ namespace TestChamber
             //Assert
             foreach (KeyValuePair<string, Path> path in sut.Paths)
             {
-                Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node));
+                Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node.Name));
                 Assert.IsTrue(path.Value.NodesVisited.Count == 1);
                 if (path.Key == startNode)
                 {
@@ -98,7 +98,7 @@ namespace TestChamber
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
-        public void FindQuickestPath_HappyDaysExOne_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioOne_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -120,7 +120,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExTwo_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioTwo_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -142,7 +142,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExThree_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioThree_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -164,7 +164,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExFour_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioFour_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
@@ -186,7 +186,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExFive_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioFive_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
@@ -214,7 +214,7 @@ namespace TestChamber
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 10d;
-            List<string> expectedNodesVisited = new List<string> { "A", "B" };
+            List<string> expectedNodesVisited = new List<string> { "A", "B"};
 
             //ACT
             sut.FindQuickestPath("A", "B");
@@ -235,7 +235,7 @@ namespace TestChamber
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
             PathFinder sut = new PathFinder(dummy);
-
+            
 
             //ACT
             sut.FindQuickestPath("J", "D");
@@ -266,7 +266,7 @@ namespace TestChamber
             sut.FindQuickestPath("A", "E", false);
 
             //ASSERT
-            foreach (var path in sut.Paths.Values)
+            foreach(var path in sut.Paths.Values)
             {
                 Assert.IsTrue(path.QuickestTimeFromStart != double.PositiveInfinity);
             }
@@ -350,22 +350,22 @@ namespace TestChamber
         }
 
         ///INTEGRATION///////////////////////////////////////////////////////////////////////////////////
-
+        
         [Test]
         public void FindQuickestPath_ChangingConnectionValuesExOne_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
-
+            
             //Original quickest path
             sut.FindQuickestPath("A", "J");
             Assert.AreEqual(18d, sut.Paths["J"].QuickestTimeFromStart);
-
+            
             //ACT, Changing quickest path by adding direct connection
             dummy.AddConnection("A", "J", 1);
             sut.FindQuickestPath("A", "J");
-
+            
             //ASSERT that new quickest path has changed
             Assert.AreEqual(1d, sut.Paths["J"].QuickestTimeFromStart);
         }
