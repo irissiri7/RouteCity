@@ -80,7 +80,7 @@ namespace TestChamber
             //Assert
             foreach (KeyValuePair<string, Path> path in sut.Paths)
             {
-                Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node));
+                Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node.Name));
                 Assert.IsTrue(path.Value.NodesVisited.Count == 1);
                 if(path.Key == startNode)
                 {

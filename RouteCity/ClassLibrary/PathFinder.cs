@@ -47,9 +47,14 @@ namespace ClassLibrary
             if(Paths.Count > 0)
                 Paths.Clear();
             
+            foreach(var n in Network.Nodes)
+            {
+                n.Value.Visited = false;
+            }
+            
             foreach (var node in Network.Nodes)
             {
-                Paths.Add(node.Key, new Path(node.Key));
+                Paths.Add(node.Key, new Path(node.Value));
             }
 
             Paths[startNode].QuickestTimeFromStart = 0;
@@ -61,7 +66,7 @@ namespace ClassLibrary
             bool finished = false;
 
             // A list of all the Nodes
-            var pathQueue = ConstructPriorityQueueOfPaths(); ;
+            var pathQueue = ConstructPriorityQueueOfPaths();
 
             while (!finished)
             {
@@ -70,7 +75,7 @@ namespace ClassLibrary
                 if (nextPath != null)
                 {
                     ProcessConnections(nextPath, pathQueue);
-                    if (stopAtEndNode && nextPath.Node == endNode)
+                    if (stopAtEndNode && nextPath.Node.Name == endNode)
                     {
                         finished = true;
                     }
@@ -94,29 +99,43 @@ namespace ClassLibrary
 
         internal Path GetPathWithCurrentLowestQuickestTimeFromStart(PriorityQueue<Path> queue)
         {
+            bool finished = false;
             Path path = null;
-            try
+            do
             {
-                path = queue.Pop();
-            }
-            catch (InvalidOperationException)
-            {
-                return path;
-            }
+                try
+                {
+                    path = queue.Pop();
+                }
+                catch (InvalidOperationException)
+                {
+                    return path;
+                }
             
-            if (path.QuickestTimeFromStart == double.PositiveInfinity)
-                path = null;
+                if (path.QuickestTimeFromStart == double.PositiveInfinity)
+                {
+                    path = null;
+                    finished = true;
+                }
+                else if (!path.Node.Visited)
+                {
+                    path.Node.Visited = true;
+                    finished = true;
+                }
+
+            } while (!finished);
             
             return path;
         }
 
         internal List<NodeConnection> GetRelevantConnections(Path path, PriorityQueue<Path> queue)
         {
-            var allConnections = Network.Nodes[path.Node].Connections.ToList();
+            var allConnections = Network.Nodes[path.Node.Name].Connections.ToList();
             List<NodeConnection> relevantConnections = new List<NodeConnection>();
             foreach(var c in allConnections)
             {
-                relevantConnections.Add(c.Value);
+                if(!c.Value.TargetNode.Visited)
+                    relevantConnections.Add(c.Value);
             }
             return relevantConnections;
         }
@@ -151,7 +170,7 @@ namespace ClassLibrary
                 newPath.Add(node);
             }
 
-            newPath.Add(gettingVisited.Node);
+            newPath.Add(gettingVisited.Node.Name);
 
             return newPath;
         }

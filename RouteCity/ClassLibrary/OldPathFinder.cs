@@ -47,7 +47,7 @@ namespace ClassLibrary
             Paths.Clear();
             foreach (var node in Network.Nodes)
             {
-                Paths.Add(node.Key, new Path(node.Key));
+                Paths.Add(node.Key, new Path(node.Value));
             }
 
             Paths[startNode].QuickestTimeFromStart = 0;
@@ -71,7 +71,7 @@ namespace ClassLibrary
                     ProcessConnections(nextPath, pathQueue);
                     if (stopAtEndNode)
                     {
-                        if (nextPath.Node == endNode)
+                        if (nextPath.Node.Name == endNode)
                         {
                             finished = true;
                         }
@@ -89,7 +89,7 @@ namespace ClassLibrary
         // Processing the connections to each node
         internal void ProcessConnections(Path path, List<Path> paths)
         {
-            var connections = Network.Nodes[path.Node].Connections.Where(c => paths.Any(p => p.Node == c.Key));
+            var connections = Network.Nodes[path.Node.Name].Connections.Where(c => paths.Any(p => p.Node.Name == c.Key));
 
             foreach (var connection in connections)
             {
@@ -114,7 +114,7 @@ namespace ClassLibrary
                 newPath.Add(node);
             }
 
-            newPath.Add(gettingVisited.Node);
+            newPath.Add(gettingVisited.Node.Name);
 
             return newPath;
         }

@@ -9,7 +9,7 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             Network stockholm = new Network();
-            for(int i = 0; i < 100; i++)
+            for(int i = 0; i < 400; i++)
             {
                 stockholm.AddNode(i.ToString());
             }
@@ -21,7 +21,7 @@ namespace ConsoleApp
             
             //Första testet med vår PriorityQueue
             watch.Start();
-            p.FindQuickestPath("1", "40");
+            p.FindQuickestPath("1", "100");
             watch.Stop();
             Console.WriteLine("With PQ " + watch.ElapsedMilliseconds);
             
@@ -29,7 +29,7 @@ namespace ConsoleApp
             
             //Andra testet utan vår PriorityQueue
             watch.Start();
-            op.FindQuickestPath("1", "40");
+            op.FindQuickestPath("1", "100");
             watch.Stop();
             Console.WriteLine("Without PQ " + watch.ElapsedMilliseconds);
 

@@ -13,12 +13,14 @@ namespace ClassLibrary
         //PROPERTIES
         public string Name { get; private set; }
         internal Dictionary<string, NodeConnection> Connections { get; set; }
+        internal bool Visited;
 
         //CONSTRUCTOR
         public Node(string name)
         {
             Name = name;
             Connections = new Dictionary<string, NodeConnection>();
+            Visited = false;
         }
 
         //METHODS
