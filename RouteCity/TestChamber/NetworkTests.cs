@@ -34,15 +34,15 @@ namespace TestChamber
             {
                 List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
                 Network network = new Network();
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
+                //Stopwatch stopwatch = new Stopwatch();
+                //stopwatch.Start();
                 network.CreateNetwork(names);
-                stopwatch.Stop();
-                Debug.WriteLine($"Creating the network took {stopwatch.Elapsed.TotalSeconds}");
-                stopwatch.Restart();
+                //stopwatch.Stop();
+                //Debug.WriteLine($"Creating the network took {stopwatch.Elapsed.TotalSeconds}");
+                //stopwatch.Restart();
                 PathFinder finder = new PathFinder(network);
-                stopwatch.Stop();
-                Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
+                //stopwatch.Stop();
+                //Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
 
                 string result = finder.FindQuickestPath("G", "D", false);
 
