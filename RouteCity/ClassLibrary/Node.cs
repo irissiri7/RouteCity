@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ClassLibrary
 {
-    public class Node : IComparable<Node>, IEquatable<string>, ICloneable<Node>
+    public class Node : IComparable<Node>
     {
         //PROPERTIES
         public string Name { get; private set; }
@@ -33,24 +33,6 @@ namespace ClassLibrary
         public int CompareTo(Node node) 
         { 
             return node.Connections.Count.CompareTo(this.Connections.Count);
-        }
-
-        public bool Equals(string name)
-        {
-            if (name == Name)
-                return true;
-            return false;
-        }
-
-        public Node Clone()
-        {
-            Node copy = new Node(this.Name);
-            foreach (var element in this.Connections)
-            {
-                copy.Connections.Add(element.Key, element.Value);
-            }
-
-            return copy;
         }
     }
 }

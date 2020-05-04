@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ClassLibrary
 {
-    class Path : IComparable<Path>, IEquatable<string>, ICloneable<Path>
+    class Path : IComparable<Path>
     {
         //PROPERTIES
         internal Node Node { get; set; }
@@ -25,22 +25,5 @@ namespace ClassLibrary
             return this.QuickestTimeFromStart.CompareTo(path.QuickestTimeFromStart);
         }
 
-        public bool Equals(string name)
-        {
-            if (name == Node.Name)
-                return true;
-            return false;
-        }
-
-        public Path Clone()
-        {
-            Path copy = new Path(this.Node);
-            foreach (var element in this.NodesVisited)
-            {
-                copy.NodesVisited.Add(element);
-            }
-
-            return copy;
-        }
     }
 }
