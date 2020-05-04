@@ -98,7 +98,7 @@ namespace TestChamber
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         [Test]
-        public void FindQuickestPath_HappyDaysExOne_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioOne_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -120,7 +120,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExTwo_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioTwo_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -142,7 +142,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExThree_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioThree_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -164,7 +164,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExFour_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioFour_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
@@ -186,7 +186,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_HappyDaysExFive_GivesRightResult()
+        public void FindQuickestPath_HappyDaysScenarioFive_GivesRightResult()
         {
             //ARRANGE
             Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
