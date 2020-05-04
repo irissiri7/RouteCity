@@ -30,7 +30,7 @@ namespace ClassLibrary
             targetNode.Connections.Add(this.Name, new NodeConnection(this, timeCost));
         }
 
-        public int CompareTo(Node node) 
+        public int CompareTo(Node obj) 
         { 
             return this.Connections.Count.CompareTo(obj.Connections.Count);
         }
