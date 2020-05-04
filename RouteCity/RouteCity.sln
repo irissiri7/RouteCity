@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestChamber", "TestChamber\TestChamber.csproj", "{1F91A061-3C0E-4FEE-B382-BC5E87060594}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsVersion", "FormsVersion\FormsVersion.csproj", "{94ECF610-0249-4A35-BE32-0AA6F589F2B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1F91A061-3C0E-4FEE-B382-BC5E87060594}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F91A061-3C0E-4FEE-B382-BC5E87060594}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F91A061-3C0E-4FEE-B382-BC5E87060594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94ECF610-0249-4A35-BE32-0AA6F589F2B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94ECF610-0249-4A35-BE32-0AA6F589F2B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94ECF610-0249-4A35-BE32-0AA6F589F2B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94ECF610-0249-4A35-BE32-0AA6F589F2B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
