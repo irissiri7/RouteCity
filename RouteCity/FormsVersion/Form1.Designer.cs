@@ -40,6 +40,12 @@
             this.nodeJ = new System.Windows.Forms.PictureBox();
             this.nodeB = new System.Windows.Forms.PictureBox();
             this.gbxControl = new System.Windows.Forms.GroupBox();
+            this.btnRandomize = new System.Windows.Forms.Button();
+            this.tbxName = new System.Windows.Forms.TextBox();
+            this.lblName = new System.Windows.Forms.Label();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nodeA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeD)).BeginInit();
@@ -50,6 +56,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nodeI)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeJ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeB)).BeginInit();
+            this.gbxControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // nodeA
@@ -156,6 +163,12 @@
             // gbxControl
             // 
             this.gbxControl.BackColor = System.Drawing.Color.Black;
+            this.gbxControl.Controls.Add(this.btnClear);
+            this.gbxControl.Controls.Add(this.btnAdd);
+            this.gbxControl.Controls.Add(this.lblTotal);
+            this.gbxControl.Controls.Add(this.lblName);
+            this.gbxControl.Controls.Add(this.tbxName);
+            this.gbxControl.Controls.Add(this.btnRandomize);
             this.gbxControl.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbxControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbxControl.ForeColor = System.Drawing.Color.White;
@@ -165,6 +178,67 @@
             this.gbxControl.TabIndex = 10;
             this.gbxControl.TabStop = false;
             this.gbxControl.Text = "Controls";
+            // 
+            // btnRandomize
+            // 
+            this.btnRandomize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnRandomize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRandomize.Location = new System.Drawing.Point(789, 24);
+            this.btnRandomize.Name = "btnRandomize";
+            this.btnRandomize.Size = new System.Drawing.Size(138, 80);
+            this.btnRandomize.TabIndex = 0;
+            this.btnRandomize.Text = "Randomize Network";
+            this.btnRandomize.UseVisualStyleBackColor = false;
+            this.btnRandomize.Click += new System.EventHandler(this.btnRandomize_Click);
+            // 
+            // tbxName
+            // 
+            this.tbxName.Location = new System.Drawing.Point(12, 43);
+            this.tbxName.Name = "tbxName";
+            this.tbxName.Size = new System.Drawing.Size(227, 22);
+            this.tbxName.TabIndex = 11;
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(13, 24);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(45, 16);
+            this.lblName.TabIndex = 12;
+            this.lblName.Text = "Name";
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Location = new System.Drawing.Point(193, 24);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(43, 16);
+            this.lblTotal.TabIndex = 13;
+            this.lblTotal.Text = "0 total";
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdd.Location = new System.Drawing.Point(12, 71);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(227, 33);
+            this.btnAdd.TabIndex = 14;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClear.Location = new System.Drawing.Point(251, 24);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(138, 80);
+            this.btnClear.TabIndex = 15;
+            this.btnClear.Text = "Clear Names";
+            this.btnClear.UseVisualStyleBackColor = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // Form1
             // 
@@ -197,6 +271,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nodeI)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeJ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeB)).EndInit();
+            this.gbxControl.ResumeLayout(false);
+            this.gbxControl.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -214,6 +290,12 @@
         private System.Windows.Forms.PictureBox nodeJ;
         private System.Windows.Forms.PictureBox nodeB;
         private System.Windows.Forms.GroupBox gbxControl;
+        private System.Windows.Forms.Button btnRandomize;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.TextBox tbxName;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 

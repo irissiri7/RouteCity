@@ -30,7 +30,7 @@ namespace TestChamber
         [Test]
         public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
         {
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
                 Network network = new Network();
@@ -41,16 +41,17 @@ namespace TestChamber
                 Debug.WriteLine($"Creating the network took {stopwatch.Elapsed.TotalSeconds}");
                 stopwatch.Restart();
                 PathFinder finder = new PathFinder(network);
-                stopwatch.Stop();
-                Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
+                
 
                 string result = finder.FindQuickestPath("G", "D", false);
+                stopwatch.Stop();
+                Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
 
                 foreach (var element in finder.Paths)
                 {
                     if (double.IsPositiveInfinity(element.Value.QuickestTimeFromStart))
                     {
-                        Assert.Fail($"{element.Value.Node} was {element.Value.QuickestTimeFromStart}");
+                        Assert.Fail($"{element.Value.Node.Name} was {element.Value.QuickestTimeFromStart}");
                     }
                 }
             }

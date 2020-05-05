@@ -5,15 +5,31 @@ using System.Text.RegularExpressions;
 
 namespace ClassLibrary
 {
+    public struct Connection
+    {
+        internal string FromNode { get; set; }
+        internal string ToNode { get; set; }
+        internal double TimeCost { get; set; }
+
+        public Connection(string fromNode, string toNode, double timeCost)
+        {
+            FromNode = fromNode;
+            ToNode = toNode;
+            TimeCost = timeCost;
+        }
+    }
+
     public class Network
     {
         //PROPERTIES
         internal Dictionary<string, Node> Nodes { get; set; }
+        internal Dictionary<string, List<Connection>> connectionPath {get; set;}
 
         //CONSTRUCTOR
         public Network()
         {
             Nodes = new Dictionary<string, Node>(StringComparer.InvariantCultureIgnoreCase);
+            connectionPath = new Dictionary<string, List<Connection>>();
         }
 
         //METHODS
@@ -129,8 +145,12 @@ namespace ClassLibrary
                 while (currentNode.Connections.Count < 3 && emptyNodes.Count > 0)
                 {
                     int connectToIndex = r.Next(0, emptyNodes.Count);
-                    AddConnection(currentNode.Name, emptyNodes[connectToIndex].Name, (double)r.Next(1, 11));
-                    Debug.WriteLine($"{currentNode.Name} connected to {emptyNodes[connectToIndex].Name} (Now has {emptyNodes[connectToIndex].Connections.Count} connections)");
+                    double timeCost = r.Next(1, 11);
+                    string fromNode = currentNode.Name;
+                    string toNode = emptyNodes[connectToIndex].Name;
+                    AddConnection(fromNode, toNode, timeCost);
+                    AddConnectionPath(fromNode, toNode, timeCost);
+                    Debug.WriteLine($"{currentNode.Name} connected to {emptyNodes[connectToIndex].Name} with a cost of {timeCost} (Now has {emptyNodes[connectToIndex].Connections.Count} connections)");
                     
                     // We only need to use SortAt() when we've picked a random node from incompleteNodes
                     // Sorting needs to be done explicitly since we are updating the Node outside of the PriorityQueue. 
@@ -182,8 +202,13 @@ namespace ClassLibrary
                     // Add connection if it doesn't already exist. 
                     if (!currentNode.Connections.ContainsKey(incompleteNodes.GetValueByIndex(connectToIndex).Name))
                     {
-                        AddConnection(currentNode.Name, incompleteNodes.GetValueByIndex(connectToIndex).Name, (double)r.Next(1, 11));
+                        double timeCost = r.Next(1, 11);
+                        string fromNode = currentNode.Name;
+                        string toNode = incompleteNodes.GetValueByIndex(connectToIndex).Name;
+                        AddConnection(fromNode, toNode, timeCost);
+                        AddConnectionPath(fromNode, toNode, timeCost);
                         Debug.WriteLine($"{currentNode.Name} connected to {incompleteNodes.GetValueByIndex(connectToIndex).Name}" +
+                            $" with a cost of {timeCost}" +
                             $"(now has {incompleteNodes.GetValueByIndex(connectToIndex).Connections.Count} connections)");
                     }
 
@@ -212,9 +237,16 @@ namespace ClassLibrary
             }
         }
 
-        public void DisplayNetwork()
+        public void AddConnectionPath(string fromNode, string toNode, double timeCost)
         {
-
+            if (connectionPath.ContainsKey(fromNode))
+            {
+                connectionPath[fromNode].Add(new Connection(fromNode, toNode, timeCost));
+            }
+            else
+            {
+                connectionPath.Add(fromNode, new List<Connection> {new Connection(fromNode, toNode, timeCost) });
+            }
         }
 
         // Could the get property do this already? And Node is just a private variable, not a property?
