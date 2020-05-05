@@ -47,7 +47,9 @@ namespace ClassLibrary
         {
             if (NeedsReset)
                 ResetResult();
-                    
+
+            //We always need to construct a new Result dictionary 
+            //in the case that nodes have been added to the network since last        
             foreach (var node in Network.Nodes)
             {
                 Result.Add(node.Key, new Path(node.Value));
