@@ -99,9 +99,9 @@ namespace ClassLibrary
         {
             PriorityQueue<Path> queue = new PriorityQueue<Path>();
             
-            //Making a copy of the starting Path and adding to queue for further processing,
+            // Making a copy of the starting Path and adding to queue for further processing,
             // reference to the actual Node will be the same so that we can keep track of 
-            //which nodes we have visited
+            // which nodes we have visited
             Node start = Result[startNode].Node;
             double timeFromStart = Result[startNode].QuickestTimeFromStart;
             queue.Add(new Path(start, timeFromStart));
@@ -152,6 +152,7 @@ namespace ClassLibrary
         // Processing the connections to each node
         internal void ProcessConnections(Path path, PriorityQueue<Path> paths)
         {
+            // Relevant connections are the connections we have not already explored.
             var connections = GetRelevantConnections(path);
 
             foreach (var connection in connections)
