@@ -128,5 +128,35 @@
       <Name>ClassLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeI.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeJ.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
