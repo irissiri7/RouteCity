@@ -16,17 +16,28 @@ namespace FormsVersion
         public Dictionary<string, Position> positions = new Dictionary<string, Position>();
         public Network network = new Network();
         public List<string> nodeNames = new List<string>();
+        public List<Position> listOfPositions = new List<Position>();
 
         public Form1()
         {
             InitializeComponent();
-            
-            for (int i = 0; i < 10; i++)
-            {
-                nodeNames.Add(i.ToString());
-            }
-            Conn();
-            network.CreateNetwork(nodeNames);
+
+            listOfPositions.Add(new Position(nodeA));
+            listOfPositions.Add(new Position(nodeB));
+            listOfPositions.Add(new Position(nodeC));
+            listOfPositions.Add(new Position(nodeD));
+            listOfPositions.Add(new Position(nodeE));
+            listOfPositions.Add(new Position(nodeF));
+            listOfPositions.Add(new Position(nodeG));
+            listOfPositions.Add(new Position(nodeH));
+            listOfPositions.Add(new Position(nodeI));
+            listOfPositions.Add(new Position(nodeJ));
+
+            label1.BackColor = Color.Transparent;
+            label1.ForeColor = Color.White;
+            label1.Text = "Testing";
+            AutoCreateNetwork();
+
 
         }
 
@@ -84,7 +95,9 @@ namespace FormsVersion
         {
             Pen pen = new Pen(Color.White);
             pen.Width = 2;
-            g.DrawLine(pen, nodeOne.Location.X, nodeOne.Location.Y, nodeTwo.Location.X, nodeTwo.Location.Y);
+            Point nodeOneLocation = nodeOne.Location;
+            Point nodeTwoLocation = nodeTwo.Location;
+            g.DrawLine(pen, nodeOneLocation.X, nodeOneLocation.Y, nodeTwoLocation.X, nodeTwoLocation.Y);
         }
 
         private void DisplayNetwork(Graphics g)
@@ -128,6 +141,12 @@ namespace FormsVersion
             {
                 network.CreateNetwork(nodeNames);
 
+                for (int i = 0; i < nodeNames.Count; i++)
+                {
+                    positions.Add(nodeNames[i], listOfPositions[i]);
+                }
+                this.Refresh();
+
             }
             else
             {
@@ -153,27 +172,33 @@ namespace FormsVersion
         {
             nodeNames.Clear();
             lblTotal.Text = $"Total {nodeNames.Count}";
+            btnAdd.Enabled = true;
         }
 
-        private void Conn()
+        private void AutoCreateNetwork()
         {
-            List<Position> listOfPositions = new List<Position>();
-            listOfPositions.Add(new Position(nodeA));
-            listOfPositions.Add(new Position(nodeB));
-            listOfPositions.Add(new Position(nodeC));
-            listOfPositions.Add(new Position(nodeD));
-            listOfPositions.Add(new Position(nodeE));
-            listOfPositions.Add(new Position(nodeF));
-            listOfPositions.Add(new Position(nodeG));
-            listOfPositions.Add(new Position(nodeH));
-            listOfPositions.Add(new Position(nodeI));
-            listOfPositions.Add(new Position(nodeJ));
+            nodeNames.Add("Göteborg");
+            nodeNames.Add("Kungsbacka");
+            nodeNames.Add("Helsingborg");
+            nodeNames.Add("Växjö");
+            nodeNames.Add("Halmstad");
+            nodeNames.Add("Mora");
+            nodeNames.Add("Umeå");
+            nodeNames.Add("Stockholm");
+            nodeNames.Add("Lund");
+            nodeNames.Add("Malmö");
 
+            // Duplicarad kod
+            network.CreateNetwork(nodeNames);
 
             for (int i = 0; i < nodeNames.Count; i++)
             {
                 positions.Add(nodeNames[i], listOfPositions[i]);
             }
+
+            this.Refresh();
+            //nodeNames.Clear();
+            //positions.Clear();
         }
     }
 
