@@ -72,7 +72,8 @@ namespace ClassLibrary
         {
             bool finished = false;
 
-            // A queue of all potential Paths
+            // A queue of all potential Paths, we will always proces the most promising paths
+            //first, aka with shortest time from start
             PriorityQueue<Path> potentialPaths = ConstructPriorityQueueOfPotentialPaths(startNode);
 
             while (!finished)
