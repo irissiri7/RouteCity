@@ -33,62 +33,22 @@ namespace FormsVersion
             listOfPositions.Add(new Position(nodeI));
             listOfPositions.Add(new Position(nodeJ));
 
-            label1.BackColor = Color.Transparent;
-            label1.ForeColor = Color.White;
-            label1.Text = "Testing";
-            AutoCreateNetwork();
-
-
+            nodeNames.Add("A");
+            nodeNames.Add("B");
+            nodeNames.Add("C");
+            nodeNames.Add("D");
+            nodeNames.Add("E");
+            nodeNames.Add("F");
+            nodeNames.Add("G");
+            nodeNames.Add("H");
+            nodeNames.Add("I");
+            nodeNames.Add("J");
         }
-
-        // <string,node>
-
-        /*
-         public class Display
-         {
-            int middle;
-            <string, node> Nodes - Eller dictionary <namn, namn> en för nodens namn och vilken picturebox den är kopplad till. Kanske själva pb?
-            eller <namnetpåPB, noden>
-            <pb, noden>
-            CalculateAnchorPoint()
-            pictureboxes? or <string, point> dictionary
-
-            Objekt med picturebox och positionen?
-            Calculate iff där med?
-
-            <sträng, position>
-            Behövs egentligen bara två positioner för att göra koppling. 
-            Men det måste vara kopplat till faktiska kopplingar. 
-
-            Från nod = Namnet och listan på kopplingar
-            (Istället: Ha vilka kopplingar som gjordes till vilken som en lista i network (Och tidskostnad)? Då blir de unika också)
-            (Skapa lista med dessa namn och vilka de kopplades till? (Infon är då inte vilka som har kopplingar till vilka, utan
-            bara hur kopplingar gjorts vilket är det enda jag behöver) Sedan loopa det?)
-            (Hur ge varje nod en position? En annan dictionary med samma namn men en position?) - Objekt med picturebox som räknar ut position och har det som en property?***
-            (Det kan redan finnas ett objekt för varje picturebox som har en position som sen bara sätts in i dictionary?)
-            Get calculerar värdet varjegång det ska gettas. Då Get tar Pictureboxvärden osv. 
-            (Listorna i egen klass så att den kan ha propertyn middle en gång?)
-
-            (Måste nog isf ha info om vilket namn som ska vara kopplat till vilken picturebox? Ha lista med pictureboxes så att i i listan blir samma som 
-            namnet i den andra? och gör kalkultionen?) - Måste också ha det för att veta vilken position som ska ändras när den flyttas? Döpa om pb?
-            (Funkar nog bara om de finns i en lista så jag vet vilken som är den första osv)
-            
-            Från Picturebox = Positionen och storleken (Kanske radien)
-            A ska kopplas till ett namn
-            För kopplingar startpunkt och slutpunkt
-            skapa objekt av detta och det ger en lista med start och slutpositioner? (Vill väl ha en lista med unika positioner) (Använda hashset?) 
-            
-
-
-         }
-             */
 
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             DisplayNetwork(g);
-           
-
         }
 
         public void Connect(Position nodeOne, Position nodeTwo, Graphics g)
@@ -111,21 +71,6 @@ namespace FormsVersion
             }
         }
 
-        public Point CalculateAnchorPoint(Point middle, PictureBox node)
-        {
-            double xEnd = middle.X;
-            double yEnd = middle.Y;
-            double middleOfNodeX = node.Location.X + (node.Size.Width / 2);
-            double middleOfNodeY = node.Location.Y + (node.Size.Height / 2);
-
-            double angle = Math.Atan2((yEnd - middleOfNodeY), (xEnd - middleOfNodeX)) * (180 / Math.PI);
-            double radius = 40;
-
-            double x1 = middleOfNodeX + radius * Math.Cos(angle * (Math.PI / 180));
-            double y1 = middleOfNodeY + radius * Math.Sin(angle * (Math.PI / 180));
-            return new Point((int)x1, (int)y1);
-        }
-
         private void nodeC_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -139,12 +84,18 @@ namespace FormsVersion
         {
             if (nodeNames.Count == 10)
             {
+                network = new Network();
                 network.CreateNetwork(nodeNames);
 
-                for (int i = 0; i < nodeNames.Count; i++)
+                if (positions.Count != 10)
                 {
-                    positions.Add(nodeNames[i], listOfPositions[i]);
+                    positions.Clear();
+                    for (int i = 0; i < nodeNames.Count; i++)
+                    {
+                        positions.Add(nodeNames[i], listOfPositions[i]);
+                    }
                 }
+                
                 this.Refresh();
 
             }
@@ -157,48 +108,14 @@ namespace FormsVersion
             
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            nodeNames.Add(tbxName.Text);
-            lblTotal.Text = $"Total {nodeNames.Count}";
-
-            if (nodeNames.Count >= 10)
-            {
-                btnAdd.Enabled = false;
-            }
+            btnRandomize.PerformClick();
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        private void btnFindQuickest_Click(object sender, EventArgs e)
         {
-            nodeNames.Clear();
-            lblTotal.Text = $"Total {nodeNames.Count}";
-            btnAdd.Enabled = true;
-        }
-
-        private void AutoCreateNetwork()
-        {
-            nodeNames.Add("Göteborg");
-            nodeNames.Add("Kungsbacka");
-            nodeNames.Add("Helsingborg");
-            nodeNames.Add("Växjö");
-            nodeNames.Add("Halmstad");
-            nodeNames.Add("Mora");
-            nodeNames.Add("Umeå");
-            nodeNames.Add("Stockholm");
-            nodeNames.Add("Lund");
-            nodeNames.Add("Malmö");
-
-            // Duplicarad kod
-            network.CreateNetwork(nodeNames);
-
-            for (int i = 0; i < nodeNames.Count; i++)
-            {
-                positions.Add(nodeNames[i], listOfPositions[i]);
-            }
-
-            this.Refresh();
-            //nodeNames.Clear();
-            //positions.Clear();
+            string test = cbxToLocation.Text;
         }
     }
 
