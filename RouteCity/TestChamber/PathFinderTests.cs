@@ -42,7 +42,7 @@ namespace TestChamber
             PathFinder sut = new PathFinder(dummyNetwork);
 
             //Act
-            sut.InitializePaths("A");
+            sut.InitializeResult("A");
 
             //Assert
             Assert.IsTrue(sut.Result.Count == 3);
@@ -56,7 +56,7 @@ namespace TestChamber
             PathFinder sut = new PathFinder(dummyNetwork);
 
             //Act
-            sut.InitializePaths("A");
+            sut.InitializeResult("A");
 
             //Assert
             Assert.IsTrue(sut.Result.ContainsKey("A"));
@@ -75,7 +75,7 @@ namespace TestChamber
             string startNode = "A";
 
             //Act
-            sut.InitializePaths(startNode);
+            sut.InitializeResult(startNode);
 
             //Assert
             foreach (KeyValuePair<string, Path> path in sut.Result)

@@ -37,13 +37,13 @@ namespace ClassLibrary
             if (!Network.Nodes.Any(n => n.Key == startNode) || !Network.Nodes.Any(n => n.Key == endNode))
                 throw new InvalidOperationException("Both start and end node must be in network");
             
-            InitializePaths(startNode);
+            InitializeResult(startNode);
             ProcessPaths(endNode, stopAtEndNode);
             return ExtractResult(startNode);
         }
 
         // Setting QuickestTimeFromStart to infinite
-        internal void InitializePaths(string startNode)
+        internal void InitializeResult(string startNode)
         {
             if (NeedsReset)
                 ResetResult();
