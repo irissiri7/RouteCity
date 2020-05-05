@@ -47,7 +47,7 @@ namespace TestChamber
                 stopwatch.Stop();
                 Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
 
-                foreach (var element in finder.Paths)
+                foreach (var element in finder.Result)
                 {
                     if (double.IsPositiveInfinity(element.Value.QuickestTimeFromStart))
                     {
