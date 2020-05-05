@@ -156,7 +156,6 @@ namespace ClassLibrary
                     Paths[connectingNode].QuickestTimeFromStart = distance;
                     Paths[connectingNode].NodesVisited = UsePath(path, Paths[connectingNode]);
                     paths.Add(new Path(Paths[connectingNode].Node, distance, UsePath(path, Paths[connectingNode])));
-                    //paths.Update(connectingNode);
 
                 }
             }
