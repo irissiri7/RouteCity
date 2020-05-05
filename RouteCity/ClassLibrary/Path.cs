@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ClassLibrary
 {
-    class Path : IComparable<Path>
+    public class Path : IComparable<Path>
     {
         //PROPERTIES
         internal Node Node { get; set; }

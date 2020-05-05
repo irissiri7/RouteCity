@@ -15,6 +15,7 @@ namespace FormsVersion
     {
         public Dictionary<string, Position> positions = new Dictionary<string, Position>();
         public Network network = new Network();
+        public PathFinder pathFinder = null;
         public List<string> nodeNames = new List<string>();
         public List<Position> listOfPositions = new List<Position>();
 
@@ -95,7 +96,7 @@ namespace FormsVersion
                         positions.Add(nodeNames[i], listOfPositions[i]);
                     }
                 }
-                
+                pathFinder = new PathFinder(network);
                 this.Refresh();
 
             }
@@ -111,11 +112,15 @@ namespace FormsVersion
         private void Form1_Load(object sender, EventArgs e)
         {
             btnRandomize.PerformClick();
+            
         }
 
         private void btnFindQuickest_Click(object sender, EventArgs e)
         {
-            string test = cbxToLocation.Text;
+            string fromNode = cbxFromLocation.Text;
+            string toNode = cbxToLocation.Text;
+
+            Dictionary<string, Path> result = pathFinder.FindQuickestPath(fromNode, toNode);
         }
     }
 
