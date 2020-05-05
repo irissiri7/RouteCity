@@ -78,7 +78,7 @@ namespace ClassLibrary
 
             while (!finished)
             {
-                Path nextPath = GetPathWithCurrentLowestQuickestTimeFromStart(potentialPaths);
+                Path nextPath = GetPathWithCurrentQuickestTimeFromStart(potentialPaths);
 
                 if (nextPath != null)
                 {
@@ -107,7 +107,7 @@ namespace ClassLibrary
             return queue;
         }
 
-        internal Path GetPathWithCurrentLowestQuickestTimeFromStart(PriorityQueue<Path> queue)
+        internal Path GetPathWithCurrentQuickestTimeFromStart(PriorityQueue<Path> queue)
         {
             bool finished = false;
             Path path = null;
@@ -116,23 +116,20 @@ namespace ClassLibrary
                 try
                 {
                     path = queue.Pop();
+                    
+                    //If the node has NOT been visited already we want to explore this path
+                    if (!path.Node.Visited)
+                    {
+                        finished = true;
+                        path.Node.Visited = true;
+                    }
                 }
+                // This exception is thrown when we try to Pop() an empty queue 
+                // and we have no more paths to explore, path will be returned as null
                 catch (InvalidOperationException)
                 {
                     return path;
                 }
-            
-                if (path.QuickestTimeFromStart == double.PositiveInfinity)
-                {
-                    path = null;
-                    finished = true;
-                }
-                else if (!path.Node.Visited)
-                {
-                    path.Node.Visited = true;
-                    finished = true;
-                }
-
             } while (!finished);
             
             return path;
