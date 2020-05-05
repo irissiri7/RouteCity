@@ -45,7 +45,7 @@ namespace TestChamber
             sut.InitializePaths("A");
 
             //Assert
-            Assert.IsTrue(sut.Paths.Count == 3);
+            Assert.IsTrue(sut.Result.Count == 3);
         }
 
         [Test]
@@ -59,9 +59,9 @@ namespace TestChamber
             sut.InitializePaths("A");
 
             //Assert
-            Assert.IsTrue(sut.Paths.ContainsKey("A"));
-            Assert.IsTrue(sut.Paths.ContainsKey("B"));
-            Assert.IsTrue(sut.Paths.ContainsKey("C"));
+            Assert.IsTrue(sut.Result.ContainsKey("A"));
+            Assert.IsTrue(sut.Result.ContainsKey("B"));
+            Assert.IsTrue(sut.Result.ContainsKey("C"));
 
 
         }
@@ -78,7 +78,7 @@ namespace TestChamber
             sut.InitializePaths(startNode);
 
             //Assert
-            foreach (KeyValuePair<string, Path> path in sut.Paths)
+            foreach (KeyValuePair<string, Path> path in sut.Result)
             {
                 Assert.IsTrue(dummyNetwork.Nodes.ContainsKey(path.Value.Node.Name));
                 Assert.IsTrue(path.Value.NodesVisited.Count == 1);
@@ -108,8 +108,8 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("A", "E");
-            double actualQuickestPath = sut.Paths["E"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["E"].NodesVisited;
+            double actualQuickestPath = sut.Result["E"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Result["E"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -130,8 +130,8 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("D", "H");
-            double actualQuickestPath = sut.Paths["H"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["H"].NodesVisited;
+            double actualQuickestPath = sut.Result["H"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Result["H"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -152,8 +152,8 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("B", "C");
-            double actualQuickestPath = sut.Paths["C"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["C"].NodesVisited;
+            double actualQuickestPath = sut.Result["C"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Result["C"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -174,8 +174,8 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("A", "F");
-            double actualQuickestPath = sut.Paths["F"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["F"].NodesVisited;
+            double actualQuickestPath = sut.Result["F"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Result["F"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -196,8 +196,8 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("A", "H");
-            double actualQuickestPath = sut.Paths["H"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["H"].NodesVisited;
+            double actualQuickestPath = sut.Result["H"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Result["H"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -218,8 +218,8 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("A", "B");
-            double actualQuickestPath = sut.Paths["B"].QuickestTimeFromStart;
-            List<string> actualNodesVisited = sut.Paths["B"].NodesVisited;
+            double actualQuickestPath = sut.Result["B"].QuickestTimeFromStart;
+            List<string> actualNodesVisited = sut.Result["B"].NodesVisited;
 
             //ASSERT
             Assert.AreEqual(expectedQuickestPath, actualQuickestPath);
@@ -242,17 +242,17 @@ namespace TestChamber
 
             //ASSERT
             //Should be explored
-            Assert.AreEqual(15, sut.Paths["A"].QuickestTimeFromStart);
-            Assert.AreEqual(5, sut.Paths["B"].QuickestTimeFromStart);
-            Assert.AreEqual(13, sut.Paths["C"].QuickestTimeFromStart);
-            Assert.AreEqual(7, sut.Paths["D"].QuickestTimeFromStart);
-            Assert.AreEqual(9, sut.Paths["I"].QuickestTimeFromStart);
-            Assert.AreEqual(0, sut.Paths["J"].QuickestTimeFromStart);
+            Assert.AreEqual(15, sut.Result["A"].QuickestTimeFromStart);
+            Assert.AreEqual(5, sut.Result["B"].QuickestTimeFromStart);
+            Assert.AreEqual(13, sut.Result["C"].QuickestTimeFromStart);
+            Assert.AreEqual(7, sut.Result["D"].QuickestTimeFromStart);
+            Assert.AreEqual(9, sut.Result["I"].QuickestTimeFromStart);
+            Assert.AreEqual(0, sut.Result["J"].QuickestTimeFromStart);
             //Should not be explored
-            Assert.AreEqual(double.PositiveInfinity, sut.Paths["E"].QuickestTimeFromStart);
-            Assert.AreEqual(double.PositiveInfinity, sut.Paths["F"].QuickestTimeFromStart);
-            Assert.AreEqual(double.PositiveInfinity, sut.Paths["G"].QuickestTimeFromStart);
-            Assert.AreEqual(double.PositiveInfinity, sut.Paths["H"].QuickestTimeFromStart);
+            Assert.AreEqual(double.PositiveInfinity, sut.Result["E"].QuickestTimeFromStart);
+            Assert.AreEqual(double.PositiveInfinity, sut.Result["F"].QuickestTimeFromStart);
+            Assert.AreEqual(double.PositiveInfinity, sut.Result["G"].QuickestTimeFromStart);
+            Assert.AreEqual(double.PositiveInfinity, sut.Result["H"].QuickestTimeFromStart);
         }
 
         [Test]
@@ -266,7 +266,7 @@ namespace TestChamber
             sut.FindQuickestPath("A", "E", false);
 
             //ASSERT
-            foreach(var path in sut.Paths.Values)
+            foreach(var path in sut.Result.Values)
             {
                 Assert.IsTrue(path.QuickestTimeFromStart != double.PositiveInfinity);
             }
@@ -283,7 +283,7 @@ namespace TestChamber
 
             //ACT
             sut.FindQuickestPath("A", "E", false);
-            List<string> actualNodesVisited = sut.Paths["J"].NodesVisited;
+            List<string> actualNodesVisited = sut.Result["J"].NodesVisited;
 
             //ASSERT
             for (int i = 0; i < expectedNodesVisited.Count; i++)
@@ -382,7 +382,7 @@ namespace TestChamber
             PathFinder p = new PathFinder(mellerud);
             p.FindQuickestPath("G", "D", false);
 
-            foreach(var i in p.Paths.Values)
+            foreach(var i in p.Result.Values)
             {
                 if(i.QuickestTimeFromStart == double.PositiveInfinity)
                 {
@@ -402,14 +402,14 @@ namespace TestChamber
             
             //Original quickest path
             sut.FindQuickestPath("A", "J");
-            Assert.AreEqual(18d, sut.Paths["J"].QuickestTimeFromStart);
+            Assert.AreEqual(18d, sut.Result["J"].QuickestTimeFromStart);
             
             //ACT, Changing quickest path by adding direct connection
             dummy.AddConnection("A", "J", 1);
             sut.FindQuickestPath("A", "J");
             
             //ASSERT that new quickest path has changed
-            Assert.AreEqual(1d, sut.Paths["J"].QuickestTimeFromStart);
+            Assert.AreEqual(1d, sut.Result["J"].QuickestTimeFromStart);
         }
 
         [Test]
@@ -421,14 +421,14 @@ namespace TestChamber
 
             //Original quickest path
             sut.FindQuickestPath("F", "I");
-            Assert.AreEqual(16d, sut.Paths["I"].QuickestTimeFromStart);
+            Assert.AreEqual(16d, sut.Result["I"].QuickestTimeFromStart);
 
             //ACT, Changing quickest path by adding direct connection
             dummy.AddConnection("F", "I", 1);
             sut.FindQuickestPath("F", "I");
 
             //ASSERT that new quickest path has changed
-            Assert.AreEqual(1d, sut.Paths["I"].QuickestTimeFromStart);
+            Assert.AreEqual(1d, sut.Result["I"].QuickestTimeFromStart);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////

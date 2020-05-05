@@ -12,7 +12,8 @@ namespace ClassLibrary
     {
         //PROPERTIES
         private Network Network { get; set; }
-        internal Dictionary<string, Path> Paths { get; set; }
+        internal Dictionary<string, Path> Result { get; set; }
+        public bool NeedsReset { get => Result.Count > 0; }
 
         //CONSTRUCTOR
         public PathFinder(Network network)
@@ -23,7 +24,7 @@ namespace ClassLibrary
                 throw new InvalidOperationException("Can not create a Pathfinder if Network has less than 3 nodes");
             
             Network = network;
-            Paths = new Dictionary<string, Path>();
+            Result = new Dictionary<string, Path>();
         }
 
         //METHODS
@@ -44,20 +45,24 @@ namespace ClassLibrary
         // Setting QuickestTimeFromStart to infinite
         internal void InitializePaths(string startNode)
         {
-            if(Paths.Count > 0)
-                Paths.Clear();
-            
-            foreach(var n in Network.Nodes)
+            if (NeedsReset)
+                ResetResult();
+                    
+            foreach (var node in Network.Nodes)
+            {
+                Result.Add(node.Key, new Path(node.Value));
+            }
+
+            Result[startNode].QuickestTimeFromStart = 0;
+        }
+
+        private void ResetResult()
+        {
+            Result.Clear();
+            foreach (var n in Network.Nodes)
             {
                 n.Value.Visited = false;
             }
-            
-            foreach (var node in Network.Nodes)
-            {
-                Paths.Add(node.Key, new Path(node.Value));
-            }
-
-            Paths[startNode].QuickestTimeFromStart = 0;
         }
 
         // Going through all Paths to process the connections to each Node
@@ -90,7 +95,7 @@ namespace ClassLibrary
         internal PriorityQueue<Path> ConstructPriorityQueueOfPaths()
         {
             PriorityQueue<Path> queue = new PriorityQueue<Path>();
-            foreach(var element in Paths)
+            foreach(var element in Result)
             {
                 queue.Add(new Path(element.Value.Node, element.Value.QuickestTimeFromStart));
             }
@@ -151,11 +156,11 @@ namespace ClassLibrary
 
                 double distance = path.QuickestTimeFromStart + connection.TimeCost;
 
-                if (distance < Paths[connectingNode].QuickestTimeFromStart)
+                if (distance < Result[connectingNode].QuickestTimeFromStart)
                 {
-                    Paths[connectingNode].QuickestTimeFromStart = distance;
-                    Paths[connectingNode].NodesVisited = UsePath(path, Paths[connectingNode]);
-                    paths.Add(new Path(Paths[connectingNode].Node, distance, UsePath(path, Paths[connectingNode])));
+                    Result[connectingNode].QuickestTimeFromStart = distance;
+                    Result[connectingNode].NodesVisited = UsePath(path, Result[connectingNode]);
+                    paths.Add(new Path(Result[connectingNode].Node, distance, UsePath(path, Result[connectingNode])));
 
                 }
             }
@@ -179,7 +184,7 @@ namespace ClassLibrary
             StringBuilder result = new StringBuilder();
             result.Append($"Start Node {startNode}\n\n");
 
-            foreach (var path in Paths)
+            foreach (var path in Result)
             {
                 if (path.Key == startNode)
                     continue;
