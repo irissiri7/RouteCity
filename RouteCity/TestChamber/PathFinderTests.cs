@@ -349,8 +349,50 @@ namespace TestChamber
             Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A", null), "Can not preform operation if nodes are null");
         }
 
+        [Test]
+        public void FindQuickestPath_NOTStoppingAtEndNode_NoPathsShouldBeUnexploredEXTENDED()
+        {
+            Network mellerud = new Network();
+
+            mellerud.AddNode("A");
+            mellerud.AddNode("B");
+            mellerud.AddNode("C");
+            mellerud.AddNode("D");
+            mellerud.AddNode("E");
+            mellerud.AddNode("F");
+            mellerud.AddNode("G");
+            mellerud.AddNode("H");
+            mellerud.AddNode("I");
+            mellerud.AddNode("J");
+
+            mellerud.AddConnection("A", "B", 10);
+            mellerud.AddConnection("A", "D", 10);
+            mellerud.AddConnection("A", "J", 10);
+            mellerud.AddConnection("B", "F", 10);
+            mellerud.AddConnection("B", "E", 10);
+            mellerud.AddConnection("C", "D", 10);
+            mellerud.AddConnection("C", "E", 10);
+            mellerud.AddConnection("C", "H", 10);
+            mellerud.AddConnection("F", "E", 10);
+            mellerud.AddConnection("J", "F", 10);
+            mellerud.AddConnection("H", "G", 10);
+            mellerud.AddConnection("H", "I", 10);
+            mellerud.AddConnection("I", "G", 1);
+
+            PathFinder p = new PathFinder(mellerud);
+            p.FindQuickestPath("G", "D", false);
+
+            foreach(var i in p.Paths.Values)
+            {
+                if(i.QuickestTimeFromStart == double.PositiveInfinity)
+                {
+                    Assert.Fail();
+                }
+            }
+        }
+
         ///INTEGRATION///////////////////////////////////////////////////////////////////////////////////
-        
+
         [Test]
         public void FindQuickestPath_ChangingConnectionValuesExOne_UpdatesQuickestPathCorrectly()
         {

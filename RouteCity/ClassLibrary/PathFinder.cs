@@ -92,7 +92,7 @@ namespace ClassLibrary
             PriorityQueue<Path> queue = new PriorityQueue<Path>();
             foreach(var element in Paths)
             {
-                queue.Add(element.Value);
+                queue.Add(new Path(element.Value.Node, element.Value.QuickestTimeFromStart));
             }
             return queue;
         }
@@ -128,7 +128,7 @@ namespace ClassLibrary
             return path;
         }
 
-        internal List<NodeConnection> GetRelevantConnections(Path path, PriorityQueue<Path> queue)
+        internal List<NodeConnection> GetRelevantConnections(Path path)
         {
             var allConnections = Network.Nodes[path.Node.Name].Connections.ToList();
             List<NodeConnection> relevantConnections = new List<NodeConnection>();
@@ -143,7 +143,7 @@ namespace ClassLibrary
         // Processing the connections to each node
         internal void ProcessConnections(Path path, PriorityQueue<Path> paths)
         {
-            var connections = GetRelevantConnections(path, paths);
+            var connections = GetRelevantConnections(path);
 
             foreach (var connection in connections)
             {
@@ -155,7 +155,7 @@ namespace ClassLibrary
                 {
                     Paths[connectingNode].QuickestTimeFromStart = distance;
                     Paths[connectingNode].NodesVisited = UsePath(path, Paths[connectingNode]);
-                    paths.Add(Paths[connectingNode]);
+                    paths.Add(new Path(Paths[connectingNode].Node, distance, UsePath(path, Paths[connectingNode])));
                     //paths.Update(connectingNode);
 
                 }
