@@ -38,7 +38,7 @@ namespace ClassLibrary
                 throw new InvalidOperationException("Both start and end node must be in network");
             
             InitializeResult(startNode);
-            ProcessPaths(endNode, stopAtEndNode);
+            ProcessPaths(startNode, endNode, stopAtEndNode);
             return ExtractResult(startNode);
         }
 
@@ -68,20 +68,20 @@ namespace ClassLibrary
         }
 
         // Going through all Paths to process the connections to each Node
-        internal void ProcessPaths(string endNode, bool stopAtEndNode)
+        internal void ProcessPaths(string startNode, string endNode, bool stopAtEndNode)
         {
             bool finished = false;
 
-            // A list of all the Nodes
-            var pathQueue = ConstructPriorityQueueOfPaths();
+            // A queue of all potential Paths
+            PriorityQueue<Path> potentialPaths = ConstructPriorityQueueOfPotentialPaths(startNode);
 
             while (!finished)
             {
-                Path nextPath = GetPathWithCurrentLowestQuickestTimeFromStart(pathQueue);
+                Path nextPath = GetPathWithCurrentLowestQuickestTimeFromStart(potentialPaths);
 
                 if (nextPath != null)
                 {
-                    ProcessConnections(nextPath, pathQueue);
+                    ProcessConnections(nextPath, potentialPaths);
                     if (stopAtEndNode && nextPath.Node.Name == endNode)
                     {
                         finished = true;
@@ -94,13 +94,15 @@ namespace ClassLibrary
             }
         }
 
-        internal PriorityQueue<Path> ConstructPriorityQueueOfPaths()
+        internal PriorityQueue<Path> ConstructPriorityQueueOfPotentialPaths(string startNode)
         {
             PriorityQueue<Path> queue = new PriorityQueue<Path>();
-            foreach(var element in Result)
-            {
-                queue.Add(new Path(element.Value.Node, element.Value.QuickestTimeFromStart));
-            }
+            
+            //Making a copy of the starting Path and adding to queue for further processing
+            Node start = Result[startNode].Node;
+            double timeFromStart = Result[startNode].QuickestTimeFromStart;
+            queue.Add(new Path(start, timeFromStart));
+            
             return queue;
         }
 
