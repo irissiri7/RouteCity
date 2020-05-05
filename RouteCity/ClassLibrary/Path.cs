@@ -9,7 +9,7 @@ namespace ClassLibrary
         //PROPERTIES
         internal Node Node { get; set; }
         internal double QuickestTimeFromStart { get; set; }
-        internal List<string> NodesVisited { get; set; }
+        public List<string> NodesVisited { get; set; }
 
         //CONSTRUCTOR
         public Path(Node node, double shortestTimeFromStart = double.PositiveInfinity, List<string> nodesVisited = null)

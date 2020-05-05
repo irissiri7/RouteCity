@@ -18,6 +18,7 @@ namespace FormsVersion
         public PathFinder pathFinder = null;
         public List<string> nodeNames = new List<string>();
         public List<Position> listOfPositions = new List<Position>();
+        Dictionary<string, Path> result = new Dictionary<string, Path>();
 
         public Form1()
         {
@@ -44,17 +45,24 @@ namespace FormsVersion
             nodeNames.Add("H");
             nodeNames.Add("I");
             nodeNames.Add("J");
+
+            cbxToLocation.SelectedIndex = 1;
+            cbxFromLocation.SelectedIndex = 0;
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             DisplayNetwork(g);
+            if (result.Count > 0)
+            {
+                DisplayQuickestPath(g);
+            }
         }
 
-        public void Connect(Position nodeOne, Position nodeTwo, Graphics g)
+        public void Connect(Position nodeOne, Position nodeTwo, Graphics g, Color color)
         {
-            Pen pen = new Pen(Color.White);
+            Pen pen = new Pen(color);
             pen.Width = 2;
             Point nodeOneLocation = nodeOne.Location;
             Point nodeTwoLocation = nodeTwo.Location;
@@ -67,7 +75,7 @@ namespace FormsVersion
             {
                 for (int i = 0; i < element.Value.Count; i++)
                 {
-                    Connect(positions[element.Key], positions[element.Value[i].ToNode], g);
+                    Connect(positions[element.Key], positions[element.Value[i].ToNode], g, Color.White);
                 }
             }
         }
@@ -83,6 +91,7 @@ namespace FormsVersion
 
         private void btnRandomize_Click(object sender, EventArgs e)
         {
+            result.Clear();
             if (nodeNames.Count == 10)
             {
                 network = new Network();
@@ -96,7 +105,7 @@ namespace FormsVersion
                         positions.Add(nodeNames[i], listOfPositions[i]);
                     }
                 }
-                pathFinder = new PathFinder(network);
+                
                 this.Refresh();
 
             }
@@ -117,10 +126,20 @@ namespace FormsVersion
 
         private void btnFindQuickest_Click(object sender, EventArgs e)
         {
-            string fromNode = cbxFromLocation.Text;
-            string toNode = cbxToLocation.Text;
+            pathFinder = new PathFinder(network);
+            string fromNode = cbxFromLocation.SelectedItem.ToString();
+            string toNode = cbxToLocation.SelectedItem.ToString();
+            result = pathFinder.FindQuickestPath(fromNode, toNode, false);
+            this.Refresh();
+        }
 
-            Dictionary<string, Path> result = pathFinder.FindQuickestPath(fromNode, toNode);
+        private void DisplayQuickestPath(Graphics g)
+        {
+            string toNode = cbxToLocation.SelectedItem.ToString();
+            for (int i = 0; i < result[toNode].NodesVisited.Count - 1; i++)
+            {
+                Connect(positions[result[toNode].NodesVisited[i]], positions[result[toNode].NodesVisited[i + 1]], g, Color.LimeGreen);
+            }
         }
     }
 

@@ -43,7 +43,7 @@ namespace TestChamber
                 PathFinder finder = new PathFinder(network);
                 
 
-                string result = finder.FindQuickestPath("G", "D", false);
+                //string result = finder.FindQuickestPath("G", "D", false);
                 stopwatch.Stop();
                 Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
 
