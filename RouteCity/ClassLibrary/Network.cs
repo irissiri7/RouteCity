@@ -7,9 +7,9 @@ namespace ClassLibrary
 {
     public struct Connection
     {
-        internal string FromNode { get; set; }
-        internal string ToNode { get; set; }
-        internal double TimeCost { get; set; }
+        public string FromNode { get; set; }
+        public string ToNode { get; set; }
+        public double TimeCost { get; set; }
 
         public Connection(string fromNode, string toNode, double timeCost)
         {
@@ -23,7 +23,7 @@ namespace ClassLibrary
     {
         //PROPERTIES
         internal Dictionary<string, Node> Nodes { get; set; }
-        internal Dictionary<string, List<Connection>> connectionPath {get; set;}
+        public Dictionary<string, List<Connection>> connectionPath {get; private set;}
 
         //CONSTRUCTOR
         public Network()

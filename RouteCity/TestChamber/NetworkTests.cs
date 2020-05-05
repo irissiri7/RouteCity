@@ -30,7 +30,7 @@ namespace TestChamber
         [Test]
         public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
         {
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
                 Network network = new Network();

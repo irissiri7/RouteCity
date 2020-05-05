@@ -13,7 +13,7 @@ namespace FormsVersion
 {
     public partial class Form1 : Form
     {
-        public Dictionary<PictureBox, Point> positions = new Dictionary<PictureBox, Point>();
+        public Dictionary<string, Position> positions = new Dictionary<string, Position>();
         public Network network = new Network();
         public List<string> nodeNames = new List<string>();
 
@@ -21,6 +21,13 @@ namespace FormsVersion
         {
             InitializeComponent();
             
+            for (int i = 0; i < 10; i++)
+            {
+                nodeNames.Add(i.ToString());
+            }
+            Conn();
+            network.CreateNetwork(nodeNames);
+
         }
 
         // <string,node>
@@ -68,30 +75,27 @@ namespace FormsVersion
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-
-            positions.Clear();
-            positions.Add(nodeA, CalculateAnchorPoint(new Point(479, 254), nodeA));
-            positions.Add(nodeB, CalculateAnchorPoint(new Point(479, 254), nodeB));
-            positions.Add(nodeC, CalculateAnchorPoint(new Point(479, 254), nodeC));
-            positions.Add(nodeD, CalculateAnchorPoint(new Point(479, 254), nodeD));
-            positions.Add(nodeE, CalculateAnchorPoint(new Point(479, 254), nodeE));
-            positions.Add(nodeF, CalculateAnchorPoint(new Point(479, 254), nodeF));
-            positions.Add(nodeG, CalculateAnchorPoint(new Point(479, 254), nodeG));
-            positions.Add(nodeH, CalculateAnchorPoint(new Point(479, 254), nodeH));
-            positions.Add(nodeI, CalculateAnchorPoint(new Point(479, 254), nodeI));
-            positions.Add(nodeJ, CalculateAnchorPoint(new Point(479, 254), nodeJ));
-
-            Connect(nodeA, nodeC, g);
-            Connect(nodeA, nodeD, g);
-            Connect(nodeA, nodeI, g);
+            DisplayNetwork(g);
+           
 
         }
 
-        public void Connect(PictureBox nodeOne, PictureBox nodeTwo, Graphics g)
+        public void Connect(Position nodeOne, Position nodeTwo, Graphics g)
         {
             Pen pen = new Pen(Color.White);
             pen.Width = 2;
-            g.DrawLine(pen, positions[nodeOne].X, positions[nodeOne].Y, positions[nodeTwo].X, positions[nodeTwo].Y);
+            g.DrawLine(pen, nodeOne.Location.X, nodeOne.Location.Y, nodeTwo.Location.X, nodeTwo.Location.Y);
+        }
+
+        private void DisplayNetwork(Graphics g)
+        {
+            foreach (var element in network.connectionPath)
+            {
+                for (int i = 0; i < element.Value.Count; i++)
+                {
+                    Connect(positions[element.Key], positions[element.Value[i].ToNode], g);
+                }
+            }
         }
 
         public Point CalculateAnchorPoint(Point middle, PictureBox node)
@@ -149,6 +153,53 @@ namespace FormsVersion
         {
             nodeNames.Clear();
             lblTotal.Text = $"Total {nodeNames.Count}";
+        }
+
+        private void Conn()
+        {
+            List<Position> listOfPositions = new List<Position>();
+            listOfPositions.Add(new Position(nodeA));
+            listOfPositions.Add(new Position(nodeB));
+            listOfPositions.Add(new Position(nodeC));
+            listOfPositions.Add(new Position(nodeD));
+            listOfPositions.Add(new Position(nodeE));
+            listOfPositions.Add(new Position(nodeF));
+            listOfPositions.Add(new Position(nodeG));
+            listOfPositions.Add(new Position(nodeH));
+            listOfPositions.Add(new Position(nodeI));
+            listOfPositions.Add(new Position(nodeJ));
+
+
+            for (int i = 0; i < nodeNames.Count; i++)
+            {
+                positions.Add(nodeNames[i], listOfPositions[i]);
+            }
+        }
+    }
+
+    public class Position
+    {
+        internal PictureBox PB { get; set; }
+        internal Point Location 
+        { get 
+            {
+                double xEnd = 479;
+                double yEnd = 254;
+                double middleOfNodeX = PB.Location.X + (PB.Size.Width / 2);
+                double middleOfNodeY = PB.Location.Y + (PB.Size.Height / 2);
+
+                double angle = Math.Atan2((yEnd - middleOfNodeY), (xEnd - middleOfNodeX)) * (180 / Math.PI);
+                double radius = 40;
+
+                double x1 = middleOfNodeX + radius * Math.Cos(angle * (Math.PI / 180));
+                double y1 = middleOfNodeY + radius * Math.Sin(angle * (Math.PI / 180));
+                return new Point((int)x1, (int)y1);
+                }
+        }
+
+        public Position(PictureBox pB)
+        {
+            PB = pB;
         }
     }
 }
