@@ -157,18 +157,25 @@ namespace ClassLibrary
 
             foreach (var connection in connections)
             {
-                string connectingNode = connection.TargetNode.Name;
+                string targetNode = connection.TargetNode.Name;
 
                 double distance = path.QuickestTimeFromStart + connection.TimeCost;
 
-                if (distance < Result[connectingNode].QuickestTimeFromStart)
+                if (distance < Result[targetNode].QuickestTimeFromStart)
                 {
-                    Result[connectingNode].QuickestTimeFromStart = distance;
-                    Result[connectingNode].NodesVisited = UsePath(path, Result[connectingNode]);
-                    paths.Add(new Path(Result[connectingNode].Node, distance, UsePath(path, Result[connectingNode])));
+                    List<string> nodesVisited = UsePath(path, Result[targetNode]);
+                    
+                    UpdateResult(targetNode, distance, nodesVisited);
+                    paths.Add(new Path(Result[targetNode].Node, distance, nodesVisited));
 
                 }
             }
+        }
+
+        private void UpdateResult(string targetNode, double distance, List<string> nodesVisited )
+        {
+            Result[targetNode].QuickestTimeFromStart = distance;
+            Result[targetNode].NodesVisited = nodesVisited;
         }
 
         private List<string> UsePath(Path visiting, Path gettingVisited)
