@@ -12,7 +12,7 @@ namespace ClassLibrary
     {
         //PROPERTIES
         public string Name { get; private set; }
-        internal Dictionary<string, NodeConnection> Connections { get; set; }
+        public Dictionary<string, NodeConnection> Connections { get; set; }
         internal bool Visited;
 
         //CONSTRUCTOR

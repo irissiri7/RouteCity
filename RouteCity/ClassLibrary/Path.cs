@@ -4,12 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ClassLibrary
 {
-    class Path : IComparable<Path>
+    public class Path : IComparable<Path>
     {
         //PROPERTIES
         internal Node Node { get; set; }
-        internal double QuickestTimeFromStart { get; set; }
-        internal List<string> NodesVisited { get; set; }
+        public double QuickestTimeFromStart { get; set; }
+        public List<string> NodesVisited { get; set; }
 
         //CONSTRUCTOR
         public Path(Node node, double shortestTimeFromStart = double.PositiveInfinity, List<string> nodesVisited = null)

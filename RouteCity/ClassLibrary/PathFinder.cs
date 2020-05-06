@@ -12,7 +12,7 @@ namespace ClassLibrary
     {
         //PROPERTIES
         private Network Network { get; set; }
-        internal Dictionary<string, Path> Result { get; set; }
+        public Dictionary<string, Path> Result { get; private set; }
         public bool NeedsReset { get => Result.Count > 0; }
 
         //CONSTRUCTOR
@@ -28,7 +28,7 @@ namespace ClassLibrary
         }
 
         //METHODS
-        public string FindQuickestPath(string startNode, string endNode, bool stopAtEndNode = true)
+        public Dictionary<string, Path> FindQuickestPath(string startNode, string endNode, bool stopAtEndNode = true)
         {
             if (startNode == null || endNode == null)
                 throw new InvalidOperationException("Can not preform operation if nodes are null");
@@ -39,7 +39,7 @@ namespace ClassLibrary
             
             InitializeResult(startNode);
             ProcessPaths(startNode, endNode, stopAtEndNode);
-            return ExtractResult(startNode);
+            return Result;
         }
 
         // Setting QuickestTimeFromStart to infinite
