@@ -22,7 +22,7 @@ namespace ClassLibrary
     public class Network
     {
         //PROPERTIES
-        internal Dictionary<string, Node> Nodes { get; set; }
+        public Dictionary<string, Node> Nodes { get; set; }
         public Dictionary<string, List<Connection>> connectionPath {get; private set;}
 
         //CONSTRUCTOR

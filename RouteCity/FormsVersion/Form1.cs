@@ -19,6 +19,7 @@ namespace FormsVersion
         public List<string> nodeNames = new List<string>();
         public List<Position> listOfPositions = new List<Position>();
         Dictionary<string, Path> result = new Dictionary<string, Path>();
+        List<TextBox> textboxes = new List<TextBox>();
 
         public Form1()
         {
@@ -46,8 +47,16 @@ namespace FormsVersion
             nodeNames.Add("I");
             nodeNames.Add("J");
 
-            cbxToLocation.SelectedIndex = 1;
-            cbxFromLocation.SelectedIndex = 0;
+            textboxes.Add(tbxA);
+            textboxes.Add(tbxB);
+            textboxes.Add(tbxC);
+            textboxes.Add(tbxD);
+            textboxes.Add(tbxE);
+            textboxes.Add(tbxF);
+            textboxes.Add(tbxG);
+            textboxes.Add(tbxH);
+            textboxes.Add(tbxI);
+            textboxes.Add(tbxJ);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -96,6 +105,7 @@ namespace FormsVersion
             {
                 network = new Network();
                 network.CreateNetwork(nodeNames);
+                pathFinder = new PathFinder(network);
 
                 if (positions.Count != 10)
                 {
@@ -105,13 +115,18 @@ namespace FormsVersion
                         positions.Add(nodeNames[i], listOfPositions[i]);
                     }
                 }
-                
+
+                foreach (var textbox in textboxes)
+                {
+                    textbox.Text = ListConnections(textbox.Tag.ToString());
+                }
+
                 this.Refresh();
 
             }
             else
             {
-                MessageBox.Show("You need to 10 nodes");
+                MessageBox.Show("You need 10 nodes");
             }
 
 
@@ -121,25 +136,85 @@ namespace FormsVersion
         private void Form1_Load(object sender, EventArgs e)
         {
             btnRandomize.PerformClick();
-            
+
         }
 
         private void btnFindQuickest_Click(object sender, EventArgs e)
         {
-            pathFinder = new PathFinder(network);
-            string fromNode = cbxFromLocation.SelectedItem.ToString();
-            string toNode = cbxToLocation.SelectedItem.ToString();
+            string fromNode = cbxFromLocation.Text;
+            string toNode = cbxToLocation.Text;
             result = pathFinder.FindQuickestPath(fromNode, toNode, false);
             this.Refresh();
         }
 
         private void DisplayQuickestPath(Graphics g)
         {
-            string toNode = cbxToLocation.SelectedItem.ToString();
+            string toNode = cbxToLocation.Text;
             for (int i = 0; i < result[toNode].NodesVisited.Count - 1; i++)
             {
-                Connect(positions[result[toNode].NodesVisited[i]], positions[result[toNode].NodesVisited[i + 1]], g, Color.LimeGreen);
+                Connect(positions[result[toNode].NodesVisited[i]], positions[result[toNode].NodesVisited[i + 1]], g, Color.Gold);
             }
+        }
+
+        private string ListConnections(string currentNode)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append($"Connected to:\r\n");
+            foreach (var element in network.Nodes[currentNode].Connections)
+            {
+                builder.Append($"{element.Key} ({element.Value.TimeCost})    ");
+            }
+            return builder.ToString();
+        }
+
+        private void nodeA_Click(object sender, EventArgs e)
+        {
+            tbxA.Visible = !tbxA.Visible;
+        }
+
+        private void nodeB_Click(object sender, EventArgs e)
+        {
+            tbxB.Visible = !tbxB.Visible;
+        }
+
+        private void nodeC_Click(object sender, EventArgs e)
+        {
+            tbxC.Visible = !tbxC.Visible;
+        }
+
+        private void nodeD_Click(object sender, EventArgs e)
+        {
+            tbxD.Visible = !tbxD.Visible;
+        }
+
+        private void nodeE_Click(object sender, EventArgs e)
+        {
+            tbxE.Visible = !tbxE.Visible;
+        }
+
+        private void nodeF_Click(object sender, EventArgs e)
+        {
+            tbxF.Visible = !tbxF.Visible;
+        }
+
+        private void nodeG_Click(object sender, EventArgs e)
+        {
+            tbxG.Visible = !tbxG.Visible;
+        }
+
+        private void nodeH_Click(object sender, EventArgs e)
+        {
+            tbxH.Visible = !tbxH.Visible;
+        }
+
+        private void nodeI_Click(object sender, EventArgs e)
+        {
+            tbxI.Visible = !tbxI.Visible;
+        }
+
+        private void nodeJ_Click(object sender, EventArgs e)
+        {
+            tbxJ.Visible = !tbxJ.Visible;
         }
     }
 

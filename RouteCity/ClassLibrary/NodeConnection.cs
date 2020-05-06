@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ClassLibrary
 {
-    class NodeConnection
+    public class NodeConnection
     {
         //PROPERTIES
         public Node TargetNode { get; private set; }
