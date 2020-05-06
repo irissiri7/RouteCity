@@ -394,6 +394,63 @@ namespace TestChamber
         ///INTEGRATION///////////////////////////////////////////////////////////////////////////////////
 
         [Test]
+        public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesWithSamePaths_GivesRightResult()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            PathFinder sut = new PathFinder(dummy);
+
+            //Original quickest path
+            sut.FindQuickestPath("A", "J");
+            Assert.AreEqual(18d, sut.Result["J"].QuickestTimeFromStart);
+            sut.FindQuickestPath("A", "J");
+            //ASSERT that new quickest path has changed
+            Assert.AreEqual(18d, sut.Result["J"].QuickestTimeFromStart);
+        }
+
+        [Test]
+        public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesWithNewPath_GivesRightResult()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            PathFinder sut = new PathFinder(dummy);
+
+            //Original quickest path
+            sut.FindQuickestPath("A", "J");
+            Assert.AreEqual(18d, sut.Result["J"].QuickestTimeFromStart);
+            sut.FindQuickestPath("A", "E");
+            //ASSERT that new quickest path has changed
+            Assert.AreEqual(6d, sut.Result["E"].QuickestTimeFromStart);
+        }
+
+        [Test]
+        public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesAddingNewNodeToNetwork_GivesRightResult()
+        {
+            //ARRANGE
+            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            PathFinder sut = new PathFinder(dummy);
+
+            //Original quickest path
+            sut.FindQuickestPath("A", "J");
+            Assert.AreEqual(18d, sut.Result["J"].QuickestTimeFromStart);
+
+            //ACT, Adding new node and connection
+            dummy.AddNode("K");
+            dummy.AddConnection("K", "A", 1);
+            dummy.AddConnection("K", "J", 1);
+            sut.FindQuickestPath("K", "J");
+
+            //ASSERT
+            Assert.AreEqual(1d, sut.Result["J"].QuickestTimeFromStart);
+            sut.FindQuickestPath("A", "J");
+            Assert.AreEqual(2d, sut.Result["J"].QuickestTimeFromStart);
+            
+            Assert.AreEqual("A", sut.Result["J"].NodesVisited[0]);
+            Assert.AreEqual("K", sut.Result["J"].NodesVisited[1]);
+            Assert.AreEqual("J", sut.Result["J"].NodesVisited[2]);
+        }
+
+        [Test]
         public void FindQuickestPath_ChangingConnectionValuesExOne_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
