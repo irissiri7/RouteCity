@@ -144,6 +144,7 @@ namespace FormsVersion
             string fromNode = cbxFromLocation.Text;
             string toNode = cbxToLocation.Text;
             result = pathFinder.FindQuickestPath(fromNode, toNode, false);
+            lblTotal.Text = result[toNode].QuickestTimeFromStart.ToString();
             this.Refresh();
         }
 

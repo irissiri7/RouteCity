@@ -8,7 +8,7 @@ namespace ClassLibrary
     {
         //PROPERTIES
         internal Node Node { get; set; }
-        internal double QuickestTimeFromStart { get; set; }
+        public double QuickestTimeFromStart { get; set; }
         public List<string> NodesVisited { get; set; }
 
         //CONSTRUCTOR
