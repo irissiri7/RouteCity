@@ -28,6 +28,16 @@ namespace ClassLibrary
         }
 
         //METHODS
+        /// <summary>
+        /// This is the main method of the class. Given a start and end node it works its way through
+        /// the network and find the quickest path. The default behavior of the method is to stop when the
+        /// end node is reached (given that all the paths to this node has indeed been explored) but it is
+        /// possible to use the method to explore all nodes in the network.
+        /// </summary>
+        /// <param name="startNode"></param>
+        /// <param name="endNode"></param>
+        /// <param name="stopAtEndNode"></param>
+        /// <returns></returns>
         public Dictionary<string, Path> FindQuickestPath(string startNode, string endNode, bool stopAtEndNode = true)
         {
             if (startNode == null || endNode == null)
@@ -42,22 +52,24 @@ namespace ClassLibrary
             return Result;
         }
 
-        // Setting QuickestTimeFromStart to infinite
+        // Initializing the result dictionary so that all Paths have a QuickestTimeFromStart set to infinity.
         internal void InitializeResult(string startNode)
         {
+            // If the Pathfinder has been used previously we want to reset and start with a clean slate.
             if (NeedsReset)
                 ResetResult();
 
-            //We always need to construct a new Result dictionary 
-            //in the case that nodes have been added to the network since last        
+            // We always (re)build the Result dictionary in case nodes has been added/removed from network.
             foreach (var node in Network.Nodes)
             {
                 Result.Add(node.Key, new Path(node.Value));
             }
 
+            // Setting startNode accordingly
             Result[startNode].QuickestTimeFromStart = 0;
         }
 
+        // Emptying the Result dictionary and setting all the nodes as unvisited.
         private void ResetResult()
         {
             Result.Clear();
@@ -67,13 +79,13 @@ namespace ClassLibrary
             }
         }
 
-        // Going through all Paths to process the connections to each Node
+        // Going through all potential paths to process the connections to each Node
         internal void ProcessPaths(string startNode, string endNode, bool stopAtEndNode)
         {
             bool finished = false;
 
-            // A queue of all potential Paths, we will always proces the most promising paths
-            //first, aka with shortest time from start
+            // A queue of all potential paths where we will always process the most promising paths
+            // first, i.e the paths with current QuickestTimeFromStart
             PriorityQueue<Path> potentialPaths = ConstructPriorityQueueOfPotentialPaths(startNode);
 
             while (!finished)
@@ -95,12 +107,13 @@ namespace ClassLibrary
             }
         }
 
+        // Making a priority queue of paths where the priority is based on QuickestTimeFromStart
         internal PriorityQueue<Path> ConstructPriorityQueueOfPotentialPaths(string startNode)
         {
             PriorityQueue<Path> queue = new PriorityQueue<Path>();
             
             // Making a copy of the starting Path and adding to queue for further processing,
-            // reference to the actual Node will be the same so that we can keep track of 
+            // reference to the actual node will be the same so that we can keep track of 
             // which nodes we have visited
             Node start = Result[startNode].Node;
             double timeFromStart = Result[startNode].QuickestTimeFromStart;
@@ -109,6 +122,7 @@ namespace ClassLibrary
             return queue;
         }
 
+        // This method will pop the Priority Queueu getting the path with quickestTimeFromStart
         internal Path GetPathWithCurrentQuickestTimeFromStart(PriorityQueue<Path> queue)
         {
             bool finished = false;
@@ -137,20 +151,8 @@ namespace ClassLibrary
             return path;
         }
 
-        internal List<NodeConnection> GetRelevantConnections(Path path)
-        {
-            var allConnections = Network.Nodes[path.Node.Name].Connections.ToList();
-            List<NodeConnection> relevantConnections = new List<NodeConnection>();
-            foreach(var c in allConnections)
-            {
-                if(!c.Value.TargetNode.Visited)
-                    relevantConnections.Add(c.Value);
-            }
-            return relevantConnections;
-        }
-
         // Processing the connections to each node
-        internal void ProcessConnections(Path path, PriorityQueue<Path> paths)
+        internal void ProcessConnections(Path path, PriorityQueue<Path> queue)
         {
             // Relevant connections are the connections we have not already explored.
             var connections = GetRelevantConnections(path);
@@ -163,22 +165,35 @@ namespace ClassLibrary
 
                 if (distance < Result[targetNode].QuickestTimeFromStart)
                 {
-                    List<string> nodesVisited = UsePath(path, Result[targetNode]);
+                    List<string> nodesVisited = GetListOfNodesVisited(path, Result[targetNode]);
                     
                     UpdateResult(targetNode, distance, nodesVisited);
-                    paths.Add(new Path(Result[targetNode].Node, distance, nodesVisited));
+                    queue.Add(new Path(Result[targetNode].Node, distance, nodesVisited));
 
                 }
             }
         }
 
-        private void UpdateResult(string targetNode, double distance, List<string> nodesVisited )
+        // This method will return a list of NodeConnections given that the targetNode
+        // has not already been visited.
+        internal List<NodeConnection> GetRelevantConnections(Path path)
         {
-            Result[targetNode].QuickestTimeFromStart = distance;
-            Result[targetNode].NodesVisited = nodesVisited;
+            string nodeName = path.Node.Name;
+            var allConnections = Network.Nodes[nodeName].Connections.ToList();
+            List<NodeConnection> relevantConnections = new List<NodeConnection>();
+            foreach(var c in allConnections)
+            {
+                if(!c.Value.TargetNode.Visited)
+                    relevantConnections.Add(c.Value);
+            }
+            return relevantConnections;
         }
 
-        private List<string> UsePath(Path visiting, Path gettingVisited)
+        // All paths hold a list with the name of the nodes the path has traversed. If the
+        // path of the visiting node turns out to be more efficient than the current path 
+        // of the node getting visited,this method will copy the list of the visiting node 
+        // and also append the name of the node getting visited and returning a new list
+        private List<string> GetListOfNodesVisited(Path visiting, Path gettingVisited)
         {
             List<string> newPath = new List<string>();
             foreach (var node in visiting.NodesVisited)
@@ -190,33 +205,14 @@ namespace ClassLibrary
 
             return newPath;
         }
-
-        private string ExtractResult(string startNode)
+        
+        // When a quicker path has been found this method will update the Result dictionary
+        private void UpdateResult(string targetNode, double distance, List<string> nodesVisited )
         {
-            StringBuilder result = new StringBuilder();
-            result.Append($"Start Node {startNode}\n\n");
-
-            foreach (var path in Result)
-            {
-                if (path.Key == startNode)
-                    continue;
-                result.Append($"Node:{path.Key}\nShortest Time Cost: {(double.IsPositiveInfinity(path.Value.QuickestTimeFromStart) ? "Infinity" : path.Value.QuickestTimeFromStart.ToString())}\nVia Node: {ExtractPath(path.Value)} \n\n");
-            }
-            return result.ToString();
+            Result[targetNode].QuickestTimeFromStart = distance;
+            Result[targetNode].NodesVisited = nodesVisited;
         }
 
-        private string ExtractPath(Path path)
-        {
-            StringBuilder str = new StringBuilder();
-            char[] charsToTrim = { '-', '>', ' ' };
-
-            foreach (var node in path.NodesVisited)
-            {
-                str.Append($"{node} -> ");
-            }
-            return str.ToString().TrimEnd(charsToTrim);
-        }
-
-
+        
     }
 }
