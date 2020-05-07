@@ -392,6 +392,31 @@ namespace TestChamber
         }
 
         ///INTEGRATION///////////////////////////////////////////////////////////////////////////////////
+        [Test]
+        public void InitializeResult_PathFinderHasBeenUsedPreviously_DoesResetResultDictionary()
+        {
+            //ARRANGE
+            Network network = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            PathFinder sut = new PathFinder(network);
+            sut.FindQuickestPath("A", "D");
+            
+            //ACT
+            sut.InitializeResult("A");
+
+            //ASSERT
+            foreach(var path in sut.Result)
+            {
+                if(path.Key != "A")
+                {
+                    Assert.IsTrue(double.IsPositiveInfinity(path.Value.QuickestTimeFromStart));
+                }
+            }
+            foreach(var node in network.Nodes)
+            {
+                Assert.IsTrue(node.Value.Visited == false);
+            }
+
+        }
 
         [Test]
         public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesWithSamePaths_GivesRightResult()
