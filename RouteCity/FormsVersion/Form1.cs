@@ -14,29 +14,29 @@ namespace FormsVersion
     public partial class Form1 : Form
     {
         // Essential variables
-        public Dictionary<string, Position> positions = new Dictionary<string, Position>();
+        public Dictionary<string, Position> nodePositionCoupling = new Dictionary<string, Position>();
         public Network network = new Network();
         public PathFinder pathFinder = null;
         public List<string> nodeNames = new List<string>();
-        public List<Position> listOfPositions = new List<Position>();
-        Dictionary<string, Path> result = new Dictionary<string, Path>();
-        List<TextBox> textboxes = new List<TextBox>();
+        public List<Position> listOfAnchorPointPositions = new List<Position>();
+        Dictionary<string, Path> resultsFromPathFinder = new Dictionary<string, Path>();
+        List<TextBox> nodeTextBoxes = new List<TextBox>();
 
         public Form1()
         {
             InitializeComponent();
 
             // Gathering the positions of each circle on the Forms-window. 
-            listOfPositions.Add(new Position(nodeA));
-            listOfPositions.Add(new Position(nodeB));
-            listOfPositions.Add(new Position(nodeC));
-            listOfPositions.Add(new Position(nodeD));
-            listOfPositions.Add(new Position(nodeE));
-            listOfPositions.Add(new Position(nodeF));
-            listOfPositions.Add(new Position(nodeG));
-            listOfPositions.Add(new Position(nodeH));
-            listOfPositions.Add(new Position(nodeI));
-            listOfPositions.Add(new Position(nodeJ));
+            listOfAnchorPointPositions.Add(new Position(nodeA));
+            listOfAnchorPointPositions.Add(new Position(nodeB));
+            listOfAnchorPointPositions.Add(new Position(nodeC));
+            listOfAnchorPointPositions.Add(new Position(nodeD));
+            listOfAnchorPointPositions.Add(new Position(nodeE));
+            listOfAnchorPointPositions.Add(new Position(nodeF));
+            listOfAnchorPointPositions.Add(new Position(nodeG));
+            listOfAnchorPointPositions.Add(new Position(nodeH));
+            listOfAnchorPointPositions.Add(new Position(nodeI));
+            listOfAnchorPointPositions.Add(new Position(nodeJ));
 
             // Creating a list of names for the nodes. 
             nodeNames.Add("A");
@@ -52,16 +52,16 @@ namespace FormsVersion
 
             // Gathering a list of all textboxes that displays information about each connection. 
             // This will be useful in a loop later. 
-            textboxes.Add(tbxA);
-            textboxes.Add(tbxB);
-            textboxes.Add(tbxC);
-            textboxes.Add(tbxD);
-            textboxes.Add(tbxE);
-            textboxes.Add(tbxF);
-            textboxes.Add(tbxG);
-            textboxes.Add(tbxH);
-            textboxes.Add(tbxI);
-            textboxes.Add(tbxJ);
+            nodeTextBoxes.Add(tbxA);
+            nodeTextBoxes.Add(tbxB);
+            nodeTextBoxes.Add(tbxC);
+            nodeTextBoxes.Add(tbxD);
+            nodeTextBoxes.Add(tbxE);
+            nodeTextBoxes.Add(tbxF);
+            nodeTextBoxes.Add(tbxG);
+            nodeTextBoxes.Add(tbxH);
+            nodeTextBoxes.Add(tbxI);
+            nodeTextBoxes.Add(tbxJ);
         }
 
         // This method is called when the Form-window is redrawn, for example when it's refreshed. When that happens we want it to
@@ -70,7 +70,7 @@ namespace FormsVersion
         {
             Graphics g = e.Graphics;
             DisplayNetwork(g);
-            if (result.Count > 0)
+            if (resultsFromPathFinder.Count > 0)
             {
                 DisplayQuickestPath(g);
             }
@@ -89,11 +89,13 @@ namespace FormsVersion
         {
             // Since "connectionpath" uses strings to informs how the nodes were connected and "positions" is a dictionary connecting 
             // a name to a position on the form, we can combine these two datastructures to draw the right lines between the right nodes. 
-            foreach (var element in network.connectionPath)
+            foreach (var element in network.ConnectionPath)
             {
                 for (int i = 0; i < element.Value.Count; i++)
                 {
-                    DrawLineBetweenPositions(positions[element.Key], positions[element.Value[i].ToNode], g, Color.White);
+                    Position fromPosition = nodePositionCoupling[element.Key];
+                    Position toPosition = nodePositionCoupling[element.Value[i].ToNode];
+                    DrawLineBetweenPositions(fromPosition, toPosition, g, Color.White);
                 }
             }
         }
@@ -110,7 +112,7 @@ namespace FormsVersion
         private void btnRandomize_Click(object sender, EventArgs e)
         {
             // Clearing the result results in the line drawn using the latest quickest path based on the previous network is also removed. 
-            result.Clear();
+            resultsFromPathFinder.Clear();
 
             if (nodeNames.Count == 10)
             {
@@ -119,18 +121,18 @@ namespace FormsVersion
                 network.CreateNetwork(nodeNames);
                 pathFinder = new PathFinder(network);
 
-                if (positions.Count != 10)
+                if (nodePositionCoupling.Count != 10)
                 {
                     // Connecting the nodes their position on the form. 
-                    positions.Clear();
+                    nodePositionCoupling.Clear();
                     for (int i = 0; i < nodeNames.Count; i++)
                     {
-                        positions.Add(nodeNames[i], listOfPositions[i]);
+                        nodePositionCoupling.Add(nodeNames[i], listOfAnchorPointPositions[i]);
                     }
                 }
 
                 // Update the information in the textBoxes
-                foreach (var textbox in textboxes)
+                foreach (var textbox in nodeTextBoxes)
                 {
                     textbox.Text = ListConnections(textbox.Tag.ToString());
                 }
@@ -157,8 +159,8 @@ namespace FormsVersion
         {
             string fromNode = cbxFromLocation.Text;
             string toNode = cbxToLocation.Text;
-            result = pathFinder.FindQuickestPath(fromNode, toNode, false);
-            lblTotal.Text = result[toNode].QuickestTimeFromStart.ToString();
+            resultsFromPathFinder = pathFinder.FindQuickestPath(fromNode, toNode, false);
+            lblTotal.Text = resultsFromPathFinder[toNode].QuickestTimeFromStart.ToString();
             this.Refresh();
         }
 
@@ -166,9 +168,11 @@ namespace FormsVersion
         {
             // Draws a gold line between nodes, showing the quickest path between the nodes the user chose. 
             string toNode = cbxToLocation.Text;
-            for (int i = 0; i < result[toNode].NodesVisited.Count - 1; i++)
+            for (int i = 0; i < resultsFromPathFinder[toNode].NodesVisited.Count - 1; i++)
             {
-                DrawLineBetweenPositions(positions[result[toNode].NodesVisited[i]], positions[result[toNode].NodesVisited[i + 1]], g, Color.Gold);
+                Position fromPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i]];
+                Position toPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i + 1]];
+                DrawLineBetweenPositions(fromPosition, toPosition, g, Color.Gold);
             }
         }
 

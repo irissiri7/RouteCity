@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 [assembly: InternalsVisibleTo("TestChamber")]
 
 namespace ClassLibrary
 {
+
     public class PathFinder
     {
         //PROPERTIES
         private Network Network { get; set; }
-        public Dictionary<string, Path> Result { get; private set; }
-        public bool NeedsReset { get => Result.Count > 0; }
+        public Dictionary<string, Path> QuickestPathResults { get; private set; }
+        private bool NeedsReset { get => QuickestPathResults.Count > 0; }
 
         //CONSTRUCTOR
         public PathFinder(Network network)
@@ -24,7 +24,7 @@ namespace ClassLibrary
                 throw new InvalidOperationException("Can not create a Pathfinder if Network has less than 3 nodes");
             
             Network = network;
-            Result = new Dictionary<string, Path>();
+            QuickestPathResults = new Dictionary<string, Path>();
         }
 
         //METHODS
@@ -41,41 +41,43 @@ namespace ClassLibrary
         public Dictionary<string, Path> FindQuickestPath(string startNode, string endNode, bool stopAtEndNode = true)
         {
             if (startNode == null || endNode == null)
-                throw new InvalidOperationException("Can not preform operation if nodes are null");
+                throw new ArgumentNullException("Can not preform operation if nodes are null");
             if (startNode.Equals(endNode))
-                throw new InvalidOperationException("Start node and end node must be different");
+                throw new ArgumentException("Start node and end node must be different");
             if (!Network.Nodes.Any(n => n.Key == startNode) || !Network.Nodes.Any(n => n.Key == endNode))
-                throw new InvalidOperationException("Both start and end node must be in network");
+                throw new ArgumentException("Both start and end node must be in network");
             
-            InitializeResult(startNode);
+            InitializeQuickestPathResults(startNode);
             ProcessPaths(startNode, endNode, stopAtEndNode);
-            return Result;
+            return QuickestPathResults;
         }
 
-        // Initializing the result dictionary so that all Paths have a QuickestTimeFromStart set to infinity.
-        internal void InitializeResult(string startNode)
+        // Initializing the QuickestPathResults dictionary so that all Paths have a QuickestTimeFromStart set to infinity.
+        internal void InitializeQuickestPathResults(string startNode)
         {
             // If the Pathfinder has been used previously we want to reset and start with a clean slate.
             if (NeedsReset)
-                ResetResult();
-
-            // We always (re)build the Result dictionary in case nodes has been added/removed from network.
+            {
+                QuickestPathResults.Clear();
+                ResetVisitedNodes();
+            }
+                
+            // We always (re)build the QuickestPathResults dictionary in case nodes has been added/removed from network.
             foreach (var node in Network.Nodes)
             {
-                Result.Add(node.Key, new Path(node.Value));
+                QuickestPathResults.Add(node.Key, new Path(node.Value));
             }
 
             // Setting startNode accordingly
-            Result[startNode].QuickestTimeFromStart = 0;
+            QuickestPathResults[startNode].QuickestTimeFromStart = 0;
         }
 
-        // Emptying the Result dictionary and setting all the nodes as unvisited.
-        private void ResetResult()
+        // Emptying the QuickestPathResults dictionary and setting all the nodes as unvisited.
+        private void ResetVisitedNodes()
         {
-            Result.Clear();
             foreach (var n in Network.Nodes)
             {
-                n.Value.Visited = false;
+                n.Value.visited = false;
             }
         }
 
@@ -115,8 +117,8 @@ namespace ClassLibrary
             // Making a copy of the starting Path and adding to queue for further processing,
             // reference to the actual node will be the same so that we can keep track of 
             // which nodes we have visited
-            Node start = Result[startNode].Node;
-            double timeFromStart = Result[startNode].QuickestTimeFromStart;
+            Node start = QuickestPathResults[startNode].Node;
+            double timeFromStart = QuickestPathResults[startNode].QuickestTimeFromStart;
             queue.Add(new Path(start, timeFromStart));
             
             return queue;
@@ -134,10 +136,10 @@ namespace ClassLibrary
                     path = queue.Pop();
                     
                     //If the node has NOT been visited already we want to explore this path
-                    if (!path.Node.Visited)
+                    if (!path.Node.visited)
                     {
                         finished = true;
-                        path.Node.Visited = true;
+                        path.Node.visited = true;
                     }
                 }
                 // This exception is thrown when we try to Pop() an empty queue 
@@ -146,6 +148,7 @@ namespace ClassLibrary
                 {
                     return path;
                 }
+
             } while (!finished);
             
             return path;
@@ -159,16 +162,16 @@ namespace ClassLibrary
 
             foreach (var connection in connections)
             {
-                string targetNode = connection.TargetNode.Name;
+                string targetNode = connection.TargetName;
 
                 double distance = path.QuickestTimeFromStart + connection.TimeCost;
 
-                if (distance < Result[targetNode].QuickestTimeFromStart)
+                if (distance < QuickestPathResults[targetNode].QuickestTimeFromStart)
                 {
-                    List<string> nodesVisited = GetListOfNodesVisited(path, Result[targetNode]);
+                    List<string> nodesVisited = GetListOfNodesVisited(path, QuickestPathResults[targetNode]);
                     
                     UpdateResult(targetNode, distance, nodesVisited);
-                    queue.Add(new Path(Result[targetNode].Node, distance, nodesVisited));
+                    queue.Add(new Path(QuickestPathResults[targetNode].Node, distance, nodesVisited));
 
                 }
             }
@@ -183,7 +186,7 @@ namespace ClassLibrary
             List<NodeConnection> relevantConnections = new List<NodeConnection>();
             foreach(var c in allConnections)
             {
-                if(!c.Value.TargetNode.Visited)
+                if(!c.Value.TargetNode.visited)
                     relevantConnections.Add(c.Value);
             }
             return relevantConnections;
@@ -206,11 +209,11 @@ namespace ClassLibrary
             return newPath;
         }
         
-        // When a quicker path has been found this method will update the Result dictionary
+        // When a quicker path has been found this method will update the QuickestPathResults dictionary
         private void UpdateResult(string targetNode, double distance, List<string> nodesVisited )
         {
-            Result[targetNode].QuickestTimeFromStart = distance;
-            Result[targetNode].NodesVisited = nodesVisited;
+            QuickestPathResults[targetNode].QuickestTimeFromStart = distance;
+            QuickestPathResults[targetNode].NodesVisited = nodesVisited;
         }
 
         

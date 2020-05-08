@@ -126,7 +126,7 @@ namespace ClassLibrary
             }
             else
             {
-                throw new InvalidOperationException("Cannot pop an empty list");
+                throw new InvalidOperationException("Cannot pop an empty queue");
             }
  
         }
