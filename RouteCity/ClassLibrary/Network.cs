@@ -135,7 +135,7 @@ namespace ClassLibrary
         /// <summary>
         /// Randomizes connections between the nodes in "Nodes", creating a closed system of connections 
         /// </summary>
-        private void RandomizeConnections()
+        internal void RandomizeConnections()
         {
             Random r = new Random();
             List<Node> emptyNodes = new List<Node>(Nodes.Count);
