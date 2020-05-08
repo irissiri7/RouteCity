@@ -159,9 +159,22 @@ namespace FormsVersion
         {
             string fromNode = cbxFromLocation.Text;
             string toNode = cbxToLocation.Text;
-            resultsFromPathFinder = pathFinder.FindQuickestPath(fromNode, toNode, false);
-            lblTotal.Text = resultsFromPathFinder[toNode].QuickestTimeFromStart.ToString();
+            try
+            {
+                resultsFromPathFinder = pathFinder.FindQuickestPath(fromNode, toNode, false);
+                lblTotal.Text = resultsFromPathFinder[toNode].QuickestTimeFromStart.ToString();
+
+            }
+            catch(ArgumentException error)
+            {
+                MessageBox.Show(error.Message);
+                lblTotal.Text = "N/A";
+                resultsFromPathFinder.Clear();
+                network.ResetNodes();
+            }
+
             this.Refresh();
+
         }
 
         private void DisplayQuickestPath(Graphics g)
