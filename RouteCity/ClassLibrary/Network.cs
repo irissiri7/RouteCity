@@ -8,45 +8,27 @@ using System.Runtime.CompilerServices;
 
 namespace ClassLibrary
 {
-    // Keeps track on connections made between nodes. 
-    // Could this be replaced by NodeConnection? TargetNode there is Node not string...
-    // Ta hand om
-    public struct Connection
-    {
-        public string FromNode { get; set; }
-        public string ToNode { get; set; }
-        public double TimeCost { get; set; }
-
-        public Connection(string fromNode, string toNode, double timeCost)
-        {
-            FromNode = fromNode;
-            ToNode = toNode;
-            TimeCost = timeCost;
-        }
-    }
-
     public class Network
     {
         //PROPERTIES
 
         public Dictionary<string, Node> Nodes { get; private set; }
-        
+       
         // The Node-class includes a list of objects called NodeConnections, which keeps track of all the connections that specific node has.
         // For example: A includes information that it's connected to C, while C also includes info that it's connected to A. 
         // With that said, this Dictionaty named connectionsPath is different. It keeps track of HOW all of the nodes were connected to eachother, 
         // which is useful when displaying connections without displaying the same connection twice.
-
-            // *** THINK ***
-        public Dictionary<string, List<Connection>> ConnectionPath {get; private set;}
+        public Dictionary<string, List<NodeConnection>> ConnectionPath {get; private set;}
 
         //CONSTRUCTOR
         public Network()
         {
             Nodes = new Dictionary<string, Node>(StringComparer.InvariantCultureIgnoreCase);
-            ConnectionPath = new Dictionary<string, List<Connection>>();
+            ConnectionPath = new Dictionary<string, List<NodeConnection>>();
         }
 
         //METHODS
+
         /// <summary>
         /// Creates a network of nodes with random connections based on the names that are put in as arguments. 
         /// </summary>
@@ -135,7 +117,7 @@ namespace ClassLibrary
         /// <summary>
         /// Randomizes connections between the nodes in "Nodes", creating a closed system of connections 
         /// </summary>
-        private void RandomizeConnections()
+        internal void RandomizeConnections()
         {
             Random r = new Random();
             List<Node> emptyNodes = new List<Node>(Nodes.Count);
@@ -177,8 +159,8 @@ namespace ClassLibrary
                     int connectToIndex = r.Next(0, emptyNodes.Count);
                     double timeCost = r.Next(1, 11);
                     string fromNode = currentNode.Name;
-                    string toNode = emptyNodes[connectToIndex].Name;
-                    AddConnection(fromNode, toNode, timeCost);
+                    Node toNode = emptyNodes[connectToIndex];
+                    AddConnection(fromNode, toNode.Name, timeCost);
                     AddConnectionPath(fromNode, toNode, timeCost);
                     
                     // We only need to use SortAt() when we've picked a random node from incompleteNodes
@@ -231,8 +213,8 @@ namespace ClassLibrary
                     {
                         double timeCost = r.Next(1, 11);
                         string fromNode = currentNode.Name;
-                        string toNode = incompleteNodes.GetValueByIndex(connectToIndex).Name;
-                        AddConnection(fromNode, toNode, timeCost);
+                        Node toNode = incompleteNodes.GetValueByIndex(connectToIndex);
+                        AddConnection(fromNode, toNode.Name, timeCost);
                         AddConnectionPath(fromNode, toNode, timeCost);
                     }
 
@@ -258,15 +240,15 @@ namespace ClassLibrary
             }
         }
 
-        private void AddConnectionPath(string fromNode, string toNode, double timeCost)
+        private void AddConnectionPath(string fromNode, Node toNode, double timeCost)
         {
             if (ConnectionPath.ContainsKey(fromNode))
             {
-                ConnectionPath[fromNode].Add(new Connection(fromNode, toNode, timeCost));
+                ConnectionPath[fromNode].Add(new NodeConnection(toNode, timeCost));
             }
             else
             {
-                ConnectionPath.Add(fromNode, new List<Connection> {new Connection(fromNode, toNode, timeCost) });
+                ConnectionPath.Add(fromNode, new List<NodeConnection> {new NodeConnection(toNode, timeCost) });
             }
         }
     }
