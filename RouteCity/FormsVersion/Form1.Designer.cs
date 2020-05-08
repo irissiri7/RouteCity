@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.nodeA = new System.Windows.Forms.PictureBox();
             this.nodeC = new System.Windows.Forms.PictureBox();
             this.nodeD = new System.Windows.Forms.PictureBox();
@@ -76,9 +77,10 @@
             this.nodeA.BackColor = System.Drawing.Color.Transparent;
             this.nodeA.BackgroundImage = global::FormsVersion.Properties.Resources.NodeA;
             this.nodeA.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeA.Location = new System.Drawing.Point(377, 43);
+            this.nodeA.Location = new System.Drawing.Point(566, 66);
+            this.nodeA.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeA.Name = "nodeA";
-            this.nodeA.Size = new System.Drawing.Size(100, 98);
+            this.nodeA.Size = new System.Drawing.Size(150, 151);
             this.nodeA.TabIndex = 0;
             this.nodeA.TabStop = false;
             this.nodeA.Tag = "A";
@@ -89,9 +91,10 @@
             this.nodeC.BackColor = System.Drawing.Color.Transparent;
             this.nodeC.BackgroundImage = global::FormsVersion.Properties.Resources.NodeC;
             this.nodeC.Cursor = System.Windows.Forms.Cursors.SizeAll;
-            this.nodeC.Location = new System.Drawing.Point(596, 106);
+            this.nodeC.Location = new System.Drawing.Point(894, 163);
+            this.nodeC.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeC.Name = "nodeC";
-            this.nodeC.Size = new System.Drawing.Size(100, 98);
+            this.nodeC.Size = new System.Drawing.Size(150, 151);
             this.nodeC.TabIndex = 1;
             this.nodeC.TabStop = false;
             this.nodeC.Tag = "C";
@@ -103,9 +106,10 @@
             this.nodeD.BackColor = System.Drawing.Color.Transparent;
             this.nodeD.BackgroundImage = global::FormsVersion.Properties.Resources.NodeD;
             this.nodeD.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeD.Location = new System.Drawing.Point(638, 218);
+            this.nodeD.Location = new System.Drawing.Point(957, 335);
+            this.nodeD.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeD.Name = "nodeD";
-            this.nodeD.Size = new System.Drawing.Size(100, 98);
+            this.nodeD.Size = new System.Drawing.Size(150, 151);
             this.nodeD.TabIndex = 2;
             this.nodeD.TabStop = false;
             this.nodeD.Tag = "D";
@@ -116,9 +120,10 @@
             this.nodeE.BackColor = System.Drawing.Color.Transparent;
             this.nodeE.BackgroundImage = global::FormsVersion.Properties.Resources.NodeE;
             this.nodeE.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeE.Location = new System.Drawing.Point(596, 329);
+            this.nodeE.Location = new System.Drawing.Point(894, 506);
+            this.nodeE.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeE.Name = "nodeE";
-            this.nodeE.Size = new System.Drawing.Size(100, 98);
+            this.nodeE.Size = new System.Drawing.Size(150, 151);
             this.nodeE.TabIndex = 3;
             this.nodeE.TabStop = false;
             this.nodeE.Tag = "E";
@@ -129,9 +134,10 @@
             this.nodeF.BackColor = System.Drawing.Color.Transparent;
             this.nodeF.BackgroundImage = global::FormsVersion.Properties.Resources.NodeF;
             this.nodeF.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeF.Location = new System.Drawing.Point(491, 406);
+            this.nodeF.Location = new System.Drawing.Point(736, 625);
+            this.nodeF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeF.Name = "nodeF";
-            this.nodeF.Size = new System.Drawing.Size(100, 98);
+            this.nodeF.Size = new System.Drawing.Size(150, 151);
             this.nodeF.TabIndex = 4;
             this.nodeF.TabStop = false;
             this.nodeF.Tag = "F";
@@ -142,9 +148,10 @@
             this.nodeG.BackColor = System.Drawing.Color.Transparent;
             this.nodeG.BackgroundImage = global::FormsVersion.Properties.Resources.NodeG;
             this.nodeG.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeG.Location = new System.Drawing.Point(377, 406);
+            this.nodeG.Location = new System.Drawing.Point(566, 625);
+            this.nodeG.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeG.Name = "nodeG";
-            this.nodeG.Size = new System.Drawing.Size(100, 98);
+            this.nodeG.Size = new System.Drawing.Size(150, 151);
             this.nodeG.TabIndex = 5;
             this.nodeG.TabStop = false;
             this.nodeG.Tag = "G";
@@ -155,9 +162,10 @@
             this.nodeH.BackColor = System.Drawing.Color.Transparent;
             this.nodeH.BackgroundImage = global::FormsVersion.Properties.Resources.NodeH;
             this.nodeH.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeH.Location = new System.Drawing.Point(272, 329);
+            this.nodeH.Location = new System.Drawing.Point(408, 506);
+            this.nodeH.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeH.Name = "nodeH";
-            this.nodeH.Size = new System.Drawing.Size(100, 98);
+            this.nodeH.Size = new System.Drawing.Size(150, 151);
             this.nodeH.TabIndex = 6;
             this.nodeH.TabStop = false;
             this.nodeH.Tag = "H";
@@ -168,9 +176,10 @@
             this.nodeI.BackColor = System.Drawing.Color.Transparent;
             this.nodeI.BackgroundImage = global::FormsVersion.Properties.Resources.NodeI;
             this.nodeI.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeI.Location = new System.Drawing.Point(225, 218);
+            this.nodeI.Location = new System.Drawing.Point(338, 335);
+            this.nodeI.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeI.Name = "nodeI";
-            this.nodeI.Size = new System.Drawing.Size(100, 98);
+            this.nodeI.Size = new System.Drawing.Size(150, 151);
             this.nodeI.TabIndex = 7;
             this.nodeI.TabStop = false;
             this.nodeI.Tag = "I";
@@ -181,9 +190,10 @@
             this.nodeJ.BackColor = System.Drawing.Color.Transparent;
             this.nodeJ.BackgroundImage = global::FormsVersion.Properties.Resources.NodeJ;
             this.nodeJ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeJ.Location = new System.Drawing.Point(272, 106);
+            this.nodeJ.Location = new System.Drawing.Point(408, 163);
+            this.nodeJ.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeJ.Name = "nodeJ";
-            this.nodeJ.Size = new System.Drawing.Size(100, 98);
+            this.nodeJ.Size = new System.Drawing.Size(150, 151);
             this.nodeJ.TabIndex = 8;
             this.nodeJ.TabStop = false;
             this.nodeJ.Tag = "J";
@@ -194,9 +204,10 @@
             this.nodeB.BackColor = System.Drawing.Color.Transparent;
             this.nodeB.BackgroundImage = global::FormsVersion.Properties.Resources.NodeB;
             this.nodeB.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.nodeB.Location = new System.Drawing.Point(491, 43);
+            this.nodeB.Location = new System.Drawing.Point(736, 66);
+            this.nodeB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nodeB.Name = "nodeB";
-            this.nodeB.Size = new System.Drawing.Size(100, 98);
+            this.nodeB.Size = new System.Drawing.Size(150, 151);
             this.nodeB.TabIndex = 9;
             this.nodeB.TabStop = false;
             this.nodeB.Tag = "B";
@@ -216,9 +227,11 @@
             this.gbxControl.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbxControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbxControl.ForeColor = System.Drawing.Color.White;
-            this.gbxControl.Location = new System.Drawing.Point(0, 542);
+            this.gbxControl.Location = new System.Drawing.Point(0, 833);
+            this.gbxControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbxControl.Name = "gbxControl";
-            this.gbxControl.Size = new System.Drawing.Size(939, 120);
+            this.gbxControl.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbxControl.Size = new System.Drawing.Size(1408, 185);
             this.gbxControl.TabIndex = 10;
             this.gbxControl.TabStop = false;
             this.gbxControl.Text = "Controls";
@@ -229,9 +242,10 @@
             this.lblTotal.BackColor = System.Drawing.Color.Transparent;
             this.lblTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.lblTotal.Location = new System.Drawing.Point(809, 88);
+            this.lblTotal.Location = new System.Drawing.Point(1214, 135);
+            this.lblTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(31, 16);
+            this.lblTotal.Size = new System.Drawing.Size(46, 25);
             this.lblTotal.TabIndex = 43;
             this.lblTotal.Text = "N/A";
             // 
@@ -241,9 +255,10 @@
             this.label24.BackColor = System.Drawing.Color.Transparent;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.label24.Location = new System.Drawing.Point(708, 88);
+            this.label24.Location = new System.Drawing.Point(1062, 135);
+            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(98, 16);
+            this.label24.Size = new System.Drawing.Size(144, 25);
             this.label24.TabIndex = 42;
             this.label24.Text = "Total time cost:";
             // 
@@ -251,9 +266,10 @@
             // 
             this.btnFindQuickest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnFindQuickest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFindQuickest.Location = new System.Drawing.Point(559, 24);
+            this.btnFindQuickest.Location = new System.Drawing.Point(838, 37);
+            this.btnFindQuickest.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnFindQuickest.Name = "btnFindQuickest";
-            this.btnFindQuickest.Size = new System.Drawing.Size(138, 80);
+            this.btnFindQuickest.Size = new System.Drawing.Size(207, 123);
             this.btnFindQuickest.TabIndex = 5;
             this.btnFindQuickest.Text = "Find Quickest Path";
             this.btnFindQuickest.UseVisualStyleBackColor = false;
@@ -262,9 +278,10 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(413, 63);
+            this.label22.Location = new System.Drawing.Point(620, 97);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(75, 16);
+            this.label22.Size = new System.Drawing.Size(108, 25);
             this.label22.TabIndex = 4;
             this.label22.Text = "To location";
             // 
@@ -283,17 +300,19 @@
             "H",
             "I",
             "J"});
-            this.cbxToLocation.Location = new System.Drawing.Point(416, 80);
+            this.cbxToLocation.Location = new System.Drawing.Point(624, 123);
+            this.cbxToLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbxToLocation.Name = "cbxToLocation";
-            this.cbxToLocation.Size = new System.Drawing.Size(121, 24);
+            this.cbxToLocation.Size = new System.Drawing.Size(180, 33);
             this.cbxToLocation.TabIndex = 3;
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(413, 21);
+            this.label21.Location = new System.Drawing.Point(620, 32);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(89, 16);
+            this.label21.Size = new System.Drawing.Size(129, 25);
             this.label21.TabIndex = 2;
             this.label21.Text = "From location";
             // 
@@ -312,18 +331,20 @@
             "H",
             "I",
             "J"});
-            this.cbxFromLocation.Location = new System.Drawing.Point(416, 38);
+            this.cbxFromLocation.Location = new System.Drawing.Point(624, 58);
+            this.cbxFromLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbxFromLocation.Name = "cbxFromLocation";
-            this.cbxFromLocation.Size = new System.Drawing.Size(121, 24);
+            this.cbxFromLocation.Size = new System.Drawing.Size(180, 33);
             this.cbxFromLocation.TabIndex = 1;
             // 
             // btnRandomize
             // 
             this.btnRandomize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnRandomize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRandomize.Location = new System.Drawing.Point(252, 24);
+            this.btnRandomize.Location = new System.Drawing.Point(378, 37);
+            this.btnRandomize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnRandomize.Name = "btnRandomize";
-            this.btnRandomize.Size = new System.Drawing.Size(138, 80);
+            this.btnRandomize.Size = new System.Drawing.Size(207, 123);
             this.btnRandomize.TabIndex = 0;
             this.btnRandomize.Text = "Randomize New Network";
             this.btnRandomize.UseVisualStyleBackColor = false;
@@ -334,11 +355,12 @@
             this.tbxA.BackColor = System.Drawing.Color.Black;
             this.tbxA.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxA.ForeColor = System.Drawing.Color.White;
-            this.tbxA.Location = new System.Drawing.Point(299, 13);
+            this.tbxA.Location = new System.Drawing.Point(448, 20);
+            this.tbxA.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxA.Multiline = true;
             this.tbxA.Name = "tbxA";
             this.tbxA.ReadOnly = true;
-            this.tbxA.Size = new System.Drawing.Size(120, 36);
+            this.tbxA.Size = new System.Drawing.Size(180, 55);
             this.tbxA.TabIndex = 31;
             this.tbxA.Tag = "A";
             this.tbxA.Visible = false;
@@ -348,11 +370,12 @@
             this.tbxB.BackColor = System.Drawing.Color.Black;
             this.tbxB.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxB.ForeColor = System.Drawing.Color.White;
-            this.tbxB.Location = new System.Drawing.Point(547, 13);
+            this.tbxB.Location = new System.Drawing.Point(820, 20);
+            this.tbxB.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxB.Multiline = true;
             this.tbxB.Name = "tbxB";
             this.tbxB.ReadOnly = true;
-            this.tbxB.Size = new System.Drawing.Size(120, 36);
+            this.tbxB.Size = new System.Drawing.Size(180, 55);
             this.tbxB.TabIndex = 32;
             this.tbxB.Tag = "B";
             this.tbxB.Visible = false;
@@ -362,11 +385,12 @@
             this.tbxC.BackColor = System.Drawing.Color.Black;
             this.tbxC.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxC.ForeColor = System.Drawing.Color.White;
-            this.tbxC.Location = new System.Drawing.Point(638, 77);
+            this.tbxC.Location = new System.Drawing.Point(957, 118);
+            this.tbxC.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxC.Multiline = true;
             this.tbxC.Name = "tbxC";
             this.tbxC.ReadOnly = true;
-            this.tbxC.Size = new System.Drawing.Size(120, 36);
+            this.tbxC.Size = new System.Drawing.Size(180, 55);
             this.tbxC.TabIndex = 33;
             this.tbxC.Tag = "C";
             this.tbxC.Visible = false;
@@ -376,11 +400,12 @@
             this.tbxD.BackColor = System.Drawing.Color.Black;
             this.tbxD.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxD.ForeColor = System.Drawing.Color.White;
-            this.tbxD.Location = new System.Drawing.Point(684, 187);
+            this.tbxD.Location = new System.Drawing.Point(1026, 288);
+            this.tbxD.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxD.Multiline = true;
             this.tbxD.Name = "tbxD";
             this.tbxD.ReadOnly = true;
-            this.tbxD.Size = new System.Drawing.Size(120, 36);
+            this.tbxD.Size = new System.Drawing.Size(180, 55);
             this.tbxD.TabIndex = 34;
             this.tbxD.Tag = "D";
             this.tbxD.Visible = false;
@@ -390,11 +415,12 @@
             this.tbxE.BackColor = System.Drawing.Color.Black;
             this.tbxE.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxE.ForeColor = System.Drawing.Color.White;
-            this.tbxE.Location = new System.Drawing.Point(684, 329);
+            this.tbxE.Location = new System.Drawing.Point(1026, 506);
+            this.tbxE.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxE.Multiline = true;
             this.tbxE.Name = "tbxE";
             this.tbxE.ReadOnly = true;
-            this.tbxE.Size = new System.Drawing.Size(120, 36);
+            this.tbxE.Size = new System.Drawing.Size(180, 55);
             this.tbxE.TabIndex = 35;
             this.tbxE.Tag = "E";
             this.tbxE.Visible = false;
@@ -404,11 +430,12 @@
             this.tbxF.BackColor = System.Drawing.Color.Black;
             this.tbxF.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxF.ForeColor = System.Drawing.Color.White;
-            this.tbxF.Location = new System.Drawing.Point(538, 500);
+            this.tbxF.Location = new System.Drawing.Point(807, 769);
+            this.tbxF.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxF.Multiline = true;
             this.tbxF.Name = "tbxF";
             this.tbxF.ReadOnly = true;
-            this.tbxF.Size = new System.Drawing.Size(120, 36);
+            this.tbxF.Size = new System.Drawing.Size(180, 55);
             this.tbxF.TabIndex = 36;
             this.tbxF.Tag = "F";
             this.tbxF.Visible = false;
@@ -418,11 +445,12 @@
             this.tbxG.BackColor = System.Drawing.Color.Black;
             this.tbxG.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxG.ForeColor = System.Drawing.Color.White;
-            this.tbxG.Location = new System.Drawing.Point(314, 500);
+            this.tbxG.Location = new System.Drawing.Point(471, 769);
+            this.tbxG.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxG.Multiline = true;
             this.tbxG.Name = "tbxG";
             this.tbxG.ReadOnly = true;
-            this.tbxG.Size = new System.Drawing.Size(120, 36);
+            this.tbxG.Size = new System.Drawing.Size(180, 55);
             this.tbxG.TabIndex = 37;
             this.tbxG.Tag = "G";
             this.tbxG.Visible = false;
@@ -432,11 +460,12 @@
             this.tbxH.BackColor = System.Drawing.Color.Black;
             this.tbxH.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxH.ForeColor = System.Drawing.Color.White;
-            this.tbxH.Location = new System.Drawing.Point(160, 329);
+            this.tbxH.Location = new System.Drawing.Point(240, 506);
+            this.tbxH.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxH.Multiline = true;
             this.tbxH.Name = "tbxH";
             this.tbxH.ReadOnly = true;
-            this.tbxH.Size = new System.Drawing.Size(120, 36);
+            this.tbxH.Size = new System.Drawing.Size(180, 55);
             this.tbxH.TabIndex = 38;
             this.tbxH.Tag = "H";
             this.tbxH.Visible = false;
@@ -446,11 +475,12 @@
             this.tbxI.BackColor = System.Drawing.Color.Black;
             this.tbxI.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxI.ForeColor = System.Drawing.Color.White;
-            this.tbxI.Location = new System.Drawing.Point(146, 176);
+            this.tbxI.Location = new System.Drawing.Point(219, 271);
+            this.tbxI.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxI.Multiline = true;
             this.tbxI.Name = "tbxI";
             this.tbxI.ReadOnly = true;
-            this.tbxI.Size = new System.Drawing.Size(120, 36);
+            this.tbxI.Size = new System.Drawing.Size(180, 55);
             this.tbxI.TabIndex = 39;
             this.tbxI.Tag = "I";
             this.tbxI.Visible = false;
@@ -460,11 +490,12 @@
             this.tbxJ.BackColor = System.Drawing.Color.Black;
             this.tbxJ.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxJ.ForeColor = System.Drawing.Color.White;
-            this.tbxJ.Location = new System.Drawing.Point(205, 77);
+            this.tbxJ.Location = new System.Drawing.Point(308, 118);
+            this.tbxJ.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbxJ.Multiline = true;
             this.tbxJ.Name = "tbxJ";
             this.tbxJ.ReadOnly = true;
-            this.tbxJ.Size = new System.Drawing.Size(120, 36);
+            this.tbxJ.Size = new System.Drawing.Size(180, 55);
             this.tbxJ.TabIndex = 40;
             this.tbxJ.Tag = "J";
             this.tbxJ.Visible = false;
@@ -473,21 +504,22 @@
             // 
             this.label23.AutoSize = true;
             this.label23.BackColor = System.Drawing.Color.Transparent;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.label23.Location = new System.Drawing.Point(794, 13);
+            this.label23.Location = new System.Drawing.Point(1062, 16);
+            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(133, 18);
+            this.label23.Size = new System.Drawing.Size(322, 25);
             this.label23.TabIndex = 41;
-            this.label23.Text = "Click on the circles";
+            this.label23.Text = "Click the nodes for more information";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::FormsVersion.Properties.Resources.background2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(939, 662);
+            this.ClientSize = new System.Drawing.Size(1408, 1018);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.tbxJ);
             this.Controls.Add(this.tbxI);
@@ -511,8 +543,10 @@
             this.Controls.Add(this.nodeC);
             this.Controls.Add(this.nodeA);
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "RouteCity";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nodeA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeC)).EndInit();
