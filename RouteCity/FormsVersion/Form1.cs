@@ -25,6 +25,7 @@ namespace FormsVersion
         public Form1()
         {
             InitializeComponent();
+            FormBorderStyle = FormBorderStyle.FixedSingle;
 
             // Gathering the positions of each circle on the Forms-window. 
             listOfAnchorPointPositions.Add(new Position(nodeA));

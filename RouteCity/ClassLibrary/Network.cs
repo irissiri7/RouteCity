@@ -240,6 +240,15 @@ namespace ClassLibrary
             }
         }
 
+        // Resetting all nodes as being unvisited
+        public void ResetNodes()
+        {
+            foreach (var n in Nodes)
+            {
+                n.Value.visited = false;
+            }
+        }
+
         private void AddConnectionPath(string fromNode, Node toNode, double timeCost)
         {
             if (ConnectionPath.ContainsKey(fromNode))
@@ -251,5 +260,6 @@ namespace ClassLibrary
                 ConnectionPath.Add(fromNode, new List<NodeConnection> {new NodeConnection(toNode, timeCost) });
             }
         }
+
     }
 }

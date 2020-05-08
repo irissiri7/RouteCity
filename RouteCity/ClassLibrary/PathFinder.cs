@@ -59,7 +59,7 @@ namespace ClassLibrary
             if (NeedsReset)
             {
                 QuickestPathResults.Clear();
-                ResetVisitedNodes();
+                Network.ResetNodes();
             }
                 
             // We always (re)build the QuickestPathResults dictionary in case nodes has been added/removed from network.
@@ -72,14 +72,6 @@ namespace ClassLibrary
             QuickestPathResults[startNode].QuickestTimeFromStart = 0;
         }
 
-        // Emptying the QuickestPathResults dictionary and setting all the nodes as unvisited.
-        private void ResetVisitedNodes()
-        {
-            foreach (var n in Network.Nodes)
-            {
-                n.Value.visited = false;
-            }
-        }
 
         // Going through all potential paths to process the connections to each Node
         internal void ProcessPaths(string startNode, string endNode, bool stopAtEndNode)
