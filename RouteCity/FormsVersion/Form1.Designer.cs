@@ -287,6 +287,7 @@
             // 
             // cbxToLocation
             // 
+            this.cbxToLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxToLocation.FormattingEnabled = true;
             this.cbxToLocation.Items.AddRange(new object[] {
             "A",
@@ -304,7 +305,6 @@
             this.cbxToLocation.Name = "cbxToLocation";
             this.cbxToLocation.Size = new System.Drawing.Size(180, 33);
             this.cbxToLocation.TabIndex = 3;
-            this.cbxToLocation.Text = "B";
             // 
             // label21
             // 
@@ -318,6 +318,7 @@
             // 
             // cbxFromLocation
             // 
+            this.cbxFromLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxFromLocation.FormattingEnabled = true;
             this.cbxFromLocation.Items.AddRange(new object[] {
             "A",
@@ -335,7 +336,6 @@
             this.cbxFromLocation.Name = "cbxFromLocation";
             this.cbxFromLocation.Size = new System.Drawing.Size(180, 33);
             this.cbxFromLocation.TabIndex = 1;
-            this.cbxFromLocation.Text = "A";
             // 
             // btnRandomize
             // 

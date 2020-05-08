@@ -153,41 +153,37 @@ namespace FormsVersion
         private void Form1_Load(object sender, EventArgs e)
         {
             btnRandomize.PerformClick();
-
+            cbxFromLocation.SelectedIndex = 0;
+            cbxToLocation.SelectedIndex = 1;
         }
 
         private void btnFindQuickest_Click(object sender, EventArgs e)
         {
-            string fromNode = cbxFromLocation.Text;
-            string toNode = cbxToLocation.Text;
-            try
+            if (cbxFromLocation.SelectedIndex == cbxToLocation.SelectedIndex)
             {
+                MessageBox.Show("You are already at this position");
+            }
+            else
+            {
+                string fromNode = cbxFromLocation.Text;
+                string toNode = cbxToLocation.Text;
                 resultsFromPathFinder = pathFinder.FindQuickestPath(fromNode, toNode, false);
                 lblTotal.Text = resultsFromPathFinder[toNode].QuickestTimeFromStart.ToString();
-
+                this.Refresh();
             }
-            catch(ArgumentException error)
-            {
-                MessageBox.Show(error.Message);
-                lblTotal.Text = "N/A";
-                resultsFromPathFinder.Clear();
-                network.ResetNodes();
-            }
-
-            this.Refresh();
-
         }
 
         private void DisplayQuickestPath(Graphics g)
         {
-            // Draws a gold line between nodes, showing the quickest path between the nodes the user chose. 
-            string toNode = cbxToLocation.Text;
-            for (int i = 0; i < resultsFromPathFinder[toNode].NodesVisited.Count - 1; i++)
-            {
-                Position fromPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i]];
-                Position toPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i + 1]];
-                DrawLineBetweenPositions(fromPosition, toPosition, g, Color.Gold);
-            }
+            
+                // Draws a gold line between nodes, showing the quickest path between the nodes the user chose. 
+                string toNode = cbxToLocation.Text;
+                for (int i = 0; i < resultsFromPathFinder[toNode].NodesVisited.Count - 1; i++)
+                {
+                    Position fromPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i]];
+                    Position toPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i + 1]];
+                    DrawLineBetweenPositions(fromPosition, toPosition, g, Color.Gold);
+                }            
         }
 
         // Returns a string of what node the current node is connected to. 
