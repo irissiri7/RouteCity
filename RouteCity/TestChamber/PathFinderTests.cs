@@ -12,7 +12,7 @@ namespace TestChamber
         [Test]
         public void CreatePathFinder_Happydays()
         {
-            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections();
+            Network dummyNetwork = DummyCreator.CreateDummyNetworkOfThreeNodesWithNoConnections();
             PathFinder sut = new PathFinder(dummyNetwork);
             Assert.IsNotNull(sut);
         }
@@ -38,7 +38,7 @@ namespace TestChamber
         public void InitializePaths_HappyDays_HasAddedThreeEntriesToPathDictionary()
         {
             //Arrange
-            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
+            Network dummyNetwork = DummyCreator.CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
             PathFinder sut = new PathFinder(dummyNetwork);
 
             //Act
@@ -52,7 +52,7 @@ namespace TestChamber
         public void InitializePaths_HappyDays_HasAddedRightKeysToPathDictionary()
         {
             //Arrange
-            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
+            Network dummyNetwork = DummyCreator.CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
             PathFinder sut = new PathFinder(dummyNetwork);
 
             //Act
@@ -70,7 +70,7 @@ namespace TestChamber
         public void InitializePaths_HappyDays_HasAddedRightPathObjectsToPathDictionary()
         {
             //Arrange
-            Network dummyNetwork = CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
+            Network dummyNetwork = DummyCreator.CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
             PathFinder sut = new PathFinder(dummyNetwork);
             string startNode = "A";
 
@@ -101,7 +101,7 @@ namespace TestChamber
         public void FindQuickestPath_HappyDaysScenarioOne_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 6d;
             List<string> expectedNodesVisited = new List<string> { "A", "C", "F", "E" };
@@ -123,7 +123,7 @@ namespace TestChamber
         public void FindQuickestPath_HappyDaysScenarioTwo_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 12d;
             List<string> expectedNodesVisited = new List<string> { "D", "J", "I", "H" };
@@ -145,7 +145,7 @@ namespace TestChamber
         public void FindQuickestPath_HappyDaysScenarioThree_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 12d;
             List<string> expectedNodesVisited = new List<string> { "B", "A", "C" };
@@ -167,7 +167,7 @@ namespace TestChamber
         public void FindQuickestPath_HappyDaysScenarioFour_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption2();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 32d;
             List<string> expectedNodesVisited = new List<string> { "A", "C", "F" };
@@ -189,7 +189,7 @@ namespace TestChamber
         public void FindQuickestPath_HappyDaysScenarioFive_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption2();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 25d;
             List<string> expectedNodesVisited = new List<string> { "A", "B", "J", "D", "I", "H" };
@@ -211,7 +211,7 @@ namespace TestChamber
         public void FindQuickestPath_FindsTwoEqualPaths_SticksWithTheFirstFoundOne()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption2();
             PathFinder sut = new PathFinder(dummy);
             double expectedQuickestPath = 10d;
             List<string> expectedNodesVisited = new List<string> { "A", "B" };
@@ -233,7 +233,7 @@ namespace TestChamber
         public void FindQuickestPath_StoppingAtEndNode_RightPathsShouldBeExploredAndNotExplored()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption2();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption2();
             PathFinder sut = new PathFinder(dummy);
 
 
@@ -259,7 +259,7 @@ namespace TestChamber
         public void FindQuickestPath_NOTStoppingAtEndNode_NoPathsShouldBeUnexplored()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //ACT
@@ -276,7 +276,7 @@ namespace TestChamber
         public void FindQuickestPath_NOTStoppingAtEndNode_NodesVisitedForNodeJAreCorrect()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
             List<string> expectedNodesVisited = new List<string> { "A", "C", "F", "E", "D", "J" };
 
@@ -296,11 +296,11 @@ namespace TestChamber
         public void FindQuickestPath_StartNodeAndEndNodeAreSame_ThrowsRightException()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //ACT/ASSERT
-            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A", "A"), "Start node and end node must be different");
+            Assert.Throws<ArgumentException>(() => sut.FindQuickestPath("A", "A"), "Start node and end node must be different");
 
 
         }
@@ -309,44 +309,44 @@ namespace TestChamber
         public void FindQuickestPath_StartNodeDoesNotExist_ThrowsRightException()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //ACT/ASSERT
-            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("X", "A"), "Both start and end node must be in network");
+            Assert.Throws<ArgumentException>(() => sut.FindQuickestPath("X", "A"), "Both start and end node must be in network");
         }
 
         [Test]
         public void FindQuickestPath_EndNodeDoesNotExist_ThrowsRightException()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //ACT/ASSERT
-            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A", "X"), "Both start and end node must be in network");
+            Assert.Throws<ArgumentException>(() => sut.FindQuickestPath("A", "X"), "Both start and end node must be in network");
         }
 
         [Test]
         public void FindQuickestPath_StartNodeIsNull_ThrowsRightException()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //ACT/ASSERT
-            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath(null, "A"), "Can not preform operation if nodes are null");
+            Assert.Throws<ArgumentNullException>(() => sut.FindQuickestPath(null, "A"), "Can not preform operation if nodes are null");
         }
 
         [Test]
         public void FindQuickestPath_EndNodeIsNull_ThrowsRightException()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //ACT/ASSERT
-            Assert.Throws<InvalidOperationException>(() => sut.FindQuickestPath("A", null), "Can not preform operation if nodes are null");
+            Assert.Throws<ArgumentNullException>(() => sut.FindQuickestPath("A", null), "Can not preform operation if nodes are null");
         }
 
         [Test]
@@ -396,7 +396,7 @@ namespace TestChamber
         public void InitializeResult_PathFinderHasBeenUsedPreviously_DoesResetResultDictionary()
         {
             //ARRANGE
-            Network network = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network network = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(network);
             sut.FindQuickestPath("A", "D");
 
@@ -422,7 +422,7 @@ namespace TestChamber
         public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesWithSamePaths_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //Original quickest path
@@ -437,7 +437,7 @@ namespace TestChamber
         public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesWithNewPath_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //Original quickest path
@@ -452,7 +452,7 @@ namespace TestChamber
         public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesAddingNewNodeToNetwork_GivesRightResult()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //Original quickest path
@@ -479,7 +479,7 @@ namespace TestChamber
         public void FindQuickestPath_ChangingConnectionValuesExOne_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //Original quickest path
@@ -498,7 +498,7 @@ namespace TestChamber
         public void FindQuickestPath_ChangingConnectionValuesExTwo_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
-            Network dummy = CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
             PathFinder sut = new PathFinder(dummy);
 
             //Original quickest path
