@@ -181,12 +181,17 @@ namespace ClassLibrary
                 //***********************************************************
                 //*** SEE IF THIS IS NEEDED*** OR IF THERE'S A BETTER WAY ***
                 // Maybe have an ifstatement check before sort above. Checking both from and to node. Or only to?
-                for (int i = 0; i < incompleteNodes.Count(); i++)
+                //for (int i = 0; i < incompleteNodes.Count(); i++)
+                //{
+                //    if (incompleteNodes.GetValueByIndex(i).Connections.Count > 2)
+                //    {
+                //        incompleteNodes.RemoveAt(i);
+                //    }
+                //}
+
+                if (currentNode.Connections.Count > 2)
                 {
-                    if (incompleteNodes.GetValueByIndex(i).Connections.Count > 2)
-                    {
-                        incompleteNodes.RemoveAt(i);
-                    }
+                    incompleteNodes.RemoveAt(currentIndex);
                 }
 
                 // Picking a new node from incomplete nodes. We are now picking from there, instead of empty nodes

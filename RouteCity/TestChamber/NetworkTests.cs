@@ -30,7 +30,7 @@ namespace TestChamber
         [Test]
         public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
         {
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
                 Network network = new Network();
@@ -73,25 +73,6 @@ namespace TestChamber
             List<string> onlyTwoElements = new List<string>() { "one", "two" };
             Assert.Throws<ArgumentException>(() => network.CreateNetwork(onlyTwoElements));
         }
-
-        //[Test]
-        //public void CreateNetwork_MaxConnectionsIsTooHigh_ReturnsArgumentException()
-        //{
-        //    Network network = new Network();
-        //    List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 5));
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 6));
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 15));
-        //}
-
-        //[Test]
-        //public void CreateNetwork_MaxConnectionsIsTooLow_ReturnsArgumentException()
-        //{
-        //    Network network = new Network();
-        //    List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 0));
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, -1));
-        //}
 
         //AddNode()
         [Test]
@@ -185,7 +166,7 @@ namespace TestChamber
         [Test]
         public void RandomizeConnections_ThereAre7Nodes_ReturnsNodesWith2Or3Connections()
         {
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 Network network = new Network();
                 network.Nodes.Add("A", new Node("A"));
@@ -212,7 +193,7 @@ namespace TestChamber
         [Test]
         public void RandomizeConnections_ThereAre10Nodes_ReturnsNodesWith2Or3Connections()
         {
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 100000; i++)
             {
                 Network network = new Network();
                 network.Nodes.Add("A", new Node("A"));
