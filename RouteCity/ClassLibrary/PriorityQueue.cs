@@ -174,6 +174,10 @@ namespace ClassLibrary
             return node.Value;
         }
 
+        /// <summary>
+        /// Moves a node to it's rightful position in the PriorityQueue. Useful when a value has been changed outside of this datastructure. 
+        /// </summary>
+        /// <param name="index"></param>
         public void SortAt(int index)
         {
             Node<T> current = GetNode(index + 1, false);

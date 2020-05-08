@@ -13,6 +13,7 @@ namespace FormsVersion
 {
     public partial class Form1 : Form
     {
+        // Essential variables
         public Dictionary<string, Position> positions = new Dictionary<string, Position>();
         public Network network = new Network();
         public PathFinder pathFinder = null;
@@ -25,6 +26,7 @@ namespace FormsVersion
         {
             InitializeComponent();
 
+            // Gathering the positions of each circle on the Forms-window. 
             listOfPositions.Add(new Position(nodeA));
             listOfPositions.Add(new Position(nodeB));
             listOfPositions.Add(new Position(nodeC));
@@ -36,6 +38,7 @@ namespace FormsVersion
             listOfPositions.Add(new Position(nodeI));
             listOfPositions.Add(new Position(nodeJ));
 
+            // Creating a list of names for the nodes. 
             nodeNames.Add("A");
             nodeNames.Add("B");
             nodeNames.Add("C");
@@ -47,6 +50,8 @@ namespace FormsVersion
             nodeNames.Add("I");
             nodeNames.Add("J");
 
+            // Gathering a list of all textboxes that displays information about each connection. 
+            // This will be useful in a loop later. 
             textboxes.Add(tbxA);
             textboxes.Add(tbxB);
             textboxes.Add(tbxC);
@@ -59,6 +64,8 @@ namespace FormsVersion
             textboxes.Add(tbxJ);
         }
 
+        // This method is called when the Form-window is redrawn, for example when it's refreshed. When that happens we want it to
+        // also regenerate the connections displayed. 
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -69,7 +76,7 @@ namespace FormsVersion
             }
         }
 
-        public void Connect(Position nodeOne, Position nodeTwo, Graphics g, Color color)
+        private void DrawLineBetweenPositions(Position nodeOne, Position nodeTwo, Graphics g, Color color)
         {
             Pen pen = new Pen(color);
             pen.Width = 2;
@@ -80,11 +87,13 @@ namespace FormsVersion
 
         private void DisplayNetwork(Graphics g)
         {
+            // Since "connectionpath" uses strings to informs how the nodes were connected and "positions" is a dictionary connecting 
+            // a name to a position on the form, we can combine these two datastructures to draw the right lines between the right nodes. 
             foreach (var element in network.connectionPath)
             {
                 for (int i = 0; i < element.Value.Count; i++)
                 {
-                    Connect(positions[element.Key], positions[element.Value[i].ToNode], g, Color.White);
+                    DrawLineBetweenPositions(positions[element.Key], positions[element.Value[i].ToNode], g, Color.White);
                 }
             }
         }
@@ -100,15 +109,19 @@ namespace FormsVersion
 
         private void btnRandomize_Click(object sender, EventArgs e)
         {
+            // Clearing the result results in the line drawn using the latest quickest path based on the previous network is also removed. 
             result.Clear();
+
             if (nodeNames.Count == 10)
             {
+                // Creating a new network and a new PathFinder based on that network. 
                 network = new Network();
                 network.CreateNetwork(nodeNames);
                 pathFinder = new PathFinder(network);
 
                 if (positions.Count != 10)
                 {
+                    // Connecting the nodes their position on the form. 
                     positions.Clear();
                     for (int i = 0; i < nodeNames.Count; i++)
                     {
@@ -116,6 +129,7 @@ namespace FormsVersion
                     }
                 }
 
+                // Update the information in the textBoxes
                 foreach (var textbox in textboxes)
                 {
                     textbox.Text = ListConnections(textbox.Tag.ToString());
@@ -150,13 +164,15 @@ namespace FormsVersion
 
         private void DisplayQuickestPath(Graphics g)
         {
+            // Draws a gold line between nodes, showing the quickest path between the nodes the user chose. 
             string toNode = cbxToLocation.Text;
             for (int i = 0; i < result[toNode].NodesVisited.Count - 1; i++)
             {
-                Connect(positions[result[toNode].NodesVisited[i]], positions[result[toNode].NodesVisited[i + 1]], g, Color.Gold);
+                DrawLineBetweenPositions(positions[result[toNode].NodesVisited[i]], positions[result[toNode].NodesVisited[i + 1]], g, Color.Gold);
             }
         }
 
+        // Returns a string of what node the current node is connected to. 
         private string ListConnections(string currentNode)
         {
             StringBuilder builder = new StringBuilder();
@@ -222,20 +238,25 @@ namespace FormsVersion
     public class Position
     {
         internal PictureBox PB { get; set; }
+
+        // Each circle has a position that the lines shoulld be drawn to. These positions is based on what position on the edge of the
+        // circle is closest to the middle of the form. This calculates that. 
         internal Point Location 
         { get 
             {
-                double xEnd = 479;
-                double yEnd = 254;
+                double middleOfFormX = 479;
+                double middleOfFormY = 254;
                 double middleOfNodeX = PB.Location.X + (PB.Size.Width / 2);
                 double middleOfNodeY = PB.Location.Y + (PB.Size.Height / 2);
 
-                double angle = Math.Atan2((yEnd - middleOfNodeY), (xEnd - middleOfNodeX)) * (180 / Math.PI);
-                double radius = 40;
+                // Calculates the angle from the cordinates at the middle of the node to the cordinates at middle of the form. 
+                double angle = Math.Atan2((middleOfFormY - middleOfNodeY), (middleOfFormX - middleOfNodeX)) * (180 / Math.PI);
+                double radiusOfNode = 40;
 
-                double x1 = middleOfNodeX + radius * Math.Cos(angle * (Math.PI / 180));
-                double y1 = middleOfNodeY + radius * Math.Sin(angle * (Math.PI / 180));
-                return new Point((int)x1, (int)y1);
+                // Calculates the cordinates at the edge of a circle based on the angle. 
+                double x = middleOfNodeX + radiusOfNode * Math.Cos(angle * (Math.PI / 180));
+                double y = middleOfNodeY + radiusOfNode * Math.Sin(angle * (Math.PI / 180));
+                return new Point((int)x, (int)y);
                 }
         }
 
