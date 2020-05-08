@@ -94,7 +94,7 @@ namespace FormsVersion
                 for (int i = 0; i < element.Value.Count; i++)
                 {
                     Position fromPosition = nodePositionCoupling[element.Key];
-                    Position toPosition = nodePositionCoupling[element.Value[i].ToNode];
+                    Position toPosition = nodePositionCoupling[element.Value[i].TargetName];
                     DrawLineBetweenPositions(fromPosition, toPosition, g, Color.White);
                 }
             }
