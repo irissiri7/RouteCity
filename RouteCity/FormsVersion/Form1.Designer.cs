@@ -39,6 +39,8 @@
             this.nodeJ = new System.Windows.Forms.PictureBox();
             this.nodeB = new System.Windows.Forms.PictureBox();
             this.gbxControl = new System.Windows.Forms.GroupBox();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.btnFindQuickest = new System.Windows.Forms.Button();
             this.label22 = new System.Windows.Forms.Label();
             this.cbxToLocation = new System.Windows.Forms.ComboBox();
@@ -76,8 +78,6 @@
             this.tbxI = new System.Windows.Forms.TextBox();
             this.tbxJ = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.lblTotal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nodeA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nodeD)).BeginInit();
@@ -243,6 +243,30 @@
             this.gbxControl.TabStop = false;
             this.gbxControl.Text = "Controls";
             // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.BackColor = System.Drawing.Color.Transparent;
+            this.lblTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.lblTotal.Location = new System.Drawing.Point(809, 88);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(31, 16);
+            this.lblTotal.TabIndex = 43;
+            this.lblTotal.Text = "N/A";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.BackColor = System.Drawing.Color.Transparent;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.label24.Location = new System.Drawing.Point(708, 88);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(98, 16);
+            this.label24.TabIndex = 42;
+            this.label24.Text = "Total time cost:";
+            // 
             // btnFindQuickest
             // 
             this.btnFindQuickest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -266,6 +290,7 @@
             // 
             // cbxToLocation
             // 
+            this.cbxToLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxToLocation.FormattingEnabled = true;
             this.cbxToLocation.Items.AddRange(new object[] {
             "A",
@@ -282,7 +307,6 @@
             this.cbxToLocation.Name = "cbxToLocation";
             this.cbxToLocation.Size = new System.Drawing.Size(121, 24);
             this.cbxToLocation.TabIndex = 3;
-            this.cbxToLocation.Text = "B";
             // 
             // label21
             // 
@@ -295,6 +319,7 @@
             // 
             // cbxFromLocation
             // 
+            this.cbxFromLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxFromLocation.FormattingEnabled = true;
             this.cbxFromLocation.Items.AddRange(new object[] {
             "A",
@@ -311,7 +336,6 @@
             this.cbxFromLocation.Name = "cbxFromLocation";
             this.cbxFromLocation.Size = new System.Drawing.Size(121, 24);
             this.cbxFromLocation.TabIndex = 1;
-            this.cbxFromLocation.Text = "A";
             // 
             // btnRandomize
             // 
@@ -716,30 +740,6 @@
             this.label23.Size = new System.Drawing.Size(117, 16);
             this.label23.TabIndex = 41;
             this.label23.Text = "Click on the nodes";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.BackColor = System.Drawing.Color.Transparent;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.label24.Location = new System.Drawing.Point(708, 88);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(98, 16);
-            this.label24.TabIndex = 42;
-            this.label24.Text = "Total time cost:";
-            // 
-            // lblTotal
-            // 
-            this.lblTotal.AutoSize = true;
-            this.lblTotal.BackColor = System.Drawing.Color.Transparent;
-            this.lblTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.lblTotal.Location = new System.Drawing.Point(809, 88);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(31, 16);
-            this.lblTotal.TabIndex = 43;
-            this.lblTotal.Text = "N/A";
             // 
             // Form1
             // 
