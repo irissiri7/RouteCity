@@ -193,6 +193,8 @@ namespace TestChamber
         [Test]
         public void RandomizeConnections_ThereAre10Nodes_ReturnsNodesWith2Or3Connections()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             for (int i = 0; i < 1000000; i++)
             {
                 Network network = new Network();
@@ -217,6 +219,8 @@ namespace TestChamber
                     }
                 }
             }
+            sw.Stop();
+            Debug.WriteLine($"Took {sw.Elapsed.Seconds}");
 
         }
 
