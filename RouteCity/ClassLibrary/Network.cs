@@ -121,7 +121,10 @@ namespace ClassLibrary
         {
             Random r = new Random();
             List<Node> emptyNodes = new List<Node>(Nodes.Count);
-            PriorityQueue<Node> incompleteNodes = new PriorityQueue<Node>();
+
+            // Reversed gives us the node with the most connections first. 
+            PriorityQueue<Node> incompleteNodesReversed = new PriorityQueue<Node>(true);
+            
 
             if (Nodes.Count < 3)
             {
@@ -145,7 +148,6 @@ namespace ClassLibrary
             // be adding connections to it.
             int currentIndex = r.Next(0, emptyNodes.Count);
             Node currentNode = emptyNodes[currentIndex];
-            incompleteNodes.Add(currentNode);
             emptyNodes.RemoveAt(currentIndex);
 
             // This will help sort later
@@ -165,32 +167,35 @@ namespace ClassLibrary
                     
                     // We only need to use SortAt() when we've picked a random node from incompleteNodes
                     // Sorting needs to be done explicitly since we are updating the Node outside of the PriorityQueue. 
-                    if (insideIncompleteNodes)
+                    if (insideIncompleteNodes && incompleteNodesReversed.Peek().Connections.Count > 2) 
                     {
-                        incompleteNodes.SortAt(currentIndex);
+                        incompleteNodesReversed.Pop();
+                    }
+                    else if (insideIncompleteNodes)
+                    {
+                        incompleteNodesReversed.SortAt(currentIndex);
                     }
 
                     // Each node that the current one has connected to is also considered incomplete. 
-                    incompleteNodes.Add(emptyNodes[connectToIndex]);
+                    incompleteNodesReversed.Add(emptyNodes[connectToIndex]);
                     emptyNodes.RemoveAt(connectToIndex);
 
                 }
 
-                // Remove any and all nodes with more than 3 connections.
-                for (int i = 0; i < incompleteNodes.Count(); i++)
-                {
-                    if (incompleteNodes.GetValueByIndex(i).Connections.Count > 2)
-                    {
-                        incompleteNodes.RemoveAt(i);
-                    }
-                }
-
                 // Picking a new node from incomplete nodes. We are now picking from there, instead of empty nodes
                 // to make sure that all nodes can be reached from all other nodes. 
-                currentIndex = r.Next(0, incompleteNodes.Count());
-                currentNode = incompleteNodes.GetValueByIndex(currentIndex);
+                currentIndex = r.Next(0, incompleteNodesReversed.Count());
+                currentNode = incompleteNodesReversed.GetValueByIndex(currentIndex);
                 insideIncompleteNodes = true;
 
+            }
+
+            // Now we want nodes with the least connections first. 
+            PriorityQueue<Node> incompleteNodes = new PriorityQueue<Node>();
+
+            for (int i = 0; i < incompleteNodesReversed.Count(); i++)
+            {
+                incompleteNodes.Add(incompleteNodesReversed.GetValueByIndex(i));
             }
 
             // After having created a closed system of connections, this loop makes sure that each node has between 2 - 3 connections. 
