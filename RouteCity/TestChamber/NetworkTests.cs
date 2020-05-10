@@ -224,6 +224,42 @@ namespace TestChamber
 
         }
 
+        [Test]
+        public void RandomizeConnections_ThereAreMany_ReturnsNodesWith2Or3Connections()
+        {
+
+            Network network = new Network();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            for (int i = 0; i < 50000; i++)
+            {
+                network.Nodes.Add(i.ToString(), new Node(i.ToString()));
+            }
+            sw.Stop();
+            Debug.WriteLine($"Adding took {sw.Elapsed.TotalSeconds} seconds");
+
+            sw.Restart();
+            network.RandomizeConnections();
+
+            sw.Stop();
+            Debug.WriteLine($"Randomizing took {sw.Elapsed.TotalSeconds} seconds");
+
+            sw.Restart();
+            foreach (var element in network.Nodes)
+            {
+                if (element.Value.Connections.Count > 3 || element.Value.Connections.Count < 2)
+                {
+                    Assert.Fail();
+                }
+            }
+            sw.Stop();
+            Debug.WriteLine($"Asserting took {sw.Elapsed.TotalSeconds} seconds");
+
+
+
+        }
+
         //AddConnection()
         [Test]
         public void AddConnection_AtLeastOneNodeDoesNotExist_ReturnsArgumentException()
