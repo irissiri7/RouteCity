@@ -8,56 +8,6 @@ namespace TestChamber
 {
     public class NetworkTests
     {
-        // CreateNetwork()
-        //[Test]
-        //public void CreateNetwork_RandomConnections_RespectsMinAndMaxConnections()
-        //{
-        //    Network network = new Network();
-        //    List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
-        //    network.CreateNetwork(fiveElements);
-
-        //    foreach (var element in network.Nodes)
-        //    {
-        //        if (element.Value.Connections.Count < 2 || element.Value.Connections.Count > 3)
-        //        {
-        //            Assert.Fail();
-        //        }
-        //    }
-
-        //    Assert.IsTrue(network.Nodes.Count > 0);
-        //}
-
-        [Test]
-        public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
-        {
-            for (int i = 0; i < 100000; i++)
-            {
-                List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
-                Network network = new Network();
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                network.CreateNetwork(names);
-                stopwatch.Stop();
-                Debug.WriteLine($"Creating the network took {stopwatch.Elapsed.TotalSeconds}");
-                stopwatch.Restart();
-                PathFinder finder = new PathFinder(network);
-                
-
-                //finder.FindQuickestPath("G", "D", false);
-                stopwatch.Stop();
-                Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
-
-                foreach (var element in finder.QuickestPathResults)
-                {
-                    if (double.IsPositiveInfinity(element.Value.QuickestTimeFromStart))
-                    {
-                        Assert.Fail($"{element.Value.Node.Name} was {element.Value.QuickestTimeFromStart}");
-                    }
-                }
-            }
-
-        }
-
         [Test]
         public void CreateNetwork_ListIsNull_ReturnsArgumentNullException()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using ClassLibrary;
 using NUnit.Framework;
@@ -130,6 +131,44 @@ namespace TestChamber
 
             //ASSERT that new quickest path has changed
             Assert.AreEqual(1d, sut.QuickestPathResults["I"].QuickestTimeFromStart);
+        }
+
+        [Test]
+        public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
+        {
+            for (int i = 0; i < 10000; i++)
+            {
+                List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+                Network network = new Network();
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                network.CreateNetwork(names);
+                stopwatch.Stop();
+                Debug.WriteLine($"Creating the network took {stopwatch.Elapsed.TotalSeconds}");
+                stopwatch.Restart();
+                PathFinder finder = new PathFinder(network);
+
+
+                finder.FindQuickestPath("G", "D", false);
+                stopwatch.Stop();
+                Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
+                bool insideLoop = false;
+
+                foreach (var element in finder.QuickestPathResults)
+                {
+                    insideLoop = true;
+
+                    if (double.IsPositiveInfinity(element.Value.QuickestTimeFromStart))
+                    {
+                        Assert.Fail();
+                    }
+                }
+
+                if (!insideLoop)
+                {
+                    Assert.Fail();
+                }
+            }
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
