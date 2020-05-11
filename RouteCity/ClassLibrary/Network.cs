@@ -2,37 +2,37 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("TestChamber")]
 
 namespace ClassLibrary
 {
-    public struct Connection
-    {
-        public string FromNode { get; set; }
-        public string ToNode { get; set; }
-        public double TimeCost { get; set; }
-
-        public Connection(string fromNode, string toNode, double timeCost)
-        {
-            FromNode = fromNode;
-            ToNode = toNode;
-            TimeCost = timeCost;
-        }
-    }
-
     public class Network
     {
         //PROPERTIES
-        public Dictionary<string, Node> Nodes { get; set; }
-        public Dictionary<string, List<Connection>> connectionPath {get; private set;}
+
+        public Dictionary<string, Node> Nodes { get; private set; }
+       
+        // The Node-class includes a list of objects called NodeConnections, which keeps track of all the connections that specific node has.
+        // For example: A includes information that it's connected to C, while C also includes info that it's connected to A. 
+        // With that said, this Dictionaty named connectionsPath is different. It keeps track of HOW all of the nodes were connected to eachother, 
+        // which is useful when displaying connections without displaying the same connection twice.
+        public Dictionary<string, List<NodeConnection>> ConnectionPath {get; private set;}
 
         //CONSTRUCTOR
         public Network()
         {
             Nodes = new Dictionary<string, Node>(StringComparer.InvariantCultureIgnoreCase);
-            connectionPath = new Dictionary<string, List<Connection>>();
+            ConnectionPath = new Dictionary<string, List<NodeConnection>>();
         }
 
         //METHODS
+
+        /// <summary>
+        /// Creates a network of nodes with random connections based on the names that are put in as arguments. 
+        /// </summary>
+        /// <param name="nodeNames"></param>
         public void CreateNetwork(List<string> nodeNames)
         {
             if (nodeNames == null)
@@ -52,7 +52,11 @@ namespace ClassLibrary
             RandomizeConnections();
         }
 
-        public void AddNode(string node)
+        /// <summary>
+        /// Adds a node to the Dictionary called Nodes.
+        /// </summary>
+        /// <param name="node"></param>
+        internal void AddNode(string node)
         {
             // Makes sure that the name consists of letter or numbers, while allowing spaces and - inbetween. 
             Regex reg = new Regex("^[^A-Öa-ö0-9]|[^\\w]{2}|[^A-Öa-ö0-9]$");
@@ -78,7 +82,13 @@ namespace ClassLibrary
 
         }
 
-        public void AddConnection(string fromNode, string toNode, double timeCost)
+        /// <summary>
+        /// Adds a two-way connection between nodes.
+        /// </summary>
+        /// <param name="fromNode"></param>
+        /// <param name="toNode"></param>
+        /// <param name="timeCost"></param>
+        internal void AddConnection(string fromNode, string toNode, double timeCost)
         {
             if (fromNode == null || toNode == null)
             {
@@ -104,18 +114,24 @@ namespace ClassLibrary
             Nodes[fromNode].Connect(Nodes[toNode], timeCost);
         }
 
-        public void RandomizeConnections()
+        /// <summary>
+        /// Randomizes connections between the nodes in "Nodes", creating a closed system of connections 
+        /// </summary>
+        internal void RandomizeConnections()
         {
             Random r = new Random();
             List<Node> emptyNodes = new List<Node>(Nodes.Count);
-            PriorityQueue<Node> incompleteNodes = new PriorityQueue<Node>();
+
+            // Reversed gives us the node with the most connections first. 
+            PriorityQueue<Node> incompleteNodesReversed = new PriorityQueue<Node>(true);
+            
 
             if (Nodes.Count < 3)
             {
                 throw new InvalidOperationException("Tried to randomize paths between 2 or less connections.");
             }
 
-            // Adding all nodes from Nodes to empty nodes. If one node is not empty then fail. 
+            // Adding all nodes from Nodes to "emptyNodes". If one node is not empty then throw an exception. 
             foreach (var element in Nodes)
             {
                 if (element.Value.Connections.Count > 0)
@@ -128,73 +144,67 @@ namespace ClassLibrary
                 }
             }
 
-            // Getting a random node from emptyNodes. This node is already considered incomplete (not empty) since we'll now
+            // Getting a random node from emptyNodes. Once chosen, the node is considered incomplete (not empty) since we'll now
             // be adding connections to it.
             int currentIndex = r.Next(0, emptyNodes.Count);
             Node currentNode = emptyNodes[currentIndex];
-            incompleteNodes.Add(currentNode);
             emptyNodes.RemoveAt(currentIndex);
 
             // This will help sort later
             bool insideIncompleteNodes = false;
 
-            Debug.WriteLine("Creating a closed system...");
             while (emptyNodes.Count > 0)
             {
-                // Connect currentNode with three randomized empty nodes.
+                // Connect currentNode to three randomized empty nodes.
                 while (currentNode.Connections.Count < 3 && emptyNodes.Count > 0)
                 {
                     int connectToIndex = r.Next(0, emptyNodes.Count);
                     double timeCost = r.Next(1, 11);
                     string fromNode = currentNode.Name;
-                    string toNode = emptyNodes[connectToIndex].Name;
-                    AddConnection(fromNode, toNode, timeCost);
+                    Node toNode = emptyNodes[connectToIndex];
+                    AddConnection(fromNode, toNode.Name, timeCost);
                     AddConnectionPath(fromNode, toNode, timeCost);
-                    Debug.WriteLine($"{currentNode.Name} connected to {emptyNodes[connectToIndex].Name} with a cost of {timeCost} (Now has {emptyNodes[connectToIndex].Connections.Count} connections)");
                     
                     // We only need to use SortAt() when we've picked a random node from incompleteNodes
                     // Sorting needs to be done explicitly since we are updating the Node outside of the PriorityQueue. 
-                    if (insideIncompleteNodes)
+                    if (insideIncompleteNodes && incompleteNodesReversed.Peek().Connections.Count > 2) 
                     {
-                        incompleteNodes.SortAt(currentIndex);
+                        incompleteNodesReversed.Pop();
+                    }
+                    else if (insideIncompleteNodes)
+                    {
+                        incompleteNodesReversed.SortAt(currentIndex);
                     }
 
                     // Each node that the current one has connected to is also considered incomplete. 
-                    incompleteNodes.Add(emptyNodes[connectToIndex]);
+                    incompleteNodesReversed.Add(emptyNodes[connectToIndex]);
                     emptyNodes.RemoveAt(connectToIndex);
 
                 }
 
-                // Remove any and all nodes with more than 3 connections.
-                for (int i = 0; i < incompleteNodes.Count(); i++)
-                {
-                    if (incompleteNodes.GetValueByIndex(i).Connections.Count > 2)
-                    {
-                        incompleteNodes.RemoveAt(i);
-                    }
-                }
-
-                // Picking a new node from incomplete nodes. Picking from there from now on, instead of empty nodes
-                // makes sure that all nodes can be reached from all other nodes. 
-                currentIndex = r.Next(0, incompleteNodes.Count());
-                currentNode = incompleteNodes.GetValueByIndex(currentIndex);
+                // Picking a new node from incomplete nodes. We are now picking from there, instead of empty nodes
+                // to make sure that all nodes can be reached from all other nodes. 
+                currentIndex = r.Next(0, incompleteNodesReversed.Count());
+                currentNode = incompleteNodesReversed.GetValueByIndex(currentIndex);
                 insideIncompleteNodes = true;
 
             }
 
-            Debug.WriteLine("Completing nodes...");
+            // Now we want nodes with the least connections first. 
+            PriorityQueue<Node> incompleteNodes = new PriorityQueue<Node>();
+
+            for (int i = 0; i < incompleteNodesReversed.Count(); i++)
+            {
+                incompleteNodes.Add(incompleteNodesReversed.GetValueByIndex(i));
+            }
+
+            // After having created a closed system of connections, this loop makes sure that each node has between 2 - 3 connections. 
             while (incompleteNodes.Count() > 1)
             {
-                Debug.Write("IncompleteNodes are: ");
-                for (int i = 0; i < incompleteNodes.Count(); i++)
-                {
-                    Debug.Write($"{incompleteNodes.GetValueByIndex(i).Name}, ");
-                }
-                
                 // Getting the node with the least connections. 
                 currentNode = incompleteNodes.Pop();
-                Debug.WriteLine($"\nPopped {currentNode.Name}");
 
+                // This loop sees to that the current node gets between 2 - 3 connections. 
                 do
                 {
                     int connectToIndex = r.Next(0, incompleteNodes.Count());
@@ -204,21 +214,15 @@ namespace ClassLibrary
                     {
                         double timeCost = r.Next(1, 11);
                         string fromNode = currentNode.Name;
-                        string toNode = incompleteNodes.GetValueByIndex(connectToIndex).Name;
-                        AddConnection(fromNode, toNode, timeCost);
+                        Node toNode = incompleteNodes.GetValueByIndex(connectToIndex);
+                        AddConnection(fromNode, toNode.Name, timeCost);
                         AddConnectionPath(fromNode, toNode, timeCost);
-                        Debug.WriteLine($"{currentNode.Name} connected to {incompleteNodes.GetValueByIndex(connectToIndex).Name}" +
-                            $" with a cost of {timeCost}" +
-                            $"(now has {incompleteNodes.GetValueByIndex(connectToIndex).Connections.Count} connections)");
                     }
 
                     // If the connected node has more than 2 connections, it's considered complete. 
                     if (incompleteNodes.GetValueByIndex(connectToIndex).Connections.Count > 2)
                     {
-                        Debug.WriteLine($"Removing {incompleteNodes.GetValueByIndex(connectToIndex).Name}, it has " +
-                            $"{incompleteNodes.GetValueByIndex(connectToIndex).Connections.Count} connections");
                         incompleteNodes.RemoveAt(connectToIndex);
-                        Debug.WriteLine($"{incompleteNodes.Count()} incomplete elements left");
                     }
                     else
                     {
@@ -237,30 +241,26 @@ namespace ClassLibrary
             }
         }
 
-        public void AddConnectionPath(string fromNode, string toNode, double timeCost)
+        // Resetting all nodes as being unvisited
+        public void ResetNodes()
         {
-            if (connectionPath.ContainsKey(fromNode))
+            foreach (var n in Nodes)
             {
-                connectionPath[fromNode].Add(new Connection(fromNode, toNode, timeCost));
-            }
-            else
-            {
-                connectionPath.Add(fromNode, new List<Connection> {new Connection(fromNode, toNode, timeCost) });
+                n.Value.visited = false;
             }
         }
 
-        // Could the get property do this already? And Node is just a private variable, not a property?
-        //public Dictionary<string, Node> GetNetworkCopy()
-        //{
-        //    Dictionary<string, Node> copy = new Dictionary<string, Node>();
-
-        //    foreach (var element in Nodes)
-        //    {
-        //        copy.Add(element.Key, element.Value);
-        //    }
-
-        //    return copy;
-        //}
+        private void AddConnectionPath(string fromNode, Node toNode, double timeCost)
+        {
+            if (ConnectionPath.ContainsKey(fromNode))
+            {
+                ConnectionPath[fromNode].Add(new NodeConnection(toNode, timeCost));
+            }
+            else
+            {
+                ConnectionPath.Add(fromNode, new List<NodeConnection> {new NodeConnection(toNode, timeCost) });
+            }
+        }
 
     }
 }

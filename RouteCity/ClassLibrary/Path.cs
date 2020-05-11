@@ -12,7 +12,7 @@ namespace ClassLibrary
         public List<string> NodesVisited { get; set; }
 
         //CONSTRUCTOR
-        public Path(Node node, double shortestTimeFromStart = double.PositiveInfinity, List<string> nodesVisited = null)
+        internal Path(Node node, double shortestTimeFromStart = double.PositiveInfinity, List<string> nodesVisited = null)
         {
             Node = node;
             QuickestTimeFromStart = shortestTimeFromStart;

@@ -16,6 +16,17 @@ namespace ClassLibrary
     {
         internal Node<T> root = null;
         private int count = 0;
+        private int minusOne = -1;
+        private int plusOne = 1;
+
+        public PriorityQueue(bool reversed = false)
+        {
+            if (reversed)
+            {
+                minusOne = 1;
+                plusOne = -1;
+            }
+        }
 
         private Node<T> GetNode(int index, bool getParent)
         {
@@ -126,7 +137,7 @@ namespace ClassLibrary
             }
             else
             {
-                throw new InvalidOperationException("Cannot pop an empty list");
+                throw new InvalidOperationException("Cannot pop an empty queue");
             }
  
         }
@@ -174,6 +185,10 @@ namespace ClassLibrary
             return node.Value;
         }
 
+        /// <summary>
+        /// Moves a node to it's rightful position in the PriorityQueue. Useful when a value has been changed outside of this datastructure. 
+        /// </summary>
+        /// <param name="index"></param>
         public void SortAt(int index)
         {
             Node<T> current = GetNode(index + 1, false);
@@ -222,7 +237,7 @@ namespace ClassLibrary
             {
                 return;
             }
-            else if (current.Value.CompareTo(current.Parent.Value) == -1)
+            else if (current.Value.CompareTo(current.Parent.Value) == minusOne)
             {
                 var tmp = current.Value;
                 current.Value = current.Parent.Value;
@@ -248,11 +263,11 @@ namespace ClassLibrary
                 return;
             }
             // Either go to the only child or the child with the smallest value. 
-            else if (current.RightChild == null || current.LeftChild.Value.CompareTo(current.RightChild.Value) == -1)
+            else if (current.RightChild == null || current.LeftChild.Value.CompareTo(current.RightChild.Value) == minusOne)
             {
                 current = current.LeftChild;
             }
-            else if (current.LeftChild == null || current.RightChild.Value.CompareTo(current.LeftChild.Value) == -1)
+            else if (current.LeftChild == null || current.RightChild.Value.CompareTo(current.LeftChild.Value) == minusOne)
             {
                 current = current.RightChild;
             }
@@ -263,7 +278,7 @@ namespace ClassLibrary
             }
 
             // The current is not root, so we can start comparing.
-            if (current.Value.CompareTo(current.Parent.Value) == -1)
+            if (current.Value.CompareTo(current.Parent.Value) == minusOne)
             {
                 var tmp = current.Parent.Value;
                 current.Parent.Value = current.Value;

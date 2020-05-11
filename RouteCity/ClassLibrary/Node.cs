@@ -10,17 +10,17 @@ namespace ClassLibrary
 {
     public class Node : IComparable<Node>
     {
-        //PROPERTIES
+        //PROPERTIES & FIELDS
         public string Name { get; private set; }
-        public Dictionary<string, NodeConnection> Connections { get; set; }
-        internal bool Visited;
+        public Dictionary<string, NodeConnection> Connections { get; private set; }
+        internal bool visited;
 
         //CONSTRUCTOR
         public Node(string name)
         {
             Name = name;
             Connections = new Dictionary<string, NodeConnection>();
-            Visited = false;
+            visited = false;
         }
 
         //METHODS

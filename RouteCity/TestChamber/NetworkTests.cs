@@ -8,56 +8,6 @@ namespace TestChamber
 {
     public class NetworkTests
     {
-        // CreateNetwork()
-        //[Test]
-        //public void CreateNetwork_RandomConnections_RespectsMinAndMaxConnections()
-        //{
-        //    Network network = new Network();
-        //    List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
-        //    network.CreateNetwork(fiveElements);
-
-        //    foreach (var element in network.Nodes)
-        //    {
-        //        if (element.Value.Connections.Count < 2 || element.Value.Connections.Count > 3)
-        //        {
-        //            Assert.Fail();
-        //        }
-        //    }
-
-        //    Assert.IsTrue(network.Nodes.Count > 0);
-        //}
-
-        [Test]
-        public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
-        {
-            for (int i = 0; i < 10000; i++)
-            {
-                List<string> names = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
-                Network network = new Network();
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                network.CreateNetwork(names);
-                stopwatch.Stop();
-                Debug.WriteLine($"Creating the network took {stopwatch.Elapsed.TotalSeconds}");
-                stopwatch.Restart();
-                PathFinder finder = new PathFinder(network);
-                
-
-                //string result = finder.FindQuickestPath("G", "D", false);
-                stopwatch.Stop();
-                Debug.WriteLine($"Finding path took {stopwatch.Elapsed.TotalSeconds}");
-
-                foreach (var element in finder.Result)
-                {
-                    if (double.IsPositiveInfinity(element.Value.QuickestTimeFromStart))
-                    {
-                        Assert.Fail($"{element.Value.Node.Name} was {element.Value.QuickestTimeFromStart}");
-                    }
-                }
-            }
-
-        }
-
         [Test]
         public void CreateNetwork_ListIsNull_ReturnsArgumentNullException()
         {
@@ -73,25 +23,6 @@ namespace TestChamber
             List<string> onlyTwoElements = new List<string>() { "one", "two" };
             Assert.Throws<ArgumentException>(() => network.CreateNetwork(onlyTwoElements));
         }
-
-        //[Test]
-        //public void CreateNetwork_MaxConnectionsIsTooHigh_ReturnsArgumentException()
-        //{
-        //    Network network = new Network();
-        //    List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 5));
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 6));
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 15));
-        //}
-
-        //[Test]
-        //public void CreateNetwork_MaxConnectionsIsTooLow_ReturnsArgumentException()
-        //{
-        //    Network network = new Network();
-        //    List<string> fiveElements = new List<string>() { "one", "two", "three", "four", "five" };
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, 0));
-        //    Assert.Throws<ArgumentException>(() => network.CreateNetwork(fiveElements, -1));
-        //}
 
         //AddNode()
         [Test]
@@ -185,7 +116,7 @@ namespace TestChamber
         [Test]
         public void RandomizeConnections_ThereAre7Nodes_ReturnsNodesWith2Or3Connections()
         {
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 1000000; i++)
             {
                 Network network = new Network();
                 network.Nodes.Add("A", new Node("A"));
@@ -212,7 +143,9 @@ namespace TestChamber
         [Test]
         public void RandomizeConnections_ThereAre10Nodes_ReturnsNodesWith2Or3Connections()
         {
-            for (int i = 0; i < 5000; i++)
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 1000000; i++)
             {
                 Network network = new Network();
                 network.Nodes.Add("A", new Node("A"));
@@ -236,6 +169,44 @@ namespace TestChamber
                     }
                 }
             }
+            sw.Stop();
+            Debug.WriteLine($"Took {sw.Elapsed.Seconds}");
+
+        }
+
+        [Test]
+        public void RandomizeConnections_ThereAreMany_ReturnsNodesWith2Or3Connections()
+        {
+
+            Network network = new Network();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            for (int i = 0; i < 50000; i++)
+            {
+                network.Nodes.Add(i.ToString(), new Node(i.ToString()));
+            }
+            sw.Stop();
+            Debug.WriteLine($"Adding took {sw.Elapsed.TotalSeconds} seconds");
+
+            sw.Restart();
+            network.RandomizeConnections();
+
+            sw.Stop();
+            Debug.WriteLine($"Randomizing took {sw.Elapsed.TotalSeconds} seconds");
+
+            sw.Restart();
+            foreach (var element in network.Nodes)
+            {
+                if (element.Value.Connections.Count > 3 || element.Value.Connections.Count < 2)
+                {
+                    Assert.Fail();
+                }
+            }
+            sw.Stop();
+            Debug.WriteLine($"Asserting took {sw.Elapsed.TotalSeconds} seconds");
+
+
 
         }
 
@@ -303,9 +274,62 @@ namespace TestChamber
                 else
                 {
                     lowersNumber = currentValue;
+                    Debug.WriteLine(currentValue);
                 }
                 
             }
+
+
+        }
+
+        [Test]
+        public void CompareTo_QueueSortsInReverse_ReturnsCorrectOrder()
+        {
+            Network network = new Network();
+            network.Nodes.Add("A", new Node("A"));
+            network.Nodes.Add("B", new Node("B"));
+            network.Nodes.Add("C", new Node("C"));
+            network.Nodes.Add("D", new Node("D"));
+            network.Nodes.Add("E", new Node("E"));
+            network.Nodes.Add("F", new Node("F"));
+            network.Nodes.Add("G", new Node("G"));
+            network.Nodes.Add("H", new Node("H"));
+            network.Nodes.Add("I", new Node("I"));
+            network.Nodes.Add("J", new Node("J"));
+
+
+            network.AddConnection("A", "B", 3);
+            network.AddConnection("A", "C", 3);
+            network.AddConnection("A", "D", 3);
+            network.AddConnection("B", "D", 3);
+            network.AddConnection("C", "D", 3);
+            network.AddConnection("E", "F", 3);
+            network.AddConnection("F", "G", 3);
+
+            PriorityQueue<Node> list = new PriorityQueue<Node>(true);
+            foreach (var element in network.Nodes)
+            {
+                list.Add(element.Value);
+            }
+
+            int listCount = list.Count();
+            int highestNumber = 100;
+            for (int j = 0; j < listCount; j++)
+            {
+                int currentValue = list.Pop().Connections.Count;
+                if (currentValue > highestNumber)
+                {
+                    Assert.Fail($"Failed at iteration {j}. Value was {currentValue} and the lowest was {highestNumber}");
+                }
+                else
+                {
+                    highestNumber = currentValue;
+                    Debug.WriteLine(currentValue);
+                }
+
+            }
+
+            
 
 
         }
