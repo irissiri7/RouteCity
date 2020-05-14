@@ -34,10 +34,10 @@ namespace TestChamber
             Assert.Throws<InvalidOperationException>(() => new PathFinder(dummyNetwork), "Can not create a Pathfinder if Network has less than three nodes");
         }
 
-        //InitializePaths()////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //InitializeQuickestPathResults()////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [Test]
-        public void InitializePaths_HappyDays_HasAddedThreeEntriesToPathDictionary()
+        public void InitializeQuickestPathResults_HappyDays_HasAddedThreeEntriesToPathDictionary()
         {
             //Arrange
             Network dummyNetwork = DummyCreator.CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
@@ -51,7 +51,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void InitializePaths_HappyDays_HasAddedRightKeysToPathDictionary()
+        public void InitializeQuickestPathResults_HappyDays_HasAddedRightKeysToPathDictionary()
         {
             //Arrange
             Network dummyNetwork = DummyCreator.CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
@@ -69,7 +69,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void InitializePaths_HappyDays_HasAddedRightPathObjectsToPathDictionary()
+        public void InitializeQuickestPathResults_HappyDays_HasAddedRightPathObjectsToPathDictionary()
         {
             //Arrange
             Network dummyNetwork = DummyCreator.CreateDummyNetworkOfThreeNodesWithNoConnections(); //Has nodes "A", "B", "C"
@@ -97,7 +97,7 @@ namespace TestChamber
 
 
         }
-
+        
         //FindQuickestPath()/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         [Test]
@@ -261,17 +261,23 @@ namespace TestChamber
         [Test]
         public void FindQuickestPath_NOTStoppingAtEndNode_NoPathsShouldBeUnexplored()
         {
-            //ARRANGE
-            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
-            PathFinder sut = new PathFinder(dummy);
-
-            //ACT
-            sut.FindQuickestPath("A", "E", false);
-
-            //ASSERT
-            foreach (var path in sut.QuickestPathResults.Values)
+            //Arrange
+            List<string> nodes = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+            
+            for(int i = 0; i < 10000; i++)
             {
-                Assert.IsTrue(path.QuickestTimeFromStart != double.PositiveInfinity);
+                Network dummy = new Network();
+                dummy.CreateNetwork(nodes);
+                PathFinder sut = new PathFinder(dummy);
+                
+                //Act
+                sut.FindQuickestPath("A", "E", false);
+                
+                //Assert
+                foreach (var path in sut.QuickestPathResults.Values)
+                {
+                    Assert.IsTrue(path.QuickestTimeFromStart != double.PositiveInfinity);
+                }
             }
         }
 
@@ -352,83 +358,6 @@ namespace TestChamber
             Assert.Throws<ArgumentNullException>(() => sut.FindQuickestPath("A", null), "Can not preform operation if nodes are null");
         }
 
-        [Test]
-        public void FindQuickestPath_NOTStoppingAtEndNode_NoPathsShouldBeUnexploredEXTENDED()
-        {
-            Network mellerud = new Network();
-
-            mellerud.AddNode("A");
-            mellerud.AddNode("B");
-            mellerud.AddNode("C");
-            mellerud.AddNode("D");
-            mellerud.AddNode("E");
-            mellerud.AddNode("F");
-            mellerud.AddNode("G");
-            mellerud.AddNode("H");
-            mellerud.AddNode("I");
-            mellerud.AddNode("J");
-
-            mellerud.AddConnection("A", "B", 10);
-            mellerud.AddConnection("A", "D", 10);
-            mellerud.AddConnection("A", "J", 10);
-            mellerud.AddConnection("B", "F", 10);
-            mellerud.AddConnection("B", "E", 10);
-            mellerud.AddConnection("C", "D", 10);
-            mellerud.AddConnection("C", "E", 10);
-            mellerud.AddConnection("C", "H", 10);
-            mellerud.AddConnection("F", "E", 10);
-            mellerud.AddConnection("J", "F", 10);
-            mellerud.AddConnection("H", "G", 10);
-            mellerud.AddConnection("H", "I", 10);
-            mellerud.AddConnection("I", "G", 1);
-
-            PathFinder p = new PathFinder(mellerud);
-            p.FindQuickestPath("G", "D", false);
-
-            foreach (var i in p.QuickestPathResults.Values)
-            {
-                if (i.QuickestTimeFromStart == double.PositiveInfinity)
-                {
-                    Assert.Fail();
-                }
-            }
-        }
-
-        //InitializeQuickestPathResults()////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        [Test]
-        public void InitializeQuickestPathResults_NeedsAReset_DoesResetQuickestPathResults()
-        {
-            //Arrange
-            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
-            PathFinder sut = new PathFinder(dummy);
-            sut.FindQuickestPath("A", "D");
-
-            //Act
-            sut.InitializeQuickestPathResults("B");
-
-            //Assert that all QuickestTimeFromStart is infinity and that start node QuickestTimeFromStart is 0
-            foreach (var p in sut.QuickestPathResults)
-            {
-                if(p.Key == "B")
-                {
-                    if (p.Value.QuickestTimeFromStart != 0)
-                        Assert.Fail();
-                }
-                else
-                {
-                    if (!double.IsInfinity(p.Value.QuickestTimeFromStart))
-                        Assert.Fail();
-                }
-            }
-
-            //Assert that all nodes are unvisited
-            foreach(var n in dummy.Nodes)
-            {
-                if (n.Value.visited)
-                    Assert.Fail();
-            }
-        }
 
     }
 }

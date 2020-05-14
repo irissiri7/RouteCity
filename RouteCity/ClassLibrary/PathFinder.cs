@@ -74,7 +74,7 @@ namespace ClassLibrary
 
 
         // Going through all potential paths to process the connections to each Node
-        internal void ProcessPaths(string startNode, string endNode, bool stopAtEndNode)
+        private void ProcessPaths(string startNode, string endNode, bool stopAtEndNode)
         {
             bool finished = false;
 
@@ -102,7 +102,7 @@ namespace ClassLibrary
         }
 
         // Making a priority queue of paths where the priority is based on QuickestTimeFromStart
-        internal PriorityQueue<Path> ConstructPriorityQueueOfPotentialPaths(string startNode)
+        private PriorityQueue<Path> ConstructPriorityQueueOfPotentialPaths(string startNode)
         {
             PriorityQueue<Path> queue = new PriorityQueue<Path>();
             
@@ -117,7 +117,7 @@ namespace ClassLibrary
         }
 
         // This method will pop the Priority Queueu getting the path with quickestTimeFromStart
-        internal Path GetPathWithCurrentQuickestTimeFromStart(PriorityQueue<Path> queue)
+        private Path GetPathWithCurrentQuickestTimeFromStart(PriorityQueue<Path> queue)
         {
             bool finished = false;
             Path path = null;
@@ -147,7 +147,7 @@ namespace ClassLibrary
         }
 
         // Processing the connections to each node
-        internal void ProcessConnections(Path path, PriorityQueue<Path> queue)
+        private void ProcessConnections(Path path, PriorityQueue<Path> queue)
         {
             // Relevant connections are the connections we have not already explored.
             var connections = GetRelevantConnections(path);
@@ -171,7 +171,7 @@ namespace ClassLibrary
 
         // This method will return a list of NodeConnections given that the targetNode
         // has not already been visited.
-        internal List<NodeConnection> GetRelevantConnections(Path path)
+        private List<NodeConnection> GetRelevantConnections(Path path)
         {
             string nodeName = path.Node.Name;
             var allConnections = Network.Nodes[nodeName].Connections.ToList();

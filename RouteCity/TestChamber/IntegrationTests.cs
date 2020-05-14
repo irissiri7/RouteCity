@@ -13,7 +13,7 @@ namespace TestChamber
 
         ///INTEGRATION///////////////////////////////////////////////////////////////////////////////////
         [Test]
-        public void InitializeResult_PathFinderHasBeenUsedPreviously_DoesResetResultDictionary()
+        public void PathFinderHasBeenUsedPreviously_DoesResetQuickestPathResultsBeforeCalculatingNewQuickestPath()
         {
             //ARRANGE
             Network network = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -39,7 +39,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesWithSamePaths_GivesRightResult()
+        public void UsingPathFinderOnSameNetworkManyTimesWithSamePaths_GivesRightResult()
         {
             //ARRANGE
             Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -54,7 +54,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesWithNewPath_GivesRightResult()
+        public void UsingPathFinderOnSameNetworkManyTimesWithNewPath_GivesRightResult()
         {
             //ARRANGE
             Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -69,7 +69,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_UsingPathFinderOnSameNetworkManyTimesAddingNewNodeToNetwork_GivesRightResult()
+        public void UsingPathFinderOnSameNetworkManyTimesAddingNewNodeToNetwork_GivesRightResult()
         {
             //ARRANGE
             Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -96,7 +96,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_ChangingConnectionValuesExampleOne_UpdatesQuickestPathCorrectly()
+        public void ChangingConnectionValuesExampleOne_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
             Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -115,7 +115,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_ChangingConnectionValuesExampleTwo_UpdatesQuickestPathCorrectly()
+        public void ChangingConnectionValuesExampleTwo_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
             Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -134,7 +134,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void CreateNetwork_Randomize10Connections_AllNodesAreIndirectlyReachableFromEveryNode()
+        public void RandomizingNetwork_AllNodesAreIndirectlyReachableFromEveryNode()
         {
             for (int i = 0; i < 10000; i++)
             {
@@ -171,7 +171,6 @@ namespace TestChamber
             }
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     }
 }
