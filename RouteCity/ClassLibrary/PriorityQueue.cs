@@ -4,31 +4,29 @@ using System.Collections.Generic;
 namespace ClassLibrary
 {
 
-    internal class Node<T>
+    internal class PQNode<T>
     {
         internal T Value { get; set; }
-        internal Node<T> RightChild { get; set; }
-        internal Node<T> LeftChild { get; set; }
-        internal Node<T> Parent { get; set; }
+        internal PQNode<T> RightChild { get; set; }
+        internal PQNode<T> LeftChild { get; set; }
+        internal PQNode<T> Parent { get; set; }
     }
 
     public class PriorityQueue<T> where T : IComparable<T>
     {
-        internal Node<T> root = null;
+        internal PQNode<T> root = null;
         private int count = 0;
         private int minusOne = -1;
-        private int plusOne = 1;
 
         public PriorityQueue(bool reversed = false)
         {
             if (reversed)
             {
                 minusOne = 1;
-                plusOne = -1;
             }
         }
 
-        private Node<T> GetNode(int index, bool getParent)
+        private PQNode<T> GetNode(int index, bool getParent)
         {
             // Figuring out which path to go in the binary tree. 
             // Ex: 9 is 1001 in binary.
@@ -43,7 +41,7 @@ namespace ClassLibrary
             // Traversing the tree
             // 0 means go to the LeftChild and 1 means go to RightChild. So the node at index 9
             // is left, left then right (001). 
-            Node<T> current = root;
+            PQNode<T> current = root;
             for (int step = 0; step < destination; step++)
             {
                 if (treePath[step] == '0')
@@ -67,25 +65,25 @@ namespace ClassLibrary
         {
             if (count == 0)
             {
-                root = new Node<T> { Value = value };
+                root = new PQNode<T> { Value = value };
             }
             else
             {
                 // Getting the parent of the new node, not the new node itself, 
                 // because "current = new Node<T>" won't work. The new node needs to
                 // actually be set as the child of the parent.
-                Node<T> parentToNewNode = GetNode(count + 1, true);
+                PQNode<T> parentToNewNode = GetNode(count + 1, true);
 
                 // Even numbers always go to the right. 
                 if ((count + 1) % 2 == 0)
                 {
-                    parentToNewNode.LeftChild = new Node<T> { Value = value };
+                    parentToNewNode.LeftChild = new PQNode<T> { Value = value };
                     parentToNewNode.LeftChild.Parent = parentToNewNode;
                     SortUp(parentToNewNode.LeftChild);
                 }
                 else
                 {
-                    parentToNewNode.RightChild = new Node<T> { Value = value };
+                    parentToNewNode.RightChild = new PQNode<T> { Value = value };
                     parentToNewNode.RightChild.Parent = parentToNewNode;
                     SortUp(parentToNewNode.RightChild);
                 }
@@ -148,7 +146,7 @@ namespace ClassLibrary
         private void RemoveTop()
         {
 
-            Node<T> parentToLastNode = GetNode(count, true);
+            PQNode<T> parentToLastNode = GetNode(count, true);
 
             if (count == 1)
             {
@@ -181,7 +179,7 @@ namespace ClassLibrary
         /// <returns></returns>
         public T GetValueByIndex(int index)
         {
-            Node<T> node = GetNode(index + 1, false);
+            PQNode<T> node = GetNode(index + 1, false);
             return node.Value;
         }
 
@@ -191,7 +189,7 @@ namespace ClassLibrary
         /// <param name="index"></param>
         public void SortAt(int index)
         {
-            Node<T> current = GetNode(index + 1, false);
+            PQNode<T> current = GetNode(index + 1, false);
             MoveToTop(current);
             SortDown(root);
         }
@@ -203,7 +201,7 @@ namespace ClassLibrary
         /// <param name="minimumValue"></param>
         public void RemoveAt(int index)
         {
-            Node<T> current = GetNode(index + 1, false);
+            PQNode<T> current = GetNode(index + 1, false);
             MoveToTop(current);
             RemoveTop();
         }
@@ -212,7 +210,7 @@ namespace ClassLibrary
         /// Moves a specific element through the list to the top
         /// </summary>
         /// <param name="current"></param>
-        private void MoveToTop(Node<T> current)
+        private void MoveToTop(PQNode<T> current)
         {
             if (current.Parent == null)
             {
@@ -231,7 +229,7 @@ namespace ClassLibrary
         /// Recursive sorting method going from a certain position in the list and moves upward. 
         /// </summary>
         /// <param name="current"></param>
-        private void SortUp(Node<T> current)
+        private void SortUp(PQNode<T> current)
         {
             if (current.Parent == null)
             {
@@ -255,7 +253,7 @@ namespace ClassLibrary
         /// Recursive sorting method going from a certain position in the list and moves downward. 
         /// </summary>
         /// <param name="current"></param>
-        private void SortDown(Node<T> current)
+        private void SortDown(PQNode<T> current)
         {
             // If we are at the bottom of the list then return. 
             if (current.LeftChild == null && current.RightChild == null)
