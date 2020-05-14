@@ -190,13 +190,18 @@ namespace ClassLibrary
 
             }
 
+            // Trying to save memory by removing finished datastructures. 
+            emptyNodes = null;
+
             // Now we want nodes with the least connections first. 
             PriorityQueue<Node> incompleteNodes = new PriorityQueue<Node>();
 
-            for (int i = 0; i < incompleteNodesReversed.Count(); i++)
+            while (incompleteNodesReversed.Count() > 0)
             {
-                incompleteNodes.Add(incompleteNodesReversed.GetValueByIndex(i));
+                incompleteNodes.Add(incompleteNodesReversed.Pop());
             }
+
+            incompleteNodesReversed = null;
 
             // After having created a closed system of connections, this loop makes sure that each node has between 2 - 3 connections. 
             while (incompleteNodes.Count() > 1)
