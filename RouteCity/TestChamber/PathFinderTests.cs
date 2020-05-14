@@ -394,5 +394,41 @@ namespace TestChamber
             }
         }
 
+        //InitializeQuickestPathResults()////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        [Test]
+        public void InitializeQuickestPathResults_NeedsAReset_DoesResetQuickestPathResults()
+        {
+            //Arrange
+            Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
+            PathFinder sut = new PathFinder(dummy);
+            sut.FindQuickestPath("A", "D");
+
+            //Act
+            sut.InitializeQuickestPathResults("B");
+
+            //Assert that all QuickestTimeFromStart is infinity and that start node QuickestTimeFromStart is 0
+            foreach (var p in sut.QuickestPathResults)
+            {
+                if(p.Key == "B")
+                {
+                    if (p.Value.QuickestTimeFromStart != 0)
+                        Assert.Fail();
+                }
+                else
+                {
+                    if (!double.IsInfinity(p.Value.QuickestTimeFromStart))
+                        Assert.Fail();
+                }
+            }
+
+            //Assert that all nodes are unvisited
+            foreach(var n in dummy.Nodes)
+            {
+                if (n.Value.visited)
+                    Assert.Fail();
+            }
+        }
+
     }
 }
