@@ -9,7 +9,8 @@ namespace ClassLibrary
         //PROPERTIES
         internal Node Node { get; set; }
         public double QuickestTimeFromStart { get; set; }
-        public List<string> NodesVisited { get; set; }
+        internal List<string> NodesVisited { get; set; }
+        public int NodesVisitedCount { get { return NodesVisited.Count; } }
 
         //CONSTRUCTOR
         internal Path(Node node, double shortestTimeFromStart = double.PositiveInfinity, List<string> nodesVisited = null)
@@ -22,6 +23,11 @@ namespace ClassLibrary
             {
                 NodesVisited = nodesVisited;
             }
+        }
+
+        public string GetValueFromNodesVisitedByIndex(int index)
+        {
+            return NodesVisited[index];
         }
 
         public int CompareTo(Path path)

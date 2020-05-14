@@ -19,7 +19,7 @@ namespace FormsVersion
         public PathFinder pathFinder = null;
         public List<string> nodeNames = new List<string>();
         public List<Position> listOfAnchorPointPositions = new List<Position>();
-        Dictionary<string, Path> resultsFromPathFinder = new Dictionary<string, Path>();
+        //Dictionary<string, Path> resultsFromPathFinder = new Dictionary<string, Path>();
         List<TextBox> nodeTextBoxes = new List<TextBox>();
 
         public Form1()
@@ -71,7 +71,7 @@ namespace FormsVersion
         {
             Graphics g = e.Graphics;
             DisplayNetwork(g);
-            if (resultsFromPathFinder.Count > 0)
+            if (pathFinder.ResultCount > 0)
             {
                 DisplayQuickestPath(g);
             }
@@ -90,7 +90,7 @@ namespace FormsVersion
         {
             // Since "connectionpath" uses strings to informs how the nodes were connected and "positions" is a dictionary connecting 
             // a name to a position on the form, we can combine these two datastructures to draw the right lines between the right nodes. 
-            foreach (var element in network.ConnectionPath)
+            foreach (var element in network.GetEachValueInConnectionPath())
             {
                 for (int i = 0; i < element.Value.Count; i++)
                 {
@@ -112,9 +112,6 @@ namespace FormsVersion
 
         private void btnRandomize_Click(object sender, EventArgs e)
         {
-            // Clearing the result results in the line drawn using the latest quickest path based on the previous network is also removed. 
-            resultsFromPathFinder.Clear();
-
             if (nodeNames.Count == 10)
             {
                 // Creating a new network and a new PathFinder based on that network. 
@@ -167,8 +164,8 @@ namespace FormsVersion
             {
                 string fromNode = cbxFromLocation.Text;
                 string toNode = cbxToLocation.Text;
-                resultsFromPathFinder = pathFinder.FindQuickestPath(fromNode, toNode, false);
-                lblTotal.Text = resultsFromPathFinder[toNode].QuickestTimeFromStart.ToString();
+                pathFinder.FindQuickestPath(fromNode, toNode, false);
+                lblTotal.Text = pathFinder.GetValueFromQuickestPathResultsByName(toNode).QuickestTimeFromStart.ToString();
                 this.Refresh();
             }
         }
@@ -178,10 +175,10 @@ namespace FormsVersion
             
                 // Draws a gold line between nodes, showing the quickest path between the nodes the user chose. 
                 string toNode = cbxToLocation.Text;
-                for (int i = 0; i < resultsFromPathFinder[toNode].NodesVisited.Count - 1; i++)
+                for (int i = 0; i < pathFinder.GetValueFromQuickestPathResultsByName(toNode).NodesVisitedCount - 1; i++)
                 {
-                    Position fromPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i]];
-                    Position toPosition = nodePositionCoupling[resultsFromPathFinder[toNode].NodesVisited[i + 1]];
+                    Position fromPosition = nodePositionCoupling[pathFinder.GetValueFromQuickestPathResultsByName(toNode).GetValueFromNodesVisitedByIndex(i)];
+                    Position toPosition = nodePositionCoupling[pathFinder.GetValueFromQuickestPathResultsByName(toNode).GetValueFromNodesVisitedByIndex(i + 1)];
                     DrawLineBetweenPositions(fromPosition, toPosition, g, Color.Gold);
                 }            
         }
@@ -191,7 +188,7 @@ namespace FormsVersion
         {
             StringBuilder builder = new StringBuilder();
             builder.Append($"Connected to:\r\n");
-            foreach (var element in network.Nodes[currentNode].Connections)
+            foreach (var element in network.GetNodeByName(currentNode).GetEachConnection())
             {
                 builder.Append($"{element.Key} ({element.Value.TimeCost})    ");
             }

@@ -12,7 +12,7 @@ namespace ClassLibrary
     {
         //PROPERTIES & FIELDS
         public string Name { get; private set; }
-        public Dictionary<string, NodeConnection> Connections { get; private set; }
+        internal Dictionary<string, NodeConnection> Connections { get; private set; }
         internal bool visited;
 
         //CONSTRUCTOR
@@ -33,6 +33,14 @@ namespace ClassLibrary
         public int CompareTo(Node obj) 
         { 
             return this.Connections.Count.CompareTo(obj.Connections.Count);
+        }
+
+        public IEnumerable<KeyValuePair<string, NodeConnection>> GetEachConnection()
+        {
+            foreach (var element in Connections)
+            {
+                yield return element;
+            }
         }
     }
 }

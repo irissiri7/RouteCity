@@ -12,13 +12,13 @@ namespace ClassLibrary
     {
         //PROPERTIES
 
-        public Dictionary<string, Node> Nodes { get; private set; }
-       
+        internal Dictionary<string, Node> Nodes { get; private set; }
+
         // The Node-class includes a list of objects called NodeConnections, which keeps track of all the connections that specific node has.
         // For example: A includes information that it's connected to C, while C also includes info that it's connected to A. 
         // With that said, this Dictionaty named connectionsPath is different. It keeps track of HOW all of the nodes were connected to eachother, 
         // which is useful when displaying connections without displaying the same connection twice.
-        public Dictionary<string, List<NodeConnection>> ConnectionPath {get; private set;}
+        internal Dictionary<string, List<NodeConnection>> ConnectionPath { get; private set; }
 
         //CONSTRUCTOR
         public Network()
@@ -124,7 +124,7 @@ namespace ClassLibrary
 
             // Reversed gives us the node with the most connections first. 
             PriorityQueue<Node> incompleteNodesReversed = new PriorityQueue<Node>(true);
-            
+
 
             if (Nodes.Count < 3)
             {
@@ -164,10 +164,10 @@ namespace ClassLibrary
                     Node toNode = emptyNodes[connectToIndex];
                     AddConnection(fromNode, toNode.Name, timeCost);
                     AddConnectionPath(fromNode, toNode, timeCost);
-                    
+
                     // We only need to use SortAt() when we've picked a random node from incompleteNodes
                     // Sorting needs to be done explicitly since we are updating the Node outside of the PriorityQueue. 
-                    if (insideIncompleteNodes && incompleteNodesReversed.Peek().Connections.Count > 2) 
+                    if (insideIncompleteNodes && incompleteNodesReversed.Peek().Connections.Count > 2)
                     {
                         incompleteNodesReversed.Pop();
                     }
@@ -190,13 +190,18 @@ namespace ClassLibrary
 
             }
 
+            // Trying to save memory by removing finished datastructures. 
+            emptyNodes = null;
+
             // Now we want nodes with the least connections first. 
             PriorityQueue<Node> incompleteNodes = new PriorityQueue<Node>();
 
-            for (int i = 0; i < incompleteNodesReversed.Count(); i++)
+            while (incompleteNodesReversed.Count() > 0)
             {
-                incompleteNodes.Add(incompleteNodesReversed.GetValueByIndex(i));
+                incompleteNodes.Add(incompleteNodesReversed.Pop());
             }
+
+            incompleteNodesReversed = null;
 
             // After having created a closed system of connections, this loop makes sure that each node has between 2 - 3 connections. 
             while (incompleteNodes.Count() > 1)
@@ -230,9 +235,9 @@ namespace ClassLibrary
                         incompleteNodes.SortAt(connectToIndex);
                     }
 
-                // If there are more than one incomplete node, then we know that there are connections still to be made. 
-                // If there is one incompletenode then it depends on how many connections that node has. If the current node
-                // and the last incompletenode both have two connections BUT it's to each other, then there are no other possible connections. 
+                    // If there are more than one incomplete node, then we know that there are connections still to be made. 
+                    // If there is one incompletenode then it depends on how many connections that node has. If the current node
+                    // and the last incompletenode both have two connections BUT it's to each other, then there are no other possible connections. 
                 } while (
                 (incompleteNodes.Count() > 1 && currentNode.Connections.Count < 3) ||
                 (incompleteNodes.Count() == 1 && incompleteNodes.Peek().Connections.Count < 2) ||
@@ -258,7 +263,28 @@ namespace ClassLibrary
             }
             else
             {
-                ConnectionPath.Add(fromNode, new List<NodeConnection> {new NodeConnection(toNode, timeCost) });
+                ConnectionPath.Add(fromNode, new List<NodeConnection> { new NodeConnection(toNode, timeCost) });
+            }
+        }
+
+        public Node GetNodeByName(string name)
+        {
+            return Nodes[name];
+        }
+
+        public IEnumerable<KeyValuePair<string, Node>> GetEachElementInNodes()
+        {
+            foreach (var element in Nodes)
+            {
+                yield return element;
+            }
+        }
+
+        public IEnumerable<KeyValuePair<string, List<NodeConnection>>> GetEachValueInConnectionPath()
+        {
+            foreach (var element in ConnectionPath)
+            {
+                yield return element;
             }
         }
 
