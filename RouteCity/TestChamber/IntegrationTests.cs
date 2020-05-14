@@ -96,7 +96,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_ChangingConnectionValuesExOne_UpdatesQuickestPathCorrectly()
+        public void FindQuickestPath_ChangingConnectionValuesExampleOne_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
             Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
@@ -115,7 +115,7 @@ namespace TestChamber
         }
 
         [Test]
-        public void FindQuickestPath_ChangingConnectionValuesExTwo_UpdatesQuickestPathCorrectly()
+        public void FindQuickestPath_ChangingConnectionValuesExampleTwo_UpdatesQuickestPathCorrectly()
         {
             //ARRANGE
             Network dummy = DummyCreator.CreateDummyNetworkOfTenNodesWithConnectionsOption1();
