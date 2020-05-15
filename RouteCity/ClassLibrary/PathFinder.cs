@@ -208,6 +208,11 @@ namespace ClassLibrary
             QuickestPathResults[targetNode].NodesVisited = nodesVisited;
         }
 
+        /// <summary>
+        /// Returns desired path object from a Dictionary containing the results of quickest path. 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Path GetValueFromQuickestPathResultsByName(string name)
         {
             return QuickestPathResults[name];

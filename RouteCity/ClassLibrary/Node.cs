@@ -35,6 +35,10 @@ namespace ClassLibrary
             return this.Connections.Count.CompareTo(obj.Connections.Count);
         }
 
+        /// <summary>
+        /// Returns an IEnumerable of all connections of the node in the form of Key-Value pairs. 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<KeyValuePair<string, NodeConnection>> GetEachConnection()
         {
             foreach (var element in Connections)

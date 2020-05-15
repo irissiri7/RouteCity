@@ -267,11 +267,20 @@ namespace ClassLibrary
             }
         }
 
+        /// <summary>
+        /// Returns an object of the desired node 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Node GetNodeByName(string name)
         {
             return Nodes[name];
         }
 
+        /// <summary>
+        /// Returns an IEnumerable of all nodes in a form of Key-Value pairs
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<KeyValuePair<string, Node>> GetEachElementInNodes()
         {
             foreach (var element in Nodes)
@@ -280,6 +289,10 @@ namespace ClassLibrary
             }
         }
 
+        /// <summary>
+        /// Return an IEnumerable of all NodeConnections for all nodes in a form of Key-Value pairs
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<KeyValuePair<string, List<NodeConnection>>> GetEachValueInConnectionPath()
         {
             foreach (var element in ConnectionPath)

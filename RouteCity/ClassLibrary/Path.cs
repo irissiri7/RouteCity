@@ -25,6 +25,11 @@ namespace ClassLibrary
             }
         }
 
+        /// <summary>
+        /// Returns a the name of a visited node at a specific index 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public string GetValueFromNodesVisitedByIndex(int index)
         {
             return NodesVisited[index];
