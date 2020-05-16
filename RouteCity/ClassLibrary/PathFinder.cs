@@ -209,11 +209,12 @@ namespace ClassLibrary
         }
 
         /// <summary>
-        /// Returns desired path object from a Dictionary containing the results of quickest path. 
+        /// Returns desired path object from a Dictionary already containing the results from PathFinder. 
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Path GetValueFromQuickestPathResultsByName(string name)
+        /// 
+        public Path GetQuickestPathTo(string name)
         {
             return QuickestPathResults[name];
         }

@@ -16,8 +16,9 @@ namespace ClassLibrary
 
         // The Node-class includes a list of objects called NodeConnections, which keeps track of all the connections that specific node has.
         // For example: A includes information that it's connected to C, while C also includes info that it's connected to A. 
-        // With that said, this Dictionaty named connectionsPath is different. It keeps track of HOW all of the nodes were connected to eachother, 
-        // which is useful when displaying connections without displaying the same connection twice.
+        // With that said, this Dictionary is different. It also keeps track of the connection of nodes, but it will NOT have any redundant information. 
+        // For example if Node A has information that it's connected to C, Node C will NOT have information about being connected to A, because 
+        // that connection information is already established.
         internal Dictionary<string, List<NodeConnection>> ConnectionPath { get; private set; }
 
         //CONSTRUCTOR
@@ -278,22 +279,10 @@ namespace ClassLibrary
         }
 
         /// <summary>
-        /// Returns an IEnumerable of all nodes in a form of Key-Value pairs
+        /// Return an IEnumerable of the connections of the nodes in a form of Key-Value pairs
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<KeyValuePair<string, Node>> GetEachElementInNodes()
-        {
-            foreach (var element in Nodes)
-            {
-                yield return element;
-            }
-        }
-
-        /// <summary>
-        /// Return an IEnumerable of all NodeConnections for all nodes in a form of Key-Value pairs
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<KeyValuePair<string, List<NodeConnection>>> GetEachValueInConnectionPath()
+        public IEnumerable<KeyValuePair<string, List<NodeConnection>>> GetNodeConnections()
         {
             foreach (var element in ConnectionPath)
             {

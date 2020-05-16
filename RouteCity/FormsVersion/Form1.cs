@@ -21,6 +21,7 @@ namespace FormsVersion
         public List<Position> listOfAnchorPointPositions = new List<Position>();
         //Dictionary<string, Path> resultsFromPathFinder = new Dictionary<string, Path>();
         List<TextBox> nodeTextBoxes = new List<TextBox>();
+        
 
         public Form1()
         {
@@ -90,7 +91,7 @@ namespace FormsVersion
         {
             // Since "connectionpath" uses strings to informs how the nodes were connected and "positions" is a dictionary connecting 
             // a name to a position on the form, we can combine these two datastructures to draw the right lines between the right nodes. 
-            foreach (var element in network.GetEachValueInConnectionPath())
+            foreach (var element in network.GetNodeConnections())
             {
                 for (int i = 0; i < element.Value.Count; i++)
                 {
@@ -165,7 +166,7 @@ namespace FormsVersion
                 string fromNode = cbxFromLocation.Text;
                 string toNode = cbxToLocation.Text;
                 pathFinder.FindQuickestPath(fromNode, toNode, false);
-                lblTotal.Text = pathFinder.GetValueFromQuickestPathResultsByName(toNode).QuickestTimeFromStart.ToString();
+                lblTotal.Text = pathFinder.GetQuickestPathTo(toNode).QuickestTimeFromStart.ToString();
                 this.Refresh();
             }
         }
@@ -175,10 +176,10 @@ namespace FormsVersion
             
                 // Draws a gold line between nodes, showing the quickest path between the nodes the user chose. 
                 string toNode = cbxToLocation.Text;
-                for (int i = 0; i < pathFinder.GetValueFromQuickestPathResultsByName(toNode).NodesVisitedCount - 1; i++)
+                for (int i = 0; i < pathFinder.GetQuickestPathTo(toNode).NodesVisitedCount - 1; i++)
                 {
-                    Position fromPosition = nodePositionCoupling[pathFinder.GetValueFromQuickestPathResultsByName(toNode).GetValueFromNodesVisitedByIndex(i)];
-                    Position toPosition = nodePositionCoupling[pathFinder.GetValueFromQuickestPathResultsByName(toNode).GetValueFromNodesVisitedByIndex(i + 1)];
+                    Position fromPosition = nodePositionCoupling[pathFinder.GetQuickestPathTo(toNode).GetVisitedNodeByIndex(i)];
+                    Position toPosition = nodePositionCoupling[pathFinder.GetQuickestPathTo(toNode).GetVisitedNodeByIndex(i + 1)];
                     DrawLineBetweenPositions(fromPosition, toPosition, g, Color.Gold);
                 }            
         }
