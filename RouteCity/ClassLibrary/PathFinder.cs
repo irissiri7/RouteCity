@@ -29,6 +29,7 @@ namespace ClassLibrary
         }
 
         //METHODS
+
         /// <summary>
         /// This is the main method of the class. Given a start and end node it works its way through
         /// the network and find the quickest path. The default behavior of the method is to stop when the
@@ -50,6 +51,17 @@ namespace ClassLibrary
 
             InitializeQuickestPathResults(startNode);
             ProcessPaths(startNode, endNode, stopAtEndNode);
+        }
+
+        /// <summary>
+        /// Returns desired path object from a Dictionary already containing the results from PathFinder. 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// 
+        public Path GetQuickestPathTo(string name)
+        {
+            return QuickestPathResults[name];
         }
 
         // Initializing the QuickestPathResults dictionary so that all Paths have a QuickestTimeFromStart set to infinity.
@@ -208,15 +220,6 @@ namespace ClassLibrary
             QuickestPathResults[targetNode].NodesVisited = nodesVisited;
         }
 
-        /// <summary>
-        /// Returns desired path object from a Dictionary already containing the results from PathFinder. 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        /// 
-        public Path GetQuickestPathTo(string name)
-        {
-            return QuickestPathResults[name];
-        }
+        
     }
 }
