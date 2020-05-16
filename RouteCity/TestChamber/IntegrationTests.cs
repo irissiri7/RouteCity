@@ -11,7 +11,6 @@ namespace TestChamber
     class IntegrationTests
     {
 
-        ///INTEGRATION///////////////////////////////////////////////////////////////////////////////////
         [Test]
         public void PathFinderHasBeenUsedPreviously_DoesResetQuickestPathResultsBeforeCalculatingNewQuickestPath()
         {
